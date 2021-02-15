@@ -27,6 +27,28 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
+  {
+    path: '/table',
+    component: Layout,
+
+    children: [{
+      path: 'index',
+      name: 'table',
+      component: () => import('@/views/table/index'),
+      meta: { title: '树木列表', icon: 'form' }
+    }]
+  },
+  {
+    path: '/table',
+    component: Layout,
+
+    children: [{
+      path: 'index',
+      name: 'table',
+      component: () => import('@/views/table/index'),
+      meta: { title: '数据上传', icon: 'form' }
+    }]
+  }
   // {
   //   path: '/realtimedata',
   //   component: Layout,
@@ -89,10 +111,12 @@ export const constantRoutes = [
   //   ]
   // },
 
+]
+export const asyncRoutes = [
+
   // 404 必须放在最后
   { path: '*', redirect: '/404', hidden: true }
 ]
-
 const createRouter = () => new Router({
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes

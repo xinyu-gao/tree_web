@@ -14,6 +14,10 @@ import '@/permission' // permission control
 
 Vue.use(ElementUI)
 
+import dataV from '@jiaminghi/data-view'
+
+Vue.use(dataV)
+
 Vue.config.productionTip = false
 
 new Vue({

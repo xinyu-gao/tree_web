@@ -3,17 +3,16 @@ import creatRequest from '@/utils/axiosRequest'
 
 export function login(data) {
   return creatRequest({
-    url: '/login',
+    url: '/user/login',
     method: 'post',
     data: data
   })
 }
 
-export function getInfo(token) {
-  return request({
-    url: '/vue-admin-template/user/info',
-    method: 'get',
-    params: { token }
+export function getRoles(data) {
+  return creatRequest({
+    url: `/user/roles?username=${data}`,
+    method: 'get'
   })
 }
 
