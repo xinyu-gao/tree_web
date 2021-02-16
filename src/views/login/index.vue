@@ -149,9 +149,17 @@ export default {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
+              this.$notify({
+                title: '登陆成功',
+                type: 'success'
+              })
               this.$router.push({ path: this.redirect || '/' })
               this.loading = false
             }).catch((err) => {
+              this.$notify.error({
+                title: '错误',
+                message: '登陆失败'
+              })
               console.log(err)
               this.loading = false
             })

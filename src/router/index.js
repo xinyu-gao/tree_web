@@ -35,20 +35,21 @@ export const constantRoutes = [
       path: 'index',
       name: 'table',
       component: () => import('@/views/table/index'),
-      meta: { title: '树木列表', icon: 'form' }
+      meta: { title: '树木列表', icon: 'list' }
     }]
   },
   {
-    path: '/table',
+    path: '/map',
     component: Layout,
 
     children: [{
       path: 'index',
-      name: 'table',
-      component: () => import('@/views/table/index'),
-      meta: { title: '数据上传', icon: 'form' }
+      name: 'map',
+      component: () => import('@/views/map/index'),
+      meta: { title: '树木地图', icon: 'map' }
     }]
   }
+
   // {
   //   path: '/realtimedata',
   //   component: Layout,
@@ -113,7 +114,17 @@ export const constantRoutes = [
 
 ]
 export const asyncRoutes = [
+  {
+    path: '/upload',
+    component: Layout,
 
+    children: [{
+      path: 'index',
+      name: 'upload',
+      component: () => import('@/views/upload/index'),
+      meta: { title: '数据上传', icon: 'upload' }
+    }]
+  },
   // 404 必须放在最后
   { path: '*', redirect: '/404', hidden: true }
 ]

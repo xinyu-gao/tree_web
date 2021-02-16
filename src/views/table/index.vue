@@ -51,9 +51,12 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="经纬度" align="center" min-width="85px">
+      <el-table-column label="经纬度" align="center" min-width="130px">
         <template slot-scope="scope">
-          <span>经：{{ scope.row.longitude || '0.00' }}<br>纬：{{ scope.row.latitude || "0.00" }}</span>
+          <span>
+            lng：{{ scope.row.longitude || '000.000000' }}<br>
+            lat：{{ scope.row.latitude || '000.000000' }}
+          </span>
         </template>
       </el-table-column>
 

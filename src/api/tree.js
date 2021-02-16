@@ -1,4 +1,4 @@
-import creatRequest from '../utils/axiosRequest'
+import creatRequest from '@/utils/axiosRequest'
 
 export function getTreePics(data) {
   return creatRequest({
@@ -8,7 +8,7 @@ export function getTreePics(data) {
 }
 
 export function getTreePicsUploadUrl() {
-  return process.uniEnv.BASE_API + '/minio/upload'
+  return process.env.VUE_APP_BASE_API + '/minio/upload'
 }
 
 export function getTreeInfo(data) {
