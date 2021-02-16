@@ -33,3 +33,18 @@ export function getTreeListData(data) {
     params: data
   })
 }
+
+export function getTreeListAll() {
+  return creatRequest({
+    url: `/tree_list/info/all`,
+    method: 'get'
+  })
+}
+
+export function getTreeListDataBy(data) {
+  return creatRequest({
+    url: `/tree_list/info/${data}`,
+    method: 'get',
+    params: data
+  })
+}

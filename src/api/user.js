@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+
 import creatRequest from '@/utils/axiosRequest'
 
 export function login(data) {
@@ -17,8 +17,8 @@ export function getRoles(data) {
 }
 
 export function logout() {
-  return request({
-    url: '/vue-admin-template/user/logout',
+  return creatRequest({
+    url: '/user/logout',
     method: 'post'
   })
 }

@@ -6,3 +6,9 @@ export function getGradeStatistic(data) {
     method: 'get'
   })
 }
+export function getExistedProvinceAndCity() {
+  return creatRequest({
+    url: `statistic/province_city`,
+    method: 'get'
+  })
+}

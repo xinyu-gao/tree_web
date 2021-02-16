@@ -5,12 +5,12 @@
       <el-row :gutter="24" class="row-bg">
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="古树编号">
-            <el-input v-model="form.treeId" type="text" placeholder="请填写树名" />
+            <el-input v-model="form.treeId" type="text" placeholder="请填写树名" class="input-s" />
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="调查顺序号">
-            <el-input v-model="form.surveyNumber" type="text" placeholder="请填写调查顺序号" />
+            <el-input v-model="form.surveyNumber" type="text" placeholder="请填写调查顺序号" class="input-s" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -18,34 +18,34 @@
       <el-row :gutter="24" class="row-bg">
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="中文名">
-            <el-input v-model="form.chineseName" type="text" placeholder="请填写树木中文名" />
+            <el-input v-model="form.chineseName" type="text" placeholder="请填写树木中文名" class="input-s" />
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="俗名">
-            <el-input v-model="form.alias" type="text" placeholder="请填写树木俗名" />
+            <el-input v-model="form.alias" type="text" placeholder="请填写树木俗名" class="input-s" />
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="拉丁名">
-            <el-input v-model="form.latinName" type="text" placeholder="请填写树木拉丁名" />
+            <el-input v-model="form.latinName" type="text" placeholder="请填写树木拉丁名" class="input-s" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="24">
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="科">
-            <el-input v-model="form.family" type="text" placeholder="请填写树木的科" />
+            <el-input v-model="form.family" type="text" placeholder="请填写树木的科" class="input-s" />
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="属">
-            <el-input v-model="form.genus" type="text" placeholder="请填写树木的属" />
+            <el-input v-model="form.genus" type="text" placeholder="请填写树木的属" class="input-s" />
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="种">
-            <el-input v-model="form.species" type="text" placeholder="请填写树木的种" />
+            <el-input v-model="form.species" type="text" placeholder="请填写树木的种" class="input-s" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -53,12 +53,17 @@
       <el-row :gutter="24" class="row-bg">
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="省市区/县">
-            <el-input v-model="form.region" type="select" :select-open="pickerShow" placeholder="请选择树木所在地区" @click="pickerShow = true" />
+            <el-cascader
+              v-model="selectedLocations"
+              size="large"
+              :options="locations"
+              @change="handleLocationChange"
+            />
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="详细地址">
-            <el-input v-model="form.locationDetail" type="text" placeholder="请填写树木详细地址" />
+            <el-input v-model="form.locationDetail" type="text" placeholder="请填写树木详细地址" class="input-s" />
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
@@ -111,17 +116,17 @@
       <el-row :gutter="24" class="row-bg">
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="树 龄">
-            <el-input v-model="form.age" type="text" placeholder="请填写树龄" />
+            <el-input v-model="form.age" type="text" placeholder="请填写树龄" class="input-s" />
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="树 高">
-            <el-input v-model="form.treeHeight" type="text" placeholder="请填写树高/cm" />
+            <el-input v-model="form.treeHeight" type="text" placeholder="请填写树高/cm" class="input-s" />
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="胸 围">
-            <el-input v-model="form.breastDiameter" type="text" placeholder="请填写胸径/cm" />
+            <el-input v-model="form.breastDiameter" type="text" placeholder="请填写胸径/cm" class="input-s" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -129,17 +134,17 @@
       <el-row :gutter="24" class="row-bg">
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="平均冠幅">
-            <el-input v-model="form.crownWidthAverage" type="text" placeholder="请填写平均冠幅/cm" />
+            <el-input v-model="form.crownWidthAverage" type="text" placeholder="请填写平均冠幅/cm" class="input-s" />
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="冠幅(东西)">
-            <el-input v-model="form.crownWidthEW" type="text" placeholder="请填写冠幅(东西)" />
+            <el-input v-model="form.crownWidthEW" type="text" placeholder="请填写冠幅(东西)" class="input-s" />
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="冠幅(南北)">
-            <el-input v-model="form.crownWidthNS" type="text" placeholder="请填写冠幅(东西)" />
+            <el-input v-model="form.crownWidthNS" type="text" placeholder="请填写冠幅(东西)" class="input-s" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -147,29 +152,29 @@
       <el-row :gutter="24" class="row-bg">
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="坡向">
-            <el-input v-model="form.aspect" type="text" placeholder="请填写坡向" />
+            <el-input v-model="form.aspect" type="text" placeholder="请填写坡向" class="input-s" />
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="坡度">
-            <el-input v-model="form.slope" type="text" placeholder="请填写坡度" />
+            <el-input v-model="form.slope" type="text" placeholder="请填写坡度" class="input-s" />
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="坡位">
-            <el-input v-model="form.slopePosition" type="text" placeholder="请填写坡位" />
+            <el-input v-model="form.slopePosition" type="text" placeholder="请填写坡位" class="input-s" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="24" class="row-bg">
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="海拔">
-            <el-input v-model="form.altitude" type="text" placeholder="请填写海拔" />
+            <el-input v-model="form.altitude" type="text" placeholder="请填写海拔" class="input-s" />
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="土壤类型">
-            <el-input v-model="form.soilType" type="text" placeholder="请填写冠幅(东西)/cm" />
+            <el-input v-model="form.soilType" type="text" placeholder="请填写冠幅(东西)/cm" class="input-s" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -197,6 +202,7 @@
               type="textarea"
               :autosize="{ minRows: 2}"
               placeholder="请填写影响树木生长环境的因素"
+              class="input-s"
             />
           </el-form-item>
         </el-col>
@@ -205,12 +211,12 @@
       <el-row :gutter="24">
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="管护单位">
-            <el-input v-model="form.management" type="text" placeholder="请填写管护单位（选填）" />
+            <el-input v-model="form.management" type="text" placeholder="请填写管护单位（选填）" class="input-s" />
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="管护人">
-            <el-input v-model="form.guardian" type="text" placeholder="请填写管护人" />
+            <el-input v-model="form.guardian" type="text" placeholder="请填写管护人" class="input-s" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -247,7 +253,7 @@
       <el-divider content-position="center">其他信息</el-divider>
       <el-row :gutter="24" class="row-bg">
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
-          <el-form-item label="树木图片">
+          <el-form-item label="树木图片" class="input-s">
             <el-upload :action="uploadUrl" :form-data="uploadData" :file-list="fileList" :max-size="5" @on-remove="onRemove" />
           </el-form-item>
         </el-col>
@@ -257,7 +263,8 @@
               v-model="form.detailInfo"
               type="textarea"
               :autosize="{ minRows: 6}"
-              placeholder="请填写影响树木生长环境的因素"
+              placeholder="请填写图片说明"
+              class="input-s"
             />
           </el-form-item>
         </el-col>
@@ -268,6 +275,7 @@
               type="textarea"
               :autosize="{ minRows: 6}"
               placeholder="请描述树木的奇特性"
+              class="input-s"
             />
           </el-form-item>
         </el-col>
@@ -278,11 +286,14 @@
 </template>
 
 <script>
+import { regionData, CodeToText } from 'element-china-area-data'
 import { getTreePics, getTreePicsUploadUrl, saveTreeInfo } from '@/api/tree.js'
 export default {
   data() {
     return {
       userId: '',
+      locations: regionData,
+      selectedLocations: [],
       form: {
         treeId: '',
         surveyNumber: '',
@@ -318,13 +329,14 @@ export default {
         peculiarDetail: '',
         protectionStatus: '',
         conserveStatus: '',
-        detailInfo: ''
+        detailInfo: '',
+        longitude: '',
+        latitude: '',
+        locationProvince: '',
+        locationCity: '',
+        locationDistrict: ''
       },
-      longitude: '',
-      latitude: '',
-      locationProvince: '',
-      locationCity: '',
-      locationDistrict: '',
+
       actionSheetShow: false,
       pickerShow: false,
       locationShow: false,
@@ -347,18 +359,6 @@ export default {
       treeId: '12345',
       uploadData: {
         tree_id: '12345'
-      },
-      rules: {
-        sex: [{
-          required: true,
-          message: '请选择性别',
-          trigger: 'change'
-        }],
-        region: [{
-          required: true,
-          message: '请选择地区',
-          trigger: 'change'
-        }]
       }
     }
   },
@@ -387,12 +387,12 @@ export default {
         family: this.form.family,
         genus: this.form.genus,
         species: this.form.species,
-        locationProvince: this.locationProvince,
-        locationCity: this.locationCity,
-        locationDistrict: this.locationDistrict,
+        locationProvince: this.form.locationProvince,
+        locationCity: this.form.locationCity,
+        locationDistrict: this.form.locationDistrict,
         locationDetail: this.form.locationDetail,
-        longitude: this.longitude,
-        latitude: this.latitude,
+        longitude: this.form.longitude,
+        latitude: this.form.latitude,
         growthPlace: this.form.growthPlace,
         distCH: this.form.distCH,
         ownerShip: this.form.ownerShip,
@@ -430,6 +430,11 @@ export default {
             type: 'error'
           })
         })
+    },
+    handleLocationChange() {
+      this.form.locationProvince = CodeToText[this.selectedLocations[0]]
+      this.form.locationCity = CodeToText[this.selectedLocations[1]]
+      this.form.locationDistrict = CodeToText[this.selectedLocations[2]]
     }
   }
 }
@@ -441,6 +446,9 @@ export default {
 }
 .row-bg{
   margin-top: 40px;
+}
+.input-s{
+  padding-right: 40px;
 }
 </style>
 

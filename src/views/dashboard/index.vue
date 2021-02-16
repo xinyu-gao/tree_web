@@ -1,39 +1,88 @@
 <template>
-  <div class="dashboard-container">
-    <dv-border-box-12>
-      <el-row :gutter="20" style="padding-top: 30px">
+  <div class="dashboard-container note" :style="note">
+    <dv-border-box-12">
+      <el-row :gutter="24" style="padding-top: 10px">
         <el-col :span="6">
-          <div style="height:300px">
-            <dv-border-box-9 style="margin-left: 10px">
+          <div style="height:300px" class="chart-wrapper">
+            <dv-border-box-12 style="margin-left: 10px">
               <dv-charts :option="gradeOption" />
-            </dv-border-box-9>
+            </dv-border-box-12>
+          </div>
+          <div style="height:300px" class="chart-wrapper">
+            <dv-border-box-12 style="margin-left: 10px">
+              <dv-charts :option="gradeOption" />
+            </dv-border-box-12>
+          </div>
+          <div style="height:300px" class="chart-wrapper">
+            <dv-border-box-12 style="margin-left: 10px">
+              <dv-charts :option="gradeOption" />
+            </dv-border-box-12>
           </div>
         </el-col>
-        <el-col :span="8">
-          <div class="grid-content bg-purple">s</div>
+        <el-col :span="12">
+          <div
+            class="bmap-wrapper"
+            align="center"
+          >
+            <map-chart />
+          </div>
         </el-col>
-        <!--        <el-col :span="4"><div class="grid-content bg-purple">s</div></el-col>-->
-      </el-row>
-    </dv-border-box-12>
+        <el-col :span="6">
+          <div class="chart-wrapper">
+            <dv-border-box-12 style="margin-left: -15px;">
+              <grade-chart style="padding-top: 30px" />
+            </dv-border-box-12>
+          </div>
+          <div class="chart-wrapper">
+            <dv-border-box-12 style="margin-left: -15px;">
+              <grade-chart style="padding-top: 30px" />
+            </dv-border-box-12>
+          </div>
+          <div class="chart-wrapper">
+            <dv-border-box-12 style="margin-left: -15px;">
+              <grade-chart style="padding-top: 30px" />
+            </dv-border-box-12>
+          </div>
+        </el-col></el-row></dv-border-box-12"></dv-border-box-12></div></el-col>
+  </el-row>
+  </dv-border-box-12>
 
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import resize from './components/mixins/resize'
+// import 'echarts-gl'
+require('echarts/theme/macarons') // echarts theme
 
+import GradeChart from './components/GradeChart'
+
+import MapChart from './components/MapChart'
 export default {
-  name: 'Dashboard',
-  computed: {
-    ...mapGetters([
-      'name'
-    ])
+  name: 'Index',
+  components: {
+    GradeChart,
+    MapChart
   },
+  mixins: [resize],
   data() {
     return {
       gradeOption: '',
-      gradeData: ''
+      gradeData: '',
+      config: '',
+      note: {
+        backgroundImage: 'url(' + require('../../assets/map_marker/background.jpg') + ') ',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover'
+        // filter: 'blur(10px)'
+      }
     }
+  },
+  computed: {
+  },
+  mounted() {
+
   },
   created() {
     this.getGradeData()
@@ -41,7 +90,7 @@ export default {
   },
   methods: {
     getGradeData() {
-      this.gradeData
+      // this.gradeData
     },
     showGradePie() {
       this.gradeOption = {
@@ -70,7 +119,8 @@ export default {
               }
             },
             outsideLabel: {
-              show: true
+              show: true,
+              labelLineEndLength: 10
             },
             animationCurve: 'easeOutCubic'
 
@@ -88,7 +138,7 @@ export default {
 .dashboard {
   &-container {
     height: 95.5vh;
-    background-color: #1f2d3d;
+    //background-color: #1f2d3d;
   }
 
   &-text {
@@ -107,6 +157,18 @@ export default {
 
 .el-col {
   border-radius: 4px;
+}
+.chart-wrapper{
+  z-index:3;
+  position: relative
+}
+.bmap-wrapper {
+  width: 100%;
+  height: 40vh;
+  margin-top: 16vh;
+  margin-left: -17%;
+  z-index:1;
+  position: relative
 }
 
 </style>

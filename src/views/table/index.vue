@@ -39,7 +39,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="所在位置" align="center" min-width="150px">
+      <el-table-column label="所在位置" align="center" min-width="160px">
         <template slot-scope="scope">
           <span>{{ scope.row.locationProvince || '' }} - {{ scope.row.locationCity || '' }} - {{ scope.row.locationDistrict || '' }}</span>
           <br>
