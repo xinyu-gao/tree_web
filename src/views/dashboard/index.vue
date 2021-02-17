@@ -1,81 +1,70 @@
 <template>
-  <div class="dashboard-container note" :style="note">
-    <dv-border-box-12">
+  <dv-border-box-6 class="dashboard-container note" :style="note">
+    <dv-border-box-7 :color="['#0D4A81', '#209FDF']">
       <el-row :gutter="24" style="padding-top: 10px">
         <el-col :span="6">
-          <div style="height:300px" class="chart-wrapper">
-            <dv-border-box-12 style="margin-left: 10px">
-              <dv-charts :option="gradeOption" />
-            </dv-border-box-12>
-          </div>
-          <div style="height:300px" class="chart-wrapper">
-            <dv-border-box-12 style="margin-left: 10px">
-              <dv-charts :option="gradeOption" />
-            </dv-border-box-12>
-          </div>
-          <div style="height:300px" class="chart-wrapper">
-            <dv-border-box-12 style="margin-left: 10px">
-              <dv-charts :option="gradeOption" />
-            </dv-border-box-12>
+          <dv-decoration-8 style="width:100%;height:4vh;" :color="['#0D4A81', '#209FDF']" />
+          <dv-border-box-6 style="margin-top:5vh;height:20vh" :color="['#0D4A81', '#209FDF']">
+            <!--            <statistic-count />-->
+            <info-text />
+          </dv-border-box-6>
+          <div style="margin-top:5vh;height:20vh" />
+          <div style="margin-top:5vh;height:10vh" />
+          <div style="margin-top:5vh; margin-left: 2vh">
+            <city-chart style="height:20vh" />
           </div>
         </el-col>
         <el-col :span="12">
-          <div
-            class="bmap-wrapper"
-            align="center"
-          >
+
+          <div class="bmap-wrapper" align="center">
             <map-chart />
           </div>
         </el-col>
         <el-col :span="6">
-          <div class="chart-wrapper">
-            <dv-border-box-12 style="margin-left: -15px;">
-              <grade-chart style="padding-top: 30px" />
-            </dv-border-box-12>
+          <dv-decoration-8 :reverse="true" style="width:100%;height:4vh;" :color="['#0D4A81', '#209FDF']" />
+          <time-text style="height:5vh;margin-right:3px" />
+          <div style="margin-top: 1vh">
+            <grade-chart style="height: 20vh" />
           </div>
-          <div class="chart-wrapper">
-            <dv-border-box-12 style="margin-left: -15px;">
-              <grade-chart style="padding-top: 30px" />
-            </dv-border-box-12>
+          <div style="margin-top: 5vh">
+            <grade-chart style="margin-top: 5vh;height: 20vh" />
           </div>
-          <div class="chart-wrapper">
-            <dv-border-box-12 style="margin-left: -15px;">
-              <grade-chart style="padding-top: 30px" />
-            </dv-border-box-12>
-          </div>
-        </el-col></el-row></dv-border-box-12"></dv-border-box-12></div></el-col>
-  </el-row>
-  </dv-border-box-12>
-
-  </div>
-</template>
+          <div style="margin-top:5vh;height:10vh" />
+          <special-chart class="specialChart" />
+        </el-col>
+      </el-row>
+    </dv-border-box-7>
+    </div>
+  </dv-border-box-6></template>
 
 <script>
 import resize from './components/mixins/resize'
-// import 'echarts-gl'
-require('echarts/theme/macarons') // echarts theme
-
 import GradeChart from './components/GradeChart'
-
+import SpecialChart from './components/SpecialChart'
 import MapChart from './components/MapChart'
+import CityChart from './components/CityChart'
+import StatisticCount from './components/StatisticCount'
+import TimeText from './components/TimeText'
+import InfoText from './components/InfoText'
 export default {
   name: 'Index',
   components: {
     GradeChart,
-    MapChart
+    MapChart,
+    SpecialChart,
+    CityChart,
+    StatisticCount,
+    TimeText,
+    InfoText
   },
   mixins: [resize],
   data() {
     return {
-      gradeOption: '',
-      gradeData: '',
-      config: '',
       note: {
         backgroundImage: 'url(' + require('../../assets/map_marker/background.jpg') + ') ',
         backgroundPosition: 'center center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover'
-        // filter: 'blur(10px)'
       }
     }
   },
@@ -85,50 +74,8 @@ export default {
 
   },
   created() {
-    this.getGradeData()
-    this.showGradePie()
   },
   methods: {
-    getGradeData() {
-      // this.gradeData
-    },
-    showGradePie() {
-      this.gradeOption = {
-        title: {
-          text: '树木等级占比饼状图',
-          style: {
-            fill: '#32c5e9'
-          }
-        },
-        series: [
-          {
-            type: 'pie',
-            data: [
-              { name: '国家一级古树', value: 93 },
-              { name: '国家二级古树', value: 32 },
-              { name: '国家三级古树', value: 65 },
-              { name: '名木', value: 44 }
-            ],
-            insideLabel: {
-              show: true,
-              style: {
-                fontSize: 12,
-                fill: '#000',
-                textAlign: 'center',
-                textBaseline: 'middle'
-              }
-            },
-            outsideLabel: {
-              show: true,
-              labelLineEndLength: 10
-            },
-            animationCurve: 'easeOutCubic'
-
-          }
-        ]
-      }
-    }
-
   }
 
 }
@@ -138,7 +85,6 @@ export default {
 .dashboard {
   &-container {
     height: 95.5vh;
-    //background-color: #1f2d3d;
   }
 
   &-text {
@@ -159,16 +105,16 @@ export default {
   border-radius: 4px;
 }
 .chart-wrapper{
-  z-index:3;
-  position: relative
 }
 .bmap-wrapper {
   width: 100%;
-  height: 40vh;
-  margin-top: 16vh;
-  margin-left: -17%;
-  z-index:1;
-  position: relative
+  height: 50vh;
+  margin-top:8vh;
+  margin-left: -20%;
 }
-
+.specialChart{
+  margin-top:1vh;
+  height: 20vh;
+  margin-right:3vh;
+}
 </style>

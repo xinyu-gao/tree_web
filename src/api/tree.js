@@ -48,3 +48,11 @@ export function getTreeListDataBy(data) {
     params: data
   })
 }
+
+export function getCityTreeCount(data) {
+  return creatRequest({
+    url: `/test`,
+    method: 'post',
+    data: data
+  })
+}

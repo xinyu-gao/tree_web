@@ -1,5 +1,5 @@
 <template>
-  <div :class="className" :style="{height:height,width:width}" />
+  <div :style="{height:height,width:width}" />
 </template>
 
 <script>
@@ -9,17 +9,13 @@ import resize from './mixins/resize'
 export default {
   mixins: [resize],
   props: {
-    className: {
-      type: String,
-      default: 'chart'
-    },
     width: {
       type: String,
       default: '100%'
     },
     height: {
       type: String,
-      default: '320px'
+      default: '200px'
     }
   },
   data() {
@@ -44,19 +40,14 @@ export default {
       this.chart = echarts.init(this.$el, 'ss')
 
       this.chart.setOption({
-        title: {
-          text: '树木等级占比',
-          left: 'center',
-          textStyle: {
-            color: '#32c5e9'
-          }
-        },
         tooltip: {
           trigger: 'item'
         },
         legend: {
-          orient: 'horizontal',
-          bottom: '20px',
+          orient: 'vertical',
+          right: '10%',
+          top: '14%',
+          padding: [7, 10],
           textStyle: {
             color: '#32c5e9'
           }
@@ -64,9 +55,9 @@ export default {
         series: [
           {
             name: '古树名木等级',
-            top: '-18%',
+            center: ['30%', '40%'],
             type: 'pie',
-            radius: '50%',
+            radius: '70%',
             data: [
               { name: '国家一级古树', value: 93, itemStyle: { color: '#37A2DA' }},
               { name: '国家二级古树', value: 32, itemStyle: { color: '#32C5E9' }},

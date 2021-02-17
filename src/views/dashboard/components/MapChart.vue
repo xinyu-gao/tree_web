@@ -1,22 +1,18 @@
 <template>
-  <div :class="className" :style="{height:height,width:width}" />
+  <div :style="{height:height,width:width}" />
 </template>
 
 <script>
 import * as echarts from 'echarts'
 import resize from './mixins/resize'
-import { getTreeListAll } from '@/api/tree'
-import china from '@/utils/china.js'
+import { getCityTreeCount } from '@/api/tree'
+import '@/utils/china.js'
 export default {
   mixins: [resize],
   props: {
-    className: {
-      type: String,
-      default: 'chart'
-    },
     width: {
       type: String,
-      default: '130%'
+      default: '140%'
     },
     height: {
       type: String,
@@ -26,14 +22,11 @@ export default {
   data() {
     return {
       chart: null,
-      listData: ''
+      data: ''
     }
   },
   mounted() {
     this.getTreeList()
-    this.$nextTick(() => {
-      this.initChart()
-    })
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -44,37 +37,31 @@ export default {
   },
   methods: {
     getTreeList() {
-      getTreeListAll()
+      getCityTreeCount({})
         .then(data => {
-          this.listData = data
+          this.data = this.convertData(data)
+          this.$nextTick(() => {
+            this.initChart()
+          })
         }).catch(err => {
           console.log(err)
         })
     },
     convertData(data) {
-      console.log(data)
       const res = []
       for (let i = 0; i < data.length; i++) {
         res.push({
-          name: data[i].chineseName,
-          value: [data[i].longitude, data[i].latitude, 1]
+          name: data[i][0],
+          value: [data[i][1], data[i][2], data[i][3]]
         })
       }
       return res
     },
 
     initChart() {
-      this.chart = echarts.init(this.$el, 'ss')
+      this.chart = echarts.init(this.$el)
 
       const option = {
-        // backgroundColor: '#1f2d3d',
-        title: {
-          text: '全国城市古树名木分布',
-          left: 'center',
-          textStyle: {
-            color: '#32C5E9'
-          }
-        },
         tooltip: {
           trigger: 'item'
         },
@@ -85,7 +72,7 @@ export default {
               show: false
             }
           },
-          roam: true,
+          roam: false,
           itemStyle: {
             normal: {
               areaColor: '#0D4A81',
@@ -97,13 +84,13 @@ export default {
           }
         },
         series: [{
-          name: 'pm2.5',
+          name: 'item',
           type: 'scatter',
           coordinateSystem: 'geo',
-          data: this.convertData(this.listData),
-          symbolSize: function(val) {
-            return val[2] / 10
-          },
+          data: this.data,
+          // symbolSize: function(val) {
+          //   return val[2] / 2
+          // },
           label: {
             normal: {
               formatter: '{b}',
@@ -116,7 +103,7 @@ export default {
           },
           itemStyle: {
             normal: {
-              color: '#ddb926'
+              color: '#84fab0'
             }
           }
         }
