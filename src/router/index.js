@@ -48,6 +48,17 @@ export const constantRoutes = [
       component: () => import('@/views/map/index'),
       meta: { title: '树木地图', icon: 'map' }
     }]
+  },
+  {
+    path: '/detail',
+    component: Layout,
+
+    children: [{
+      path: 'index',
+      name: 'detail',
+      component: () => import('@/views/detail/index'),
+      meta: { title: '详细信息', icon: 'detail' }
+    }]
   }
 
   // {

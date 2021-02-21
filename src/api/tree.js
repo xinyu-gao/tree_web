@@ -41,11 +41,10 @@ export function getTreeListAll() {
   })
 }
 
-export function getTreeListDataBy(data) {
+export function getTreeListDataByCity(data) {
   return creatRequest({
     url: `/tree_list/info/${data}`,
-    method: 'get',
-    params: data
+    method: 'get'
   })
 }
 
@@ -54,5 +53,12 @@ export function getCityTreeCount(data) {
     url: `/test`,
     method: 'post',
     data: data
+  })
+}
+
+export function getTreeById(data) {
+  return creatRequest({
+    url: `/tree/info?tree_id=${data.treeId}`,
+    method: 'get'
   })
 }

@@ -113,7 +113,7 @@
           <el-popover placement="right" width="80" trigger="click">
             <span>
               海拔：{{ scope.row.altitude || '0' }} 米 <br>
-              坡向：{{ scope.row.aspect || '0' }} 米 <br>
+              坡向：{{ scope.row.aspect || '0' }} <br>
               坡度：{{ scope.row.slope || '0' }} 度 <br>
               坡位：{{ scope.row.slopePosition || '-' }} 部 <br>
               土壤类型：{{ scope.row.soilType || '-' }} </span>

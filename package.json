@@ -5,6 +5,7 @@
   "author": "Gaoxy <isgaoxy@gmail.com>",
   "scripts": {
     "dev": "vue-cli-service serve",
+    "prod": "vue-cli-service serve --mode production",
     "build:prod": "vue-cli-service build",
     "preview": "node build/index.js --preview",
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",

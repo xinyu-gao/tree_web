@@ -34,8 +34,8 @@
         </el-col>
       </el-row>
     </dv-border-box-7>
-    </div>
-  </dv-border-box-6></template>
+  </dv-border-box-6>
+</template>
 
 <script>
 import resize from './components/mixins/resize'

@@ -37,7 +37,7 @@
 import BMap from 'BMap'
 import { getExistedProvinceAndCity } from '@/api/statistic'
 import { getMapStyle } from '@/utils/mapStyle'
-import { getTreeListDataBy } from '@/api/tree'
+import { getTreeListDataByCity } from '@/api/tree'
 const mapSize = new BMap.Size(40, 40)
 const treePng = new BMap.Icon(require('@/assets/map_marker/tree.png'), mapSize, {})
 export default {
@@ -61,24 +61,24 @@ export default {
       })[0].cityList
     },
     selectCity: function(val) {
-      this.createMap()
+      if (val !== '') {
+        this.handleChange()
+      }
     }
   },
   mounted() {
     this.selectCity = '苏州市'
+    this.getExistedProvinceAndCity()
     this.createMap()
     this.getTreeList()
-    // this.refreshMap()
-    this.getExistedProvinceAndCity()
   },
   methods: {
     /**
      * 条件更改后，重新生成地图
      */
     handleChange() {
-      const x = ''
-      const y = ''
-      this.createMap(x, y)
+      this.createMap()
+      this.getTreeList()
     },
 
     /**
@@ -114,7 +114,7 @@ export default {
       this.map.enableScrollWheelZoom(true)
     },
     getTreeList() {
-      getTreeListDataBy(this.selectCity)
+      getTreeListDataByCity(this.selectCity)
         .then(data => {
           console.log(JSON.stringify(data))
           data.map(item => {

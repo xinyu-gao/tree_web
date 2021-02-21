@@ -27,8 +27,8 @@ creatRequest.interceptors.request.use(config => {
 creatRequest.interceptors.response.use(data => {
   // console.log('------response------', data)
   data = data && data.data || {}
-  // 返回 200 代码，并且 data 字段存在，正常返回 data，否则抛出异常
-  if (data && data.code === 200 && data.data) {
+  // 返回 200 代码，正常返回 data，否则抛出异常
+  if (data && data.code === 200) {
     return Promise.resolve(data.data)
   } else {
     return Promise.reject(data.message)
