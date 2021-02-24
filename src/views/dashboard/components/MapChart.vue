@@ -12,7 +12,7 @@ export default {
   props: {
     width: {
       type: String,
-      default: '140%'
+      default: '100%'
     },
     height: {
       type: String,
@@ -72,6 +72,7 @@ export default {
               show: false
             }
           },
+          zoom: 1.25,
           roam: false,
           itemStyle: {
             normal: {

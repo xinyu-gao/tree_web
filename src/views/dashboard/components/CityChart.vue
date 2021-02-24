@@ -1,6 +1,6 @@
 <template>
   <div>
-    <dv-capsule-chart :config="config" style="width:300px;height:200px" />
+    <dv-capsule-chart :config="config" :style="{width:width,height:height}" />
   </div>
 </template>
 
@@ -10,11 +10,11 @@ export default {
   props: {
     width: {
       type: String,
-      default: ''
+      default: '100%'
     },
     height: {
       type: String,
-      default: ''
+      default: '200px'
     }
   },
   data() {

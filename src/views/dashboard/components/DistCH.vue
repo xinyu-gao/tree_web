@@ -37,40 +37,18 @@ export default {
   },
   methods: {
     initChart() {
-      this.chart = echarts.init(this.$el, 'ss')
+      this.chart = echarts.init(this.$el)
 
       this.chart.setOption({
-        title: {
-          text: '古树名木等级',
-          textStyle: {
-            color: '#27ADFC'
-          },
-          top: 'top',
-          left: 'left'
-        },
-        tooltip: {
-          trigger: 'item'
-        },
-        legend: {
-          orient: 'vertical',
-          right: '5%',
-          top: '41%',
-          padding: [7, 10],
-          textStyle: {
-            color: '#32c5e9'
-          }
-        },
         series: [
           {
-            name: '古树名木等级',
-            center: ['35%', '60%'],
+            name: '分布特点',
+            center: ['50%', '36%'],
             type: 'pie',
-            radius: ['32%', '60%'],
+            radius: '50%',
             data: [
-              { name: '国家一级古树', value: 93, itemStyle: { color: '#37A2DA' }},
-              { name: '国家二级古树', value: 32, itemStyle: { color: '#84fab0' }},
-              { name: '国家三级古树', value: 65, itemStyle: { color: '#67E0E3' }},
-              { name: '名木', value: 44, itemStyle: { color: '#9FE6B8' }}
+              { name: '散生', value: 143, itemStyle: { color: '#84fab0' }},
+              { name: '群状', value: 232, itemStyle: { color: '#209FDF' }}
             ],
             emphasis: {
               itemStyle: {
@@ -82,14 +60,15 @@ export default {
             label: {
               position: 'outside',
               fontSize: '12px',
-              color: '#32c5e9',
+              color: '#fff',
               formatter: data => {
-                return Math.round(data.percent) + '%'
+                return data.name + '\n' + Math.round(data.percent) + '%'
               },
               lineHeight: 20
             },
             labelLine: {
-              showAbove: true
+              length: 7,
+              length2: 7
             }
           }
         ]

@@ -8,26 +8,20 @@
         <img class="pic-404__child right" src="@/assets/404_images/404_cloud.png" alt="404">
       </div>
       <div class="bullshit">
-        <div class="bullshit__oops">OOPS!</div>
-        <div class="bullshit__info">All rights reserved
-          <a style="color:#20a0ff" href="https://wallstreetcn.com" target="_blank">wallstreetcn</a>
+        <div class="bullshit__oops">您访问的路由不存在！</div>
+        <div class="bullshit__info">如果您有疑问可以联系系统管理员
+          <div class="bullshit__info">请检查您输入的地址是否正确，点击下面的按钮回到主页</div>
+          <a href="" class="bullshit__return-home">回到主页</a>
         </div>
-        <div class="bullshit__headline">{{ message }}</div>
-        <div class="bullshit__info">Please check that the URL you entered is correct, or click the button below to return to the homepage.</div>
-        <a href="" class="bullshit__return-home">Back to home</a>
       </div>
     </div>
-  </div>
-</template>
+  </div></template>
 
 <script>
 
 export default {
   name: 'Page404',
   computed: {
-    message() {
-      return 'The webmaster said that you can not enter this page...'
-    }
   }
 }
 </script>
@@ -158,11 +152,11 @@ export default {
   .bullshit {
     position: relative;
     float: left;
-    width: 300px;
+    width: 400px;
     padding: 30px 0;
     overflow: hidden;
     &__oops {
-      font-size: 32px;
+      font-size: 30px;
       font-weight: bold;
       line-height: 40px;
       color: #1482f0;

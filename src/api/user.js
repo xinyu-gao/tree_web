@@ -3,7 +3,7 @@ import creatRequest from '@/utils/axiosRequest'
 
 export function login(data) {
   return creatRequest({
-    url: '/user/login',
+    url: '/login',
     method: 'post',
     data: data
   })
@@ -18,7 +18,7 @@ export function getRoles(data) {
 
 export function logout() {
   return creatRequest({
-    url: '/user/logout',
+    url: '/logout',
     method: 'post'
   })
 }

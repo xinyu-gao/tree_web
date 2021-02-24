@@ -1,40 +1,49 @@
 <template>
-  <dv-border-box-6 class="dashboard-container note" :style="note">
-    <dv-border-box-7 :color="['#0D4A81', '#209FDF']">
-      <el-row :gutter="24" style="padding-top: 10px">
+  <div class="dashboard-container">
+    <dv-border-box-4 :color="['#0D4A81', '#209FDF']">
+      <el-row :gutter="24" style="padding-top: 10px; margin-left: 0.5vh">
         <el-col :span="6">
-          <dv-decoration-8 style="width:100%;height:4vh;" :color="['#0D4A81', '#209FDF']" />
-          <dv-border-box-6 style="margin-top:5vh;height:20vh" :color="['#0D4A81', '#209FDF']">
-            <!--            <statistic-count />-->
+          <dv-border-box-6 style="margin-top:5vh;height:37vh" :color="['#0D4A81', '#209FDF']">
             <info-text />
           </dv-border-box-6>
-          <div style="margin-top:5vh;height:20vh" />
-          <div style="margin-top:5vh;height:10vh" />
-          <div style="margin-top:5vh; margin-left: 2vh">
-            <city-chart style="height:20vh" />
-          </div>
-        </el-col>
-        <el-col :span="12">
 
-          <div class="bmap-wrapper" align="center">
-            <map-chart />
-          </div>
+          <dv-border-box-6 :color="['#0D4A81', '#209FDF']" style="margin-top:2vh; height:50vh">
+            <div style="padding-top:1.5vh; margin-left:1vh"><owner-ship-chart style="height:25vh" /></div>
+            <div style="margin-top:2vh;" class="title2">城市排行</div>
+            <div style="margin-top:2vh; margin-left:1vh"><city-chart style="height:20vh" /></div>
+          </dv-border-box-6>
         </el-col>
+
+        <el-col :span="12">
+          <div align="center" class="title"> 古树名木检测与管理系统 </div>
+          <div class="bmap-wrapper" align="center"><map-chart /></div>
+        </el-col>
+
         <el-col :span="6">
-          <dv-decoration-8 :reverse="true" style="width:100%;height:4vh;" :color="['#0D4A81', '#209FDF']" />
-          <time-text style="height:5vh;margin-right:3px" />
-          <div style="margin-top: 1vh">
+          <dv-decoration-8 :reverse="true" style="width:100%;height:4vh;margin-top: 10px" :color="['#0D4A81', '#209FDF']" />
+          <time-text class="time" />
+          <div style="margin-top: -4vh">
             <grade-chart style="height: 20vh" />
           </div>
-          <div style="margin-top: 5vh">
-            <grade-chart style="margin-top: 5vh;height: 20vh" />
-          </div>
-          <div style="margin-top:5vh;height:10vh" />
-          <special-chart class="specialChart" />
+
+          <dv-decoration-3 :reverse="true" style="width:100%;height:1vh;margin-top: 20px" :color="['#0D4A81', '#209FDF']" />
+
+          <dv-border-box-4 :reverse="true" :color="['#0D4A81', '#209FDF']" style="height:63vh">
+            <div style="margin-top: 2vh">
+              <div class="title2">检测节点连接率</div>
+              <dv-percent-pond :config="config" class="percent" align="center" />
+            </div>
+            <div class="title2">树种排行</div>
+            <special-chart class="specialChart" style="margin-bottom:1vh" />
+            <div style="margin-top:2vh;" class="title2">近年普查数量</div>
+            <years-chart style="height:25vh" />
+          </dv-border-box-4>
+
         </el-col>
+
       </el-row>
-    </dv-border-box-7>
-  </dv-border-box-6>
+    </dv-border-box-4>
+  </div>
 </template>
 
 <script>
@@ -43,9 +52,10 @@ import GradeChart from './components/GradeChart'
 import SpecialChart from './components/SpecialChart'
 import MapChart from './components/MapChart'
 import CityChart from './components/CityChart'
-import StatisticCount from './components/StatisticCount'
 import TimeText from './components/TimeText'
 import InfoText from './components/InfoText'
+import OwnerShipChart from '@/views/dashboard/components/OwnerShipChart'
+import YearsChart from '@/views/dashboard/components/YearsChart'
 export default {
   name: 'Index',
   components: {
@@ -53,18 +63,17 @@ export default {
     MapChart,
     SpecialChart,
     CityChart,
-    StatisticCount,
     TimeText,
-    InfoText
+    InfoText,
+    OwnerShipChart,
+    YearsChart
   },
   mixins: [resize],
   data() {
     return {
-      note: {
-        backgroundImage: 'url(' + require('../../assets/map_marker/background.jpg') + ') ',
-        backgroundPosition: 'center center',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover'
+      config: {
+        value: 100,
+        lineDash: [12, 2]
       }
     }
   },
@@ -84,7 +93,8 @@ export default {
 <style lang="scss" scoped>
 .dashboard {
   &-container {
-    height: 95.5vh;
+    height: 96vh;
+    background-color: #052341
   }
 
   &-text {
@@ -108,13 +118,35 @@ export default {
 }
 .bmap-wrapper {
   width: 100%;
-  height: 50vh;
-  margin-top:8vh;
-  margin-left: -20%;
+  height: 52vh;
+  margin-top: 5vh;
 }
 .specialChart{
-  margin-top:1vh;
+  margin-top: 1vh;
   height: 20vh;
-  margin-right:3vh;
+  margin-right: 3vh;
+}
+.time{
+  height: 7vh;
+  margin-right: 3px;
+  padding-top: 10px;
+}
+.title{
+  font: 36px Extra large;
+  color: #27ADFC;
+  padding-top: 5vh;
+}
+.percent{
+  width:150px;
+  height:60px;
+  margin-top: 3vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+.title2{
+  font: 18px large;
+  color: #27ADFC;
+  margin-left: 18px
+
 }
 </style>

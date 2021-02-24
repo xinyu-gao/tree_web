@@ -9,13 +9,16 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
+  {
+    path: '/register',
+    component: () => import('@/views/register/index'),
+    hidden: true
+  },
   {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
   },
-
   {
     path: '/',
     component: Layout,
@@ -52,83 +55,36 @@ export const constantRoutes = [
   {
     path: '/detail',
     component: Layout,
+    redirect: '/data/index',
+    name: 'detail',
+    meta: { title: '详细信息', icon: 'detail' },
+    children: [
+      {
+        path: 'data',
+        name: 'data',
+        component: () => import('@/views/data/index'),
+        meta: { title: '数据图标', icon: 'data' }
+      },
+      {
+        path: 'list',
+        name: 'list',
+        component: () => import('@/views/detail/index'),
+        meta: { title: '数据清单', icon: 'detail' }
+      }
+    ]
+  },
+  {
+    path: '/detail',
+    component: Layout,
 
-    children: [{
-      path: 'index',
-      name: 'detail',
-      component: () => import('@/views/detail/index'),
-      meta: { title: '详细信息', icon: 'detail' }
-    }]
+    children: []
   }
-
-  // {
-  //   path: '/realtimedata',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/realtimedata/index'),
-  //       name: 'Realtime',
-  //       meta: { title: '实时数据', icon: 'table', affix: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/map',
-  //   component: Layout,
-  //   redirect: 'index',
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/map/index'),
-  //       name: 'Map',
-  //       meta: { title: '地图显示', icon: 'map', noCache: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/settings',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/settings/index'),
-  //       name: 'Setting',
-  //       meta: { title: '节点设置', icon: 'setting' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/usermanage',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/usermanage/index'),
-  //       name: 'Manager',
-  //       meta: { title: '用户管理', icon: 'peoples' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/register',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/register/index'),
-  //       name: 'Register',
-  //       meta: { title: '用户注册', icon: 'register' }
-  //     }
-  //   ]
-  // },
 
 ]
 export const asyncRoutes = [
   {
     path: '/upload',
     component: Layout,
-
     children: [{
       path: 'index',
       name: 'upload',

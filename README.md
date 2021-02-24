@@ -39,3 +39,27 @@ npm run build:prod
 ```
 
 
+### 6. 部署
+
+ngnix 配置文件：
+
+```conf
+server {
+    listen       9520;
+    location / {
+        root web;
+        autoindex on;
+        autoindex_exact_size on;
+        autoindex_localtime on;
+    }
+    add_header Access-Control-Allow-Origin "*";
+    default_type 'text/html';
+    charset utf-8;
+    location /api/ {
+      proxy_pass http://127.0.0.1:2399/;
+    }
+}
+```
+修改监听的端口号， 以及 `/api/` 的代理地址。
+
+将打包好的目录放到 nignx 的 web 目录下即可。

@@ -1,14 +1,14 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar"/>
+    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
-    <breadcrumb class="breadcrumb-container"/>
+    <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <svg-icon class="user-avatar" icon-class="defaultUser"/>
-          <i class="el-icon-caret-bottom"/>
+          <svg-icon class="user-avatar" icon-class="defaultUser" />
+          <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
@@ -16,7 +16,7 @@
               主页
             </el-dropdown-item>
           </router-link>
-          <el-dropdown-item divided/>
+          <el-dropdown-item divided />
           <router-link v-if="loginShow" to="/login">
             <el-dropdown-item>
               登录
@@ -25,7 +25,7 @@
           <el-dropdown-item v-if="logoutShow" @click.native="logout">
             <span style="display:block;">登出</span>
           </el-dropdown-item>
-          <el-dropdown-item divided/>
+          <el-dropdown-item divided />
           <router-link to="/user">
             <el-dropdown-item>
               我的
@@ -38,20 +38,20 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 
 export default {
-  data() {
-    return {
-      loginShow: true,
-      logoutShow: true,
-    }
-  },
   components: {
     Breadcrumb,
     Hamburger
+  },
+  data() {
+    return {
+      loginShow: true,
+      logoutShow: true
+    }
   },
   computed: {
     ...mapGetters([
