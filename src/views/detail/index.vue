@@ -208,7 +208,7 @@ export default {
   },
   created() {
     this.getData()
-    this.defectPImg = 'http://175.24.147.229:9090/tree/myplot.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minioadmin%2F20210219%2F%2Fs3%2Faws4_request&X-Amz-Date=20210219T130254Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=384f9627c7085351dc91c4a4cc76008d89a429913af5366dda5238ad89c68998'
+    this.defectPImg = 'http://175.24.147.229:9090/tree/myplot.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minioadmin%2F20210308%2F%2Fs3%2Faws4_request&X-Amz-Date=20210308T025629Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=8baa5b5b66e206a3a5e0d4cff8bb0a0c1189f3ff17dfc7ea3a19b73f89a9cc63'
   },
   methods: {
     getData() {

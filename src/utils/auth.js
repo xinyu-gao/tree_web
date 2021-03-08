@@ -2,6 +2,7 @@ import Cookies from 'js-cookie'
 
 const TokenKey = 'vue_token'
 const UserKey = 'vue_name'
+
 export function getToken() {
   return Cookies.get(TokenKey)
 }

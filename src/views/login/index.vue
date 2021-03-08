@@ -4,8 +4,8 @@
 
       <div class="title-container">
         <h3 class="title">登录</h3>
-        <a style="color:#fff; " @click="handleChangeUser">账号登录</a>
-        <a style="color:#fff;margin-left: 40px" @click="handleChangeEmail">邮箱登录</a>
+        <a :style="{color:userLoginColor}" @click="handleChangeUser">账号登录</a>
+        <a :style="{color:emailLoginColor}" class="email" @click="handleChangeEmail">邮箱登录</a>
       </div>
       <div v-if="loginForUsername">
         <el-form-item prop="username">
@@ -43,6 +43,7 @@
           </span>
         </el-form-item>
       </div>
+
       <div v-if="loginForEmail">
         <el-form-item prop="Email">
           <span class="svg-container">
@@ -66,7 +67,7 @@
           <el-input
             ref="code"
             v-model="loginForm2.code"
-            :type="passwordType"
+            :type="codeType"
             placeholder="请输入验证码"
             name="code"
             tabindex="2"
@@ -84,19 +85,20 @@
 </template>
 
 <script>
-// import { getToken, setToken } from '@/utils/auth'
 
 export default {
   name: 'Login',
   data() {
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('密码不得少于6个字符'))
       } else {
         callback()
       }
     }
     return {
+      userLoginColor: '#fff',
+      emailLoginColor: '#A0A2A6',
       loginForm: {
         username: 'gxy',
         password: 'gxy1234'
@@ -111,6 +113,7 @@ export default {
       },
       loading: false,
       passwordType: 'password',
+      codeType: '',
       redirect: undefined,
       loginForUsername: true,
       loginForEmail: false,
@@ -156,10 +159,6 @@ export default {
               this.$router.push({ path: this.redirect || '/' })
               this.loading = false
             }).catch((err) => {
-              this.$notify.error({
-                title: '错误',
-                message: '登陆失败'
-              })
               console.log(err)
               this.loading = false
             })
@@ -172,10 +171,14 @@ export default {
     handleChangeEmail() {
       this.loginForUsername = false
       this.loginForEmail = true
+      this.userLoginColor = '#A0A2A6'
+      this.emailLoginColor = '#fff'
     },
     handleChangeUser() {
       this.loginForUsername = true
       this.loginForEmail = false
+      this.userLoginColor = '#fff'
+      this.emailLoginColor = '#A0A2A6'
     },
     getEmailVidateCode() {
       this.timeCal()
@@ -305,5 +308,8 @@ $light_gray:#eee;
     cursor: pointer;
     user-select: none;
   }
+}
+.email{
+  margin-left: 40px
 }
 </style>
