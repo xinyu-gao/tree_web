@@ -55,20 +55,20 @@ export const constantRoutes = [
   {
     path: '/detail',
     component: Layout,
-    redirect: '/data/index',
+    redirect: '/charts/index',
     name: 'detail',
     meta: { title: '详细信息', icon: 'detail' },
     children: [
       {
         path: 'data',
         name: 'data',
-        component: () => import('@/views/data/index'),
+        component: () => import('@/views/detail/charts/index'),
         meta: { title: '数据图标', icon: 'data' }
       },
       {
         path: 'list',
         name: 'list',
-        component: () => import('@/views/detail/index'),
+        component: () => import('@/views/detail/list/index'),
         meta: { title: '数据清单', icon: 'detail' }
       }
     ]
@@ -83,14 +83,41 @@ export const constantRoutes = [
 ]
 export const asyncRoutes = [
   {
-    path: '/upload',
+    path: '/data',
     component: Layout,
-    children: [{
-      path: 'index',
-      name: 'upload',
-      component: () => import('@/views/upload/index'),
-      meta: { title: '数据上传', icon: 'upload' }
-    }]
+    redirect: '/upload/index',
+    name: 'data',
+    meta: { title: '数据管理', icon: 'manage' },
+    children: [
+      {
+        path: 'index',
+        name: 'upload',
+        component: () => import('@/views/data/upload/index'),
+        meta: { title: '数据上传', icon: 'upload' }
+      },
+      {
+        path: 'list',
+        name: 'list',
+        component: () => import('@/views/data/modify/index'),
+        meta: { title: '数据修改', icon: 'modify' }
+      }
+    ]
+  },
+  {
+    path: '/usermange',
+    component: Layout,
+    redirect: '/index',
+    name: 'data',
+    meta: { title: '用户管理', icon: 'peoples' },
+    children: [
+      {
+        path: 'index',
+        name: 'upload',
+        component: () => import('@/views/user_manage/index'),
+        meta: { title: '用户管理', icon: 'peoples' }
+      }
+
+    ]
   },
   // 404 必须放在最后
   { path: '*', redirect: '/404', hidden: true }

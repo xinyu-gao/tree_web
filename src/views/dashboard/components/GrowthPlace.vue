@@ -49,7 +49,7 @@ export default {
             name: '生长场所',
             center: ['50%', '36%'],
             type: 'pie',
-            radius: '50%',
+            radius: '70%',
             data: [
               { name: '乡村', value: this.ruralCount, itemStyle: { color: '#67E0E3' }},
               { name: '城区', value: this.urbanCount, itemStyle: { color: '#48ABD5' }}
@@ -71,8 +71,8 @@ export default {
               lineHeight: 20
             },
             labelLine: {
-              length: 7,
-              length2: 7
+              length: 5,
+              length2: 5
             }
           }
         ]

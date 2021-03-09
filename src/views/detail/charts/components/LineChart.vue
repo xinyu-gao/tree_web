@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import echarts from 'echarts'
+import * as echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
-import { getLineDataByIMSI } from '@/api/nodeInfo'
+import { getLineDataByIMSI } from '@/api/imsi'
 export default {
   mixins: [resize],
   props: {
@@ -59,8 +59,8 @@ export default {
       this.getLineData()
     },
     getLineData() {
-      const currentNode = this.$store.getters.currentNode
-      getLineDataByIMSI(currentNode)
+      const currentNode = 12145213
+      getLineDataByIMSI({ 'imsi': currentNode })
         .then(data => {
           console.log(data)
           this.setOptions(data)
@@ -68,10 +68,9 @@ export default {
     },
     setOptions(data) {
       const lineTime = data.lineTimeList
-      const mcuTempData = data.lineMcuTempList
-      const envTempData = data.lineEnvTempList
-      const brightData = data.lineBrightList
-      const smogData = data.lineSmogList
+      const tempData = data.lineTempList
+      const humidityData = data.lineHumidityList
+      const slantData = data.lineSlantList
       this.chart.setOption({
         xAxis: {
           data: lineTime,
@@ -94,16 +93,72 @@ export default {
           },
           padding: [5, 10]
         },
-        yAxis: {
-          axisTick: {
-            show: false
+        yAxis: [
+          {
+            type: 'value',
+            name: '环境温度',
+            min: 0,
+            max: 100,
+            position: 'left',
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: '#FF005A'
+              }
+            },
+            axisLabel: {
+              formatter: '{value}  °C'
+            },
+            axisTick: {
+              show: false
+            }
+          },
+          {
+            type: 'value',
+            name: '相对湿度',
+            min: 0,
+            max: 100,
+            position: 'left',
+            offset: 60,
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: '#8fd3f4'
+              }
+            },
+            axisLabel: {
+              formatter: '{value} %'
+            },
+            axisTick: {
+              show: false
+            }
+          },
+          {
+            type: 'value',
+            name: '倾斜度',
+            min: 0,
+            max: 90,
+            position: 'right',
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: '#d57eeb'
+              }
+            },
+            axisLabel: {
+              formatter: '{value} °'
+            },
+            axisTick: {
+              show: false
+            }
           }
-        },
+        ],
         legend: {
-          data: ['芯片温度', '环境温度', '光线强度', '烟雾浓度']
+          data: ['环境温度', '相对湿度', '倾斜度']
         },
         series: [{
-          name: '芯片温度', itemStyle: {
+          name: '环境温度',
+          itemStyle: {
             normal: {
               color: '#FF005A',
               lineStyle: {
@@ -114,32 +169,12 @@ export default {
           },
           smooth: true,
           type: 'line',
-          data: mcuTempData,
+          data: tempData,
           animationDuration: 2800,
           animationEasing: 'cubicInOut'
         },
         {
-          name: '环境温度',
-          smooth: true,
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#d57eeb',
-              lineStyle: {
-                color: '#d57eeb',
-                width: 2
-              },
-              areaStyle: {
-                color: '#f3f8ff'
-              }
-            }
-          },
-          data: envTempData,
-          animationDuration: 2800,
-          animationEasing: 'quadraticOut'
-        },
-        {
-          name: '光线强度',
+          name: '相对湿度',
           smooth: true,
           type: 'line',
           itemStyle: {
@@ -154,19 +189,19 @@ export default {
               }
             }
           },
-          data: brightData,
+          data: humidityData,
           animationDuration: 2800,
           animationEasing: 'quadraticOut'
         },
         {
-          name: '烟雾浓度',
+          name: '倾斜度',
           smooth: true,
           type: 'line',
           itemStyle: {
             normal: {
-              color: '#40c9c6',
+              color: '#d57eeb',
               lineStyle: {
-                color: '#40c9c6',
+                color: '#d57eeb',
                 width: 2
               },
               areaStyle: {
@@ -174,10 +209,11 @@ export default {
               }
             }
           },
-          data: smogData,
+          data: slantData,
           animationDuration: 2800,
           animationEasing: 'quadraticOut'
         }
+
         ]
       })
     }

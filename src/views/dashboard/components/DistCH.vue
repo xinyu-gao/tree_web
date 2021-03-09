@@ -45,7 +45,7 @@ export default {
             name: '分布特点',
             center: ['50%', '36%'],
             type: 'pie',
-            radius: '50%',
+            radius: '70%',
             data: [
               { name: '散生', value: 143, itemStyle: { color: '#84fab0' }},
               { name: '群状', value: 232, itemStyle: { color: '#209FDF' }}
@@ -67,8 +67,8 @@ export default {
               lineHeight: 20
             },
             labelLine: {
-              length: 7,
-              length2: 7
+              length: 5,
+              length2: 5
             }
           }
         ]

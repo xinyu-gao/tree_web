@@ -6,3 +6,10 @@ export function getNodeByIMSI(data) {
     method: 'get'
   })
 }
+
+export function getLineDataByIMSI(data) {
+  return creatRequest({
+    url: `/imsi/line_data?imsi=${data.imsi}`,
+    method: 'get'
+  })
+}

@@ -6,16 +6,16 @@
     </el-row>
 
     <el-row style="background:#fff;padding:8px 16px;margin-bottom:12px;margin-top:12px;">
-      <!--      <line-chart :chart-data="lineChartData" />-->
+      <line-chart :chart-data="lineChartData" />
     </el-row>
 
     <el-row :gutter="32" style="margin-top:34px;">
-      <el-col :xs="24" :sm="24" :lg="12">
+      <el-col :lg="12" :sm="24" :xs="24">
         <div class="chart-wrapper">
           <!--          <raddar-chart />-->
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="12">
+      <el-col :lg="12" :sm="24" :xs="24">
         <div class="chart-wrapper">
           <!--          <pie-chart />-->
         </div>
@@ -26,7 +26,7 @@
 
 <script>
 // import PanelGroup from './PanelGroup'
-// import LineChart from './LineChart'
+import LineChart from './LineChart'
 // import RaddarChart from './MapChart'
 // import PieChart from './PieChart'
 
@@ -34,7 +34,7 @@ export default {
   name: 'Charts',
   components: {
     // PanelGroup,
-    // LineChart,
+    LineChart
     // RaddarChart,
     // PieChart
   },
@@ -58,6 +58,7 @@ export default {
     border: 0;
     right: 0;
   }
+
   .chart-wrapper {
     background: #fff;
     padding: 5px 5px;
@@ -65,7 +66,7 @@ export default {
   }
 }
 
-@media (max-width:1024px) {
+@media (max-width: 1024px) {
   .chart-wrapper {
     padding: 8px;
   }

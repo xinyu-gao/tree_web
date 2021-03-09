@@ -1,7 +1,7 @@
 <template>
   <div class="infoContainer" :style="{height:height,width:width}">
     <div class="title">基本信息</div>
-    <el-row :gutter="24" style="margin: 30px 20px">
+    <el-row :gutter="24" style="margin: 2vh 0vh">
       <el-col :span="12">
         <span class="text1">普查总数：</span>
         <span class="text2">{{ total }}</span>
@@ -12,7 +12,7 @@
       </el-col>
     </el-row>
     <div class="title">种类统计</div>
-    <el-row :gutter="24" style="margin: 30px 20px">
+    <el-row :gutter="24" style="margin: 2vh 0vh">
       <el-col :span="8">
         <span class="text1">科：</span>
         <span class="text2">{{ familyNums }}</span>
@@ -29,18 +29,18 @@
     <el-row :gutter="24">
       <el-col :span="12">
         <span class="title">生长场所</span>
-        <growth-place style="height:20vh" />
+        <growth-place style="height:12vh;margin-top: 2vh" />
       </el-col>
       <el-col :span="12">
         <span class="title">分布特点</span>
-        <dist-c-h style="height:20vh" />
+        <dist-c-h style="height:12vh;margin-top: 2vh" />
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import GrowthPlace from './/GrowthPlace'
+import GrowthPlace from './GrowthPlace'
 import DistCH from './DistCH'
 import resize from './mixins/resize'
 export default {

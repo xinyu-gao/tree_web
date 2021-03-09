@@ -14,7 +14,7 @@
           <div class="grid-content bg-purple-light" style="margin-right: -15px">
             <el-dropdown class="node-description">
               <span class="el-dropdown-link">
-                {{ currentNode }}<i class="el-icon-arrow-down el-icon--right" />
+                currentNode <i class="el-icon-arrow-down el-icon--right" />
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item @click.native="changeCurrentNode">456249082654</el-dropdown-item>
@@ -66,7 +66,7 @@
           <el-row class="server-description">
             <el-col :span="2">
               <div class="grid-content bg-purple">
-                <div :class="connectIcon" />
+                <!--                <div :class="connectIcon" />-->
               </div>
             </el-col>
             <el-col :span="22" style="padding-left: 20px">
@@ -81,93 +81,93 @@
 
 <script>
 
-import store from '@/store'
-import { getNodeLastData } from '@/api/nodeInfo'
-import { getCurrentNodeCookie, setCurrentNodeCookie } from '@/utils/node'
+// import store from '@/store'
+// import { getNodeLastData } from '@/api/nodeInfo'
+// import { getCurrentNodeCookie, setCurrentNodeCookie } from '@/utils/node'
 
 export default {
   data() {
     return {
-      nodeList: []
+      // nodeList: []
     }
   },
   computed: {
-    connectIcon: function() {
-      const status = this.$store.getters.wsConnectStatus
-      switch (status) {
-        case 'connecting':
-          return 'el-icon-loading'
-        case 'connectSuccess':
-          return 'iconfont icon-lianjiechenggong'
-        case 'connectFail':
-          return 'iconfont icon-lianjieshibai'
-      }
-      return 'el-icon-loading'
-    },
-    connectText: function() {
-      const status = this.$store.getters.wsConnectStatus
-      switch (status) {
-        case 'connecting':
-          return '正在连接'
-        case 'connectSuccess':
-          return '连接成功'
-        case 'connectFail':
-          return '连接失败'
-      }
-      return '正在连接'
-    },
-    nodeConnectRate: function() {
-      return this.$store.getters.nodeConnectRate
-    },
-    nodeNums: function() {
-      return this.$store.getters.nodeNums
-    },
-    currentNode: function() {
-      return this.$store.getters.currentNode
-    }
+    // connectIcon: function() {
+    //   const status = this.$store.getters.wsConnectStatus
+    //   switch (status) {
+    //     case 'connecting':
+    //       return 'el-icon-loading'
+    //     case 'connectSuccess':
+    //       return 'iconfont icon-lianjiechenggong'
+    //     case 'connectFail':
+    //       return 'iconfont icon-lianjieshibai'
+    //   }
+    //   return 'el-icon-loading'
+    // },
+    // connectText: function() {
+    //   const status = this.$store.getters.wsConnectStatus
+    //   switch (status) {
+    //     case 'connecting':
+    //       return '正在连接'
+    //     case 'connectSuccess':
+    //       return '连接成功'
+    //     case 'connectFail':
+    //       return '连接失败'
+    //   }
+    //   return '正在连接'
+    // },
+    // nodeConnectRate: function() {
+    //   return this.$store.getters.nodeConnectRate
+    // },
+    // nodeNums: function() {
+    //   return this.$store.getters.nodeNums
+    // },
+    // currentNode: function() {
+    //   return this.$store.getters.currentNode
+    // }
   },
   created() {
     // this.currentNode = getCurrentNodeCookie() || ''
-    this.getData()
+    // this.getData()
   },
   mounted() {
     // this.currentNode = this.$store.getters.currentNode || getCurrentNodeCookie() || ''
   },
   methods: {
-    changeCurrentNode: function(event) {
-      if (event) {
-        // 获取当前下拉框的文本
-        const cNode = event.currentTarget.innerText
-        setCurrentNodeCookie(cNode)
-        store.dispatch('monitorData/setCurrentNode', cNode)
-      }
-    },
-    getData: function() {
-      getNodeLastData({
-        page: 0,
-        size: 1
-      }).then(data => {
-        const total = data.nodeNums
-        console.log(total)
-        store.dispatch('monitorData/setNodeNums', total)
-        getNodeLastData({
-          page: 0,
-          size: total
-        }).then(data => {
-          // store.dispatch('monitorData/setNodeConnectCount', data.nodeConnectCount)
-          store.dispatch('monitorData/setNodeConnectRate', data.nodeConnectRate * 100)
-          const list = []
-          data.nodeData.list.map((value, index) => {
-            list.push(value.imsi)
-          })
-          this.nodeList = list
-          if (this.$store.getters.currentNode === '') {
-            store.dispatch('monitorData/setCurrentNode', list[0])
-            // setCurrentNodeCookie(list[0])
-          }
-        })
-      })
-    }
+    // changeCurrentNode: function(event) {
+    //   if (event) {
+    //     // 获取当前下拉框的文本
+    //     const cNode = event.currentTarget.innerText
+    //     setCurrentNodeCookie(cNode)
+    //     store.dispatch('monitorData/setCurrentNode', cNode)
+    //   }
+    // },
+    // getData: function() {
+    //   getNodeLastData({
+    //     page: 0,
+    //     size: 1
+    //   }).then(data => {
+    //     const total = data.nodeNums
+    //     console.log(total)
+    //     store.dispatch('monitorData/setNodeNums', total)
+    //     getNodeLastData({
+    //       page: 0,
+    //       size: total
+    //     }).then(data => {
+    //       // store.dispatch('monitorData/setNodeConnectCount', data.nodeConnectCount)
+    //       store.dispatch('monitorData/setNodeConnectRate', data.nodeConnectRate * 100)
+    //       const list = []
+    //       data.nodeData.list.map((value, index) => {
+    //         list.push(value.imsi)
+    //       })
+    //       this.nodeList = list
+    //       if (this.$store.getters.currentNode === '') {
+    //         store.dispatch('monitorData/setCurrentNode', list[0])
+    //         // setCurrentNodeCookie(list[0])
+    //       }
+    //     })
+    //   })
+    // }
   }
 }
 </script>

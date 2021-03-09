@@ -3,7 +3,7 @@
     <dv-border-box-4 :color="['#0D4A81', '#209FDF']">
       <el-row :gutter="24" style="padding-top: 10px; margin-left: 0.5vh">
         <el-col :span="6">
-          <dv-border-box-6 style="margin-top:5vh;height:37vh" :color="['#0D4A81', '#209FDF']">
+          <dv-border-box-6 style="margin-top:5vh" :color="['#0D4A81', '#209FDF']">
             <info-text />
           </dv-border-box-6>
 
