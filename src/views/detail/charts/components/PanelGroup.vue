@@ -37,7 +37,7 @@
           <div class="card-panel-text">
             检测节点总数
           </div>
-          <div class="node-description" align="center">{{ 5 || nodeNums }}</div>
+          <div class="node-description" align="center" style="color:#0089F0">{{ 5 || nodeNums }}</div>
         </div>
       </div>
     </el-col>
@@ -50,7 +50,7 @@
           <div class="card-panel-text">
             节点连接成功率
           </div>
-          <div class="node-description" align="center">{{ nodeConnectRate }} %</div>
+          <div class="node-description" align="center" style="color:#337AB7">{{ nodeConnectRate || 100 }} %</div>
         </div>
       </div>
     </el-col>
@@ -66,11 +66,11 @@
           <el-row class="server-description">
             <el-col :span="2">
               <div class="grid-content bg-purple">
-                <!--                <div :class="connectIcon" />-->
+                <div :class="connectIcon" :style="{color: color}" />
               </div>
             </el-col>
             <el-col :span="22" style="padding-left: 20px">
-              <div class="grid-content bg-purple-light"> {{ connectText }}</div>
+              <div class="grid-content bg-purple-light" :style="{color: color}"> {{ connectText }}</div>
             </el-col>
           </el-row>
         </div>
@@ -81,10 +81,6 @@
 
 <script>
 
-// import store from '@/store'
-// import { getNodeLastData } from '@/api/nodeInfo'
-// import { getCurrentNodeCookie, setCurrentNodeCookie } from '@/utils/node'
-
 export default {
   data() {
     return {
@@ -92,30 +88,46 @@ export default {
     }
   },
   computed: {
-    // connectIcon: function() {
-    //   const status = this.$store.getters.wsConnectStatus
-    //   switch (status) {
-    //     case 'connecting':
-    //       return 'el-icon-loading'
-    //     case 'connectSuccess':
-    //       return 'iconfont icon-lianjiechenggong'
-    //     case 'connectFail':
-    //       return 'iconfont icon-lianjieshibai'
-    //   }
-    //   return 'el-icon-loading'
-    // },
-    // connectText: function() {
-    //   const status = this.$store.getters.wsConnectStatus
-    //   switch (status) {
-    //     case 'connecting':
-    //       return '正在连接'
-    //     case 'connectSuccess':
-    //       return '连接成功'
-    //     case 'connectFail':
-    //       return '连接失败'
-    //   }
-    //   return '正在连接'
-    // },
+    connectIcon: function() {
+      // const status = this.$store.getters.wsConnectStatus
+      const status = 'connectSuccess'
+      switch (status) {
+        case 'connecting':
+          return 'el-icon-loading'
+        case 'connectSuccess':
+          return 'iconfont icon-lianjiechenggong'
+        case 'connectFail':
+
+          return 'iconfont icon-lianjieshibai'
+      }
+      return 'el-icon-loading'
+    },
+    connectText: function() {
+      // const status = this.$store.getters.wsConnectStatus
+      const status = 'connectSuccess'
+      switch (status) {
+        case 'connecting':
+          return '正在连接'
+        case 'connectSuccess':
+          return '连接成功'
+        case 'connectFail':
+          return '连接失败'
+      }
+      return '正在连接'
+    },
+    color: function() {
+      // const status = this.$store.getters.wsConnectStatus
+      const status = 'connectSuccess'
+      switch (status) {
+        case 'connecting':
+          return '#40c9c6'
+        case 'connectSuccess':
+          return '#40c9c6'
+        case 'connectFail':
+          return '#DC143C'
+      }
+      return '正在连接'
+    }
     // nodeConnectRate: function() {
     //   return this.$store.getters.nodeConnectRate
     // },

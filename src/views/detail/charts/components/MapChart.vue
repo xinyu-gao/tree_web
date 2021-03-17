@@ -29,41 +29,14 @@ export default {
             type: 'Point',
             coordinates: [120.64718, 31.310695]
           }
-        },
-        {
-          geometry: {
-            type: 'Point',
-            coordinates: [120.645708, 31.312536]
-          }
-        },
-        {
-          geometry: {
-            type: 'Point',
-            coordinates: [120.647433, 31.308618]
-          }
-        },
-        {
-          geometry: {
-            type: 'Point',
-            coordinates: [120.640354, 31.313924]
-          }
         }
 
       ]
     },
     createMap() {
-      // 创建Map实例
-      const map = new BMap.Map('map', {
-        enableMapClick: false
-      })
-      // 初始化地图,设置中心点坐标和地图级别
+      const map = new BMap.Map('map', { enableMapClick: false })
       map.centerAndZoom(new BMap.Point(120.64718, 31.310695), 14)
-      // 开启鼠标滚轮缩放map.enableScrollWheelZoom(true)
-      const mapStyle = getMapStyle()
-      map.setMapStyle({
-        styleJson: mapStyle
-      })
-
+      map.setMapStyle({ styleJson: getMapStyle() })
       const dataSet = new mapv.DataSet(this.mapData)
 
       const options = {
@@ -72,7 +45,6 @@ export default {
         max: 30,
         draw: 'bubble'
       }
-
       // eslint-disable-next-line new-cap
       new mapv.baiduMapLayer(map, dataSet, options)
     },
@@ -90,7 +62,7 @@ export default {
 
 <style scoped>
 #map {
-  height: 300px;
+  height: 100%;
   width: 100%;
 
 }

@@ -13,3 +13,17 @@ export function getLineDataByIMSI(data) {
     method: 'get'
   })
 }
+
+export function getNodeHistoryInfoByIMSI(data) {
+  return creatRequest({
+    url: `/imsi/history?imsi=${data.imsi}&page=${data.page}&size=${data.size}`,
+    method: 'get'
+  })
+}
+
+export function getNodeDefectInfoByIMSI(data) {
+  return creatRequest({
+    url: `/imsi/defect?imsi=${data.imsi}`,
+    method: 'get'
+  })
+}

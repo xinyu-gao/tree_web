@@ -62,3 +62,10 @@ export function getTreeById(data) {
     method: 'get'
   })
 }
+
+export function getTreeListSorted(data) {
+  return creatRequest({
+    url: `/tree_list/info_sorted?page=${data.page}&size=${data.size}&keys=${data.keys}&asc=${data.asc}`,
+    method: 'get'
+  })
+}

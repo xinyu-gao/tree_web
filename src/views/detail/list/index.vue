@@ -1,15 +1,12 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="10" style="margin-left:20px; margin-top:20px">
-      <el-col :xs="24" :sm="12" :md="12" :lg="5" :xl="5">
-        <el-form ref="form" :model="form" label-width="80px" style="width:300px">
-          <el-form-item label="树木编号">
-            <el-input v-model="treeId" placeholder="请输入想要查询的树木编号" />
-          </el-form-item>
-        </el-form>
+    <el-row :gutter="24" class="search">
+      <el-col :xs="8" :sm="7" :md="6" :lg="5" :xl="4">
+        <el-input v-model="inputSearchName" placeholder="请输入想要搜索的内容" />
       </el-col>
-      <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-        <el-button plain @click="search">查询</el-button>
+      <el-col :xs="15" :sm="16" :md="17" :lg="18" :xl="4" class="search-button">
+        <el-button type="primary" icon="el-icon-search" @click="searchByName"> 搜索</el-button>
+        <el-button type="info" icon="el-icon-delete" @click="cleanSearch"> 清除搜索</el-button>
       </el-col>
     </el-row>
     <el-row :gutter="10" style="margin-top:20px">
@@ -208,7 +205,7 @@ export default {
   },
   created() {
     this.getData()
-    this.defectPImg = 'http://175.24.147.229:9090/tree/myplot.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minioadmin%2F20210308%2F%2Fs3%2Faws4_request&X-Amz-Date=20210308T025629Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=8baa5b5b66e206a3a5e0d4cff8bb0a0c1189f3ff17dfc7ea3a19b73f89a9cc63'
+    this.defectPImg = 'http://175.24.147.229:9090/tree/myplot.png'
   },
   methods: {
     getData() {
@@ -216,6 +213,7 @@ export default {
         .then(data => {
           console.log(data)
           this.item = data
+          data.imsi = 12145213
           getNodeByIMSI({ imsi: data.imsi })
             .then(data => {
               this.imsiInfo = data
@@ -245,6 +243,9 @@ export default {
         time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()
 
       return time
+    },
+    form() {
+
     }
   }
 }
@@ -275,6 +276,9 @@ export default {
   opacity: 0.75;
   line-height: 200px;
   margin: 0;
+}
+.search{
+  padding-left: 30px;
 }
 
 </style>

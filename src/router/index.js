@@ -55,15 +55,15 @@ export const constantRoutes = [
   {
     path: '/detail',
     component: Layout,
-    redirect: '/charts/index',
+    redirect: '/detail/charts',
     name: 'detail',
     meta: { title: '详细信息', icon: 'detail' },
     children: [
       {
-        path: 'data',
-        name: 'data',
+        path: 'charts',
+        name: 'charts',
         component: () => import('@/views/detail/charts/index'),
-        meta: { title: '数据图标', icon: 'data' }
+        meta: { title: '数据图表', icon: 'data' }
       },
       {
         path: 'list',
@@ -72,12 +72,6 @@ export const constantRoutes = [
         meta: { title: '数据清单', icon: 'detail' }
       }
     ]
-  },
-  {
-    path: '/detail',
-    component: Layout,
-
-    children: []
   }
 
 ]
