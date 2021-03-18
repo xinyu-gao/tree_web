@@ -3,7 +3,7 @@ import creatRequest from '@/utils/axiosRequest'
 
 export function login(data) {
   return creatRequest({
-    url: '/login',
+    url: '/log/login',
     method: 'post',
     data: data
   })
@@ -18,8 +18,9 @@ export function getRoles(data) {
 
 export function logout() {
   return creatRequest({
-    url: '/logout',
-    method: 'post'
+    url: '/log/logout',
+    method: 'post',
+    data: ''
   })
 }
 
@@ -56,9 +57,15 @@ export function deleteUser(data) {
 
 export function getAllUsers(data) {
   return creatRequest({
-    url: '/user/findAll',
-    method: 'post',
-    data: data
+    url: `/user/list?page=${data.page}&size=${data.size}`,
+    method: 'get'
+  })
+}
+
+export function getAllUsersSorted(data) {
+  return creatRequest({
+    url: `/user/list_sorted?page=${data.page}&size=${data.size}`,
+    method: 'get'
   })
 }
 

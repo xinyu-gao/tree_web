@@ -1,10 +1,9 @@
 import { login, logout, getRoles } from '@/api/user'
-import { getToken, getUsername, removeToken, setToken, setUsername } from '@/utils/auth'
+import { getUsername, removeToken, setToken, setUsername } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
-    token: getToken(),
     name: '',
     avatar: '',
     roles: ''
@@ -16,9 +15,6 @@ const state = getDefaultState()
 const mutations = {
   RESET_STATE: (state) => {
     Object.assign(state, getDefaultState())
-  },
-  SET_TOKEN: (state, token) => {
-    state.token = token
   },
   SET_NAME: (state, name) => {
     state.name = name
@@ -32,14 +28,12 @@ const mutations = {
 }
 
 const actions = {
-  // user login
+
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password })
-        .then(response => {
-          const data = response
-          commit('SET_TOKEN', data.token)
+        .then(data => {
           commit('SET_NAME', username)
           setUsername(username)
           setToken(data.tokenHead + ' ' + data.token)
@@ -53,6 +47,7 @@ const actions = {
   getRoles({ commit, state }) {
     return new Promise((resolve, reject) => {
       getRoles(getUsername()).then(data => {
+        console.log(data)
         commit('SET_ROLES', data)
         return resolve(data)
       }).catch(error => {
@@ -61,28 +56,21 @@ const actions = {
     })
   },
 
-  // user logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
-        removeToken() // must remove  token  first
+        console.log('out')
+        removeToken()
         resetRouter()
         commit('RESET_STATE')
         resolve()
       }).catch(error => {
+        console.log(error)
         reject(error)
       })
     })
-  },
-
-  // remove token
-  resetToken({ commit }) {
-    return new Promise(resolve => {
-      removeToken()
-      commit('RESET_STATE')
-      resolve()
-    })
   }
+
 }
 
 export default {

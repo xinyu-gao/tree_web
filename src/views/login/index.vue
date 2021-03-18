@@ -100,8 +100,8 @@ export default {
       userLoginColor: '#fff',
       emailLoginColor: '#A0A2A6',
       loginForm: {
-        username: 'gxy',
-        password: 'gxy1234'
+        username: 'sss',
+        password: 'ssssss'
       },
       loginForm2: {
         email: '',
@@ -159,6 +159,12 @@ export default {
               this.$router.push({ path: this.redirect || '/' })
               this.loading = false
             }).catch((err) => {
+              if (err === '密码不正确') {
+                this.$notify({
+                  title: '密码不正确',
+                  type: 'failed'
+                })
+              }
               console.log(err)
               this.loading = false
             })

@@ -33,4 +33,5 @@ export default {
 .tab-container {
   margin: 42px;
 }
+
 </style>

@@ -3,8 +3,8 @@
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
     <breadcrumb class="breadcrumb-container" />
-
     <div class="right-menu">
+      <span class="right-menu-item">{{ hello }}</span>
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <svg-icon class="user-avatar" icon-class="defaultUser" />
@@ -13,22 +13,22 @@
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
             <el-dropdown-item>
-              主页
+              主 页
             </el-dropdown-item>
           </router-link>
           <el-dropdown-item divided />
-          <router-link v-if="loginShow" to="/login">
+          <router-link to="/login">
             <el-dropdown-item>
-              登录
+              登 录
             </el-dropdown-item>
           </router-link>
-          <el-dropdown-item v-if="logoutShow" @click.native="logout">
-            <span style="display:block;">登出</span>
+          <el-dropdown-item @click.native="logout">
+            <span style="display:block;">登 出</span>
           </el-dropdown-item>
           <el-dropdown-item divided />
           <router-link to="/user">
             <el-dropdown-item>
-              我的
+              我的信息
             </el-dropdown-item>
           </router-link>
         </el-dropdown-menu>
@@ -49,21 +49,23 @@ export default {
   },
   data() {
     return {
-      loginShow: true,
-      logoutShow: true
     }
   },
   computed: {
     ...mapGetters([
       'sidebar',
       'avatar'
-    ])
+    ]),
+    hello: function() {
+      return '欢迎您，' + (this.$store.getters.name || '游客')
+    }
   },
   methods: {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
+      console.log('----------')
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
@@ -107,9 +109,9 @@ export default {
 
     .right-menu-item {
       display: inline-block;
-      padding: 0 8px;
+      padding: 5px 40px;
       height: 100%;
-      font-size: 18px;
+      font-size: 17px;
       color: #5a5e66;
       vertical-align: text-bottom;
 

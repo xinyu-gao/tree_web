@@ -75,11 +75,11 @@ export const constantRoutes = [
   }
 
 ]
-export const asyncRoutes = [
+export const superManageRoutes = [
   {
     path: '/data',
     component: Layout,
-    redirect: '/upload/index',
+    redirect: '/upload/data/upload',
     name: 'data',
     meta: { title: '数据管理', icon: 'manage' },
     children: [
@@ -98,15 +98,12 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/usermange',
+    path: '/user_mange',
     component: Layout,
-    redirect: '/index',
-    name: 'data',
-    meta: { title: '用户管理', icon: 'peoples' },
     children: [
       {
         path: 'index',
-        name: 'upload',
+        name: 'user_mange',
         component: () => import('@/views/user_manage/index'),
         meta: { title: '用户管理', icon: 'peoples' }
       }
@@ -114,6 +111,10 @@ export const asyncRoutes = [
     ]
   },
   // 404 必须放在最后
+  { path: '*', redirect: '/404', hidden: true }
+]
+export const userRoutes = [
+// 404 必须放在最后
   { path: '*', redirect: '/404', hidden: true }
 ]
 const createRouter = () => new Router({

@@ -435,7 +435,8 @@ export default {
       this.form.locationProvince = CodeToText[this.selectedLocations[0]]
       this.form.locationCity = CodeToText[this.selectedLocations[1]]
       this.form.locationDistrict = CodeToText[this.selectedLocations[2]]
-    }
+    },
+    onRemove() {}
   }
 }
 </script>

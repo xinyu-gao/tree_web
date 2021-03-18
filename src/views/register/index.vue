@@ -9,13 +9,13 @@
           <el-form-item label="用户名" prop="username">
             <el-row>
               <el-col :span="12"><el-input v-model="form.username" /></el-col>
-              <el-col :span="12"><div class="input-right-text">用户名由3-10个（英文字母、汉字、数字）组成</div></el-col>
+              <el-col :span="12"><div class="input-right-text"> 用户名由3-10个（英文字母、汉字、数字）组成</div></el-col>
             </el-row>
           </el-form-item>
           <el-form-item label="密码" prop="password">
             <el-row>
               <el-col :span="12"><el-input v-model="form.password" /></el-col>
-              <el-col :span="12"><div class="input-right-text">支持英文字母、数字、符号，8-20个字符</div></el-col>
+              <el-col :span="12"><div class="input-right-text"> 支持英文字母、数字、符号，8-20个字符</div></el-col>
             </el-row>
           </el-form-item>
           <el-form-item label="重复密码" prop="repassword">
@@ -95,7 +95,7 @@ export default {
 
 <style scoped>
 .input-right-text{
-  padding-left: 10px;
+  margin-left: 30px;
   font: 12px Extra Small;
   padding-top: 10px;
 }

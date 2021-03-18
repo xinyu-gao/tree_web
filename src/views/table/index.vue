@@ -211,6 +211,7 @@
 
 <script>
 import { getTreeListData, getTreeListSorted } from '@/api/tree'
+import { handleTimeYMD, handleTimeHMS } from '@/utils/commonUtil'
 export default {
   name: 'ArticleList',
   filters: {
@@ -280,23 +281,11 @@ export default {
       console.log(currentPage)
       this.getList(currentPage, this.pageSize)
     },
-    handleTime(time) {
-      time = new Date(time)
-      const month = time.getMonth() + 1
-      time = time.getFullYear() + '-' + month + '-' + time.getDate() + '' +
-        time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()
-      return time
-    },
     handleTime1(time) {
-      time = new Date(time)
-      const month = time.getMonth() + 1
-      time = time.getFullYear() + '-' + month + '-' + time.getDate()
-      return time
+      return handleTimeYMD(time)
     },
     handleTime2(time) {
-      time = new Date(time)
-      time = time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()
-      return time
+      return handleTimeHMS(time)
     },
     searchByName() {
     },

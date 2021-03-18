@@ -8,6 +8,8 @@
 
 <script>
 
+import { handleTime } from '@/utils/commonUtil'
+
 export default {
   props: {
     width: {
@@ -25,10 +27,6 @@ export default {
   },
   data() {
     return {
-      config: {
-        number: [1, 1, 1, 1, 1, 1],
-        content: '{nt}-{nt}-{nt} {nt}:{nt}:{nt}'
-      },
       timer: null,
       time: ''
     }
@@ -52,26 +50,7 @@ export default {
     },
     getCurrentTime() {
       const date = new Date()// 当前时间
-      const month = this.zeroFill(date.getMonth() + 1)// 月
-      const day = this.zeroFill(date.getDate())// 日
-      const hour = this.zeroFill(date.getHours())// 时
-      const minute = this.zeroFill(date.getMinutes())// 分
-      const second = this.zeroFill(date.getSeconds())// 秒
-
-      this.time = date.getFullYear() + '-' + month + '-' + day + ' ' +
-          hour + ':' + minute + ':' + second
-      // this.config = {
-      //   number: [
-      //     date.getFullYear(),
-      //     date.getMonth() + 1,
-      //     date.getDate(),
-      //     date.getHours(),
-      //     date.getMinutes(),
-      //     date.getSeconds()
-      //   ],
-      //   content: '{nt}-' + monthContent + '-' + dayContent + ' ' +
-      //     hourContent + ':' + minuteContent + ':' + secondContent
-      // }
+      this.time = handleTime(date)
     },
 
     /**

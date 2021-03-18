@@ -254,7 +254,7 @@
       <el-row :gutter="24" class="row-bg">
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-form-item label="树木图片" class="input-s">
-            <el-upload :action="uploadUrl" :form-data="uploadData" :file-list="fileList" :max-size="5" @on-remove="onRemove" />
+            <!--            <el-upload :action="uploadUrl" :form-data="uploadData" :file-list="fileList" :max-size="5" @on-remove="onRemove" />-->
           </el-form-item>
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
@@ -435,7 +435,8 @@ export default {
       this.form.locationProvince = CodeToText[this.selectedLocations[0]]
       this.form.locationCity = CodeToText[this.selectedLocations[1]]
       this.form.locationDistrict = CodeToText[this.selectedLocations[2]]
-    }
+    },
+    onRemove() {}
   }
 }
 </script>

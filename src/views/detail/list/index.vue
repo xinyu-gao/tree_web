@@ -192,6 +192,7 @@
 import { getTreeById } from '@/api/tree'
 import { getNodeByIMSI } from '@/api/imsi'
 import { getPicUrlById } from '@/api/picture'
+import { handleTime } from '@/utils/commonUtil'
 
 export default {
   data() {
@@ -237,12 +238,7 @@ export default {
 
     },
     handleTime(time) {
-      time = new Date(time)
-      const month = time.getMonth() + 1
-      time = time.getFullYear() + '-' + month + '-' + time.getDate() + ' ' +
-        time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()
-
-      return time
+      return handleTime(time)
     },
     form() {
 

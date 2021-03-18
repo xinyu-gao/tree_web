@@ -33,9 +33,6 @@ export default {
     }
   },
   computed: {
-    // lineTime: function() {
-    //   return this.$store.getters.lineTime
-    // }
   },
 
   mounted() {
