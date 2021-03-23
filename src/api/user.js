@@ -26,7 +26,7 @@ export function logout() {
 
 export function saveUser(data) {
   return creatRequest({
-    url: '/user/save',
+    url: '/user/register',
     method: 'post',
     data: data
   })
@@ -34,8 +34,24 @@ export function saveUser(data) {
 
 export function updateUserRoles(data) {
   return creatRequest({
-    url: '/user/roles/update',
-    method: 'post',
+    url: '/user/roles',
+    method: 'put',
+    data: data
+  })
+}
+
+export function updateUserEmail(data) {
+  return creatRequest({
+    url: '/user/email',
+    method: 'put',
+    data: data
+  })
+}
+
+export function updateUserPhoneNumber(data) {
+  return creatRequest({
+    url: '/user/phone_number',
+    method: 'put',
     data: data
   })
 }
@@ -43,15 +59,14 @@ export function updateUserRoles(data) {
 export function updateUserPassword(data) {
   return creatRequest({
     url: '/user/password',
-    method: 'post',
+    method: 'put',
     data: data
   })
 }
 export function deleteUser(data) {
   return creatRequest({
-    url: '/user',
-    method: 'delete',
-    data: data
+    url: `/user?username=${data.username}`,
+    method: 'delete'
   })
 }
 
@@ -62,9 +77,9 @@ export function getAllUsers(data) {
   })
 }
 
-export function getAllUsersSorted(data) {
+export function getUserListSorted(data) {
   return creatRequest({
-    url: `/user/list_sorted?page=${data.page}&size=${data.size}`,
+    url: `/user/list_sorted?page=${data.page}&size=${data.size}&keys=${data.keys}&asc=${data.asc}`,
     method: 'get'
   })
 }

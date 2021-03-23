@@ -18,7 +18,7 @@
         </div>
       </el-col>
       <el-col :lg="8" :sm="8" :xs="24">
-        <div class="chart-wrapper" style="height: 400px">
+        <div class="chart-wrapper" style="height: 400px" align="center">
           <defect-char class="defect" />
         </div>
       </el-col>

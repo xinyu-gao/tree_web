@@ -98,14 +98,30 @@ export const superManageRoutes = [
     ]
   },
   {
-    path: '/user_mange',
+    path: '/user_manage',
     component: Layout,
     children: [
       {
         path: 'index',
-        name: 'user_mange',
+        name: 'user_manage',
         component: () => import('@/views/user_manage/index'),
         meta: { title: '用户管理', icon: 'peoples' }
+      }
+
+    ]
+  },
+  {
+    path: '/settings',
+    component: Layout,
+    redirect: '/settings/upload/user',
+    name: 'settings',
+    meta: { title: '设 置', icon: 'manage' },
+    children: [
+      {
+        path: 'index',
+        name: 'user',
+        component: () => import('@/views/settings/user/index'),
+        meta: { title: '个人中心', icon: 'peoples' }
       }
 
     ]

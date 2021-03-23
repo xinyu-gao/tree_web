@@ -22,6 +22,11 @@
               登 录
             </el-dropdown-item>
           </router-link>
+          <router-link to="/register">
+            <el-dropdown-item>
+              注 册
+            </el-dropdown-item>
+          </router-link>
           <el-dropdown-item @click.native="logout">
             <span style="display:block;">登 出</span>
           </el-dropdown-item>

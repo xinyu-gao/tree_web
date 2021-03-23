@@ -15,7 +15,7 @@
           <el-input
             ref="username"
             v-model="loginForm.username"
-            placeholder="Username"
+            placeholder="用户名"
             name="username"
             type="text"
             tabindex="1"
@@ -32,7 +32,7 @@
             ref="password"
             v-model="loginForm.password"
             :type="passwordType"
-            placeholder="Password"
+            placeholder="密码"
             name="password"
             tabindex="2"
             auto-complete="on"
@@ -74,7 +74,7 @@
             auto-complete="on"
             @keyup.enter.native="handleLogin"
           />
-          <span v-show="show" class="show-pwd" @click="getEmailVidateCode">获取验证码</span>
+          <span v-show="show" class="show-pwd" @click="getEmailValidateCode">获取验证码</span>
           <span v-show="!show" class="show-pwd">请{{ showTimeCount }}s后再试</span>
         </el-form-item>
       </div>
@@ -186,7 +186,7 @@ export default {
       this.userLoginColor = '#fff'
       this.emailLoginColor = '#A0A2A6'
     },
-    getEmailVidateCode() {
+    getEmailValidateCode() {
       this.timeCal()
     },
     timeCal() {

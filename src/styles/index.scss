@@ -63,3 +63,12 @@ div:focus {
 .app-container {
   padding: 20px;
 }
+
+// 解决表格对不齐的问题
+body .el-table th.gutter{
+  display: table-cell!important;
+}
+
+body .el-table colgroup.gutter{
+  display: table-cell!important;
+}
