@@ -1,7 +1,7 @@
 <template>
   <div>
     <div :class="className" :style="{height:height,width:width}" />
-    <div class="font:12px Extra Small"> 更新时间：{{ sendTime }}</div>
+    <div class="text" :style="{marginTop:textMarginTop,marginLeft:textMarginLeft}"> <strong>更新时间： </strong>{{ sendTime }}</div>
   </div>
 </template>
 
@@ -9,7 +9,6 @@
 import * as echarts from 'echarts'
 require('echarts/theme/macarons')
 import resize from '../components/mixins/resize'
-import { getNodeDefectInfoByIMSI } from '@/api/imsi'
 import { handleTime } from '@/utils/commonUtil'
 export default {
   mixins: [resize],
@@ -29,15 +28,40 @@ export default {
     autoResize: {
       type: Boolean,
       default: true
+    },
+    textMarginTop: {
+      type: String,
+      default: '0px'
+    },
+    textMarginLeft: {
+      type: String,
+      default: '0px'
+    },
+    defectData: {
+      type: [String, Object],
+      default() {
+        return {}
+      }
     }
+
   },
   data() {
     return {
       chart: null,
       sendTime: ''
+
     }
   },
   computed: {
+  },
+  watch: {
+    defectData: {
+      handler(newValue, oldValue) {
+        console.log(newValue)
+        this.handleData(newValue)
+      },
+      deep: true
+    }
   },
 
   mounted() {
@@ -52,25 +76,15 @@ export default {
     this.chart.dispose()
     this.chart = null
   },
-  created() {
-    this.getData()
-  },
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el.firstElementChild, 'macarons')
-      this.getData()
+      this.handleData(this.defectData)
     },
-    getData() {
-      const imsi = 12145213
-      getNodeDefectInfoByIMSI({ imsi: imsi })
-        .then(data => {
-          this.handleData(data.data)
-          this.sendTime = handleTime(data.sendTime)
-        }).catch(err => {
-          console.log(err)
-        })
-    },
+
     handleData(data) {
+      this.sendTime = handleTime(data.sendTime)
+      data = data.data
       const xData = []
       const yData = []
       for (let i = 0; i < 100; i++) {
@@ -128,7 +142,7 @@ export default {
           animation: false
         }],
         grid: [{
-          left: '5%',
+          left: '6%',
           bottom: '7%',
           top: '10%',
           right: '15%'
@@ -141,4 +155,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.text{
+  font-size: 14px;
+}
 </style>

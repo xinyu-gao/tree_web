@@ -332,8 +332,7 @@ export default {
       // 一定要使用 nextTick 来改变height 不然不会起作用
       this.$nextTick(() => {
         const totalHeight = el.clientHeight - (pt + pb)
-        this.pageSize = Math.floor((totalHeight - 71) / 90)
-        // console.log(totalHeight + ' ' + singleHeight + ' ' + this.pageSize)
+        this.pageSize = Math.ceil((totalHeight - 71) / 90)
         this.getList(this.currentPage, this.pageSize)
       })
     },

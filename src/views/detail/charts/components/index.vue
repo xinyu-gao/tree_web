@@ -19,7 +19,7 @@
       </el-col>
       <el-col :lg="8" :sm="8" :xs="24">
         <div class="chart-wrapper" style="height: 400px" align="center">
-          <defect-char class="defect" />
+          <defect-char class="defect" :defect-data="defectData" />
         </div>
       </el-col>
       <el-col :lg="8" :sm="8" :xs="24">
@@ -38,6 +38,7 @@ import LineChart2 from '../components/LineChart2'
 import RaddarChart from './MapChart'
 import PieChart from './PieChart'
 import DefectChar from './DefectChart'
+import { getNodeDefectInfoByIMSI } from '@/api/imsi'
 
 export default {
   name: 'Charts',
@@ -49,7 +50,27 @@ export default {
     PieChart,
     DefectChar
   },
+  data() {
+    return {
+      lineChartData: [],
+      lineChartData2: [],
+      defectData: {}
+    }
+  },
   computed: {
+  },
+  mounted() {
+    this.getDetectData(12145213)
+  },
+  methods: {
+    getDetectData(imsi) {
+      getNodeDefectInfoByIMSI({ imsi: imsi })
+        .then(data => {
+          this.defectData = data
+        }).catch(err => {
+          console.log(err)
+        })
+    }
   }
 }
 </script>

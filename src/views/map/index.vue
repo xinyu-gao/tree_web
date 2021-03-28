@@ -67,6 +67,7 @@ export default {
     }
   },
   mounted() {
+    this.selectCity = '江苏省'
     this.selectCity = '苏州市'
     this.getExistedProvinceAndCity()
     this.createMap()
@@ -78,7 +79,6 @@ export default {
      */
     handleChange() {
       this.createMap()
-      this.getTreeList()
     },
 
     /**
@@ -102,19 +102,41 @@ export default {
      * 创建地图
      */
     createMap() {
-      // 创建Map实例
+      const city = this.$route.query.city
+      let data
+      if (city) {
+        data = city
+        if (this.isMunicipalityOrHK_TW_M(city)) {
+          this.selectProvince = city
+          this.selectCity = ''
+        } else {
+          this.selectCity = city
+        }
+      } else {
+        data = this.selectCity
+        if (this.isMunicipalityOrHK_TW_M(this.selectProvince)) {
+          data = this.selectProvince
+        } else {
+          data = this.selectCity
+        }
+      }
+      console.log(data)
       this.map = new BMap.Map('map')
+      this.map.centerAndZoom(data, 13)
+      // 创建Map实例
       // 初始化地图,设置中心点坐标和地图级别
-      this.map.centerAndZoom(this.selectCity, 13)
+
       const mapStyle = getMapStyle()
       this.map.setMapStyle({
         styleJson: mapStyle
       })
       // 开启鼠标滚轮缩放
       this.map.enableScrollWheelZoom(true)
+      this.getTreeList(data)
+      this.$route.query.city = ''
     },
-    getTreeList() {
-      getTreeListDataByCity(this.selectCity)
+    getTreeList(city) {
+      getTreeListDataByCity(city)
         .then(data => {
           console.log(JSON.stringify(data))
           data.map(item => {
@@ -130,7 +152,11 @@ export default {
         `<div style="margin-top:-5px;"><strong>树 &nbsp &nbsp  &nbsp 龄：&nbsp &nbsp  &nbsp</strong>${data.age}年</div><br />` +
         `<div style="margin-top:-5px;"><strong>古树等级：&nbsp &nbsp  &nbsp</strong>${data.grade}</div><br />` +
         `<div style="margin-top:-5px;"><strong>权 &nbsp &nbsp  &nbsp 属：&nbsp &nbsp  &nbsp</strong>${data.ownerShip}</div><br />` +
-        `<div style="margin-top:-5px;margin-bottom:15px;"><strong>描 &nbsp &nbsp  &nbsp 述：&nbsp &nbsp  &nbsp</strong>${data.detailInfo || '-'}</div></div>`
+        `<div style="margin-top:-5px;margin-bottom:15px;"><strong>描 &nbsp &nbsp  &nbsp 述：&nbsp &nbsp  &nbsp</strong>${data.detailInfo || '-'}</div>` +
+        `<span style="margin-top: 15px;"><strong>查看:</strong>` +
+        `<span style="margin-top: 15px;margin-left:50px"><a style="color:#3ec9d2" href="/#/detail/list/?treeId=${data.treeId}">清单</a></span>` +
+        `<span style="margin-top: 15px;margin-left:20px"><a style="color:#3EC9D2" href="/#/detail/charts/?treeId=${data.treeId}">图表</a></span>` +
+        `</div>`
     },
     addTreeMarker(lng, lat, title, content) {
       title = `<strong>${title}</strong>`
@@ -151,6 +177,18 @@ export default {
       marker.addEventListener('click', function() {
         this.openInfoWindow(infoWindow)
       })
+    },
+    getUrlKey(name) {
+      return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ''])[1].replace(/\+/g, '%20')) || null
+    },
+    isMunicipalityOrHK_TW_M(province) {
+      return province.startsWith('北京') ||
+        province.startsWith('天津') ||
+        province.startsWith('上海') ||
+        province.startsWith('重庆') ||
+        province.startsWith('香港') ||
+        province.startsWith('澳门') ||
+        province.startsWith('台湾')
     }
   }
 }

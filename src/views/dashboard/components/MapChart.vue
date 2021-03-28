@@ -63,7 +63,19 @@ export default {
 
       const option = {
         tooltip: {
-          trigger: 'item'
+          triggerOn: 'click', // 触发方式
+          enterable: true, // 鼠标可移入tooltip中
+          axisPointer: {
+            type: 'shadow'
+          },
+          formatter: function(params) {
+            return `<div style="width: 80px">
+                        ${params.name}
+                     <div style="margin-top: 2px">数量：  ${params.value[2]}</div>
+                     <div style="margin-top: 2px"><a style="color:#9acc99" href="/#/map/index/?city=${params.name}">查看地图</a></div>
+                     </div>
+                    `
+          }
         },
         geo: {
           map: 'china',
@@ -89,14 +101,13 @@ export default {
           type: 'scatter',
           coordinateSystem: 'geo',
           data: this.data,
-          // symbolSize: function(val) {
-          //   return val[2] / 2
-          // },
           label: {
             normal: {
-              formatter: '{b}',
               position: 'right',
-              show: false
+              show: false,
+              formatter: function(params) {
+                return params.name
+              }
             },
             emphasis: {
               show: true

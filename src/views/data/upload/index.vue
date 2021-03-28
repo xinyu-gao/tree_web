@@ -280,8 +280,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-
+      <div style="text-align:center;">
+        <el-button style="width: 100px" type="primary" @click="saveTreeInfos">保存</el-button>
+      </div>
     </el-form>
+
   </div>
 </template>
 
