@@ -2,19 +2,19 @@
   <div class="dashboard-editor-container">
 
     <el-row :gutter="32" style="margin:-5px 1px">
-      <panel-group />
+      <panel-group :imsi="imsi" @panelImsiChange="imsiChange" />
     </el-row>
     <el-row :gutter="32" style="background:#fff;padding:8px 0px; margin-bottom:12px;margin-top:12px">
       <line-chart-for-temp :chart-data="lineChartData" />
     </el-row>
     <el-row :gutter="32" style="background:#fff;padding:8px 0px; margin-bottom:12px;margin-top:12px">
-      <line-chart2 :chart-data="lineChartData2" />
+      <line-chart-for-humidity :chart-data="lineChartData" />
     </el-row>
 
     <el-row :gutter="32" style="margin-top:34px; ">
       <el-col :lg="8" :sm="8" :xs="24">
         <div class="chart-wrapper" style="height: 400px">
-          <raddar-chart />
+          <map-chart :info="mapData" />
         </div>
       </el-col>
       <el-col :lg="8" :sm="8" :xs="24">
@@ -24,7 +24,7 @@
       </el-col>
       <el-col :lg="8" :sm="8" :xs="24">
         <div class="chart-wrapper" style="height: 400px">
-          <pie-chart />
+          <table-chart :imsi="imsi" />
         </div>
       </el-col>
     </el-row>
@@ -34,33 +34,40 @@
 <script>
 import PanelGroup from './PanelGroup'
 import LineChartForTemp from '../components/LineChartForTemp'
-import LineChart2 from '../components/LineChart2'
-import RaddarChart from './MapChart'
-import PieChart from './PieChart'
+import LineChartForHumidity from '../components/LineChartForHumidity'
+import MapChart from './MapChart'
+import TableChart from './TableChart'
 import DefectChar from './DefectChart'
-import { getNodeDefectInfoByIMSI } from '@/api/imsi'
+import { getLineDataByIMSI, getNodeDefectInfoByIMSI } from '@/api/imsi'
+import { getTreeById } from '@/api/tree'
 
 export default {
   name: 'Charts',
   components: {
     PanelGroup,
     LineChartForTemp,
-    LineChart2,
-    RaddarChart,
-    PieChart,
+    LineChartForHumidity,
+    MapChart,
+    TableChart,
     DefectChar
+
   },
   data() {
     return {
+      treeId: 13,
+      imsi: 12312413212,
       lineChartData: [],
-      lineChartData2: [],
-      defectData: {}
+      defectData: {},
+      tableData: {},
+      mapData: {}
     }
   },
   computed: {
   },
   mounted() {
-    this.getDetectData(12145213)
+    this.getDetectData(this.imsi)
+    this.getLineData(this.imsi)
+    this.getTreeInfo(this.treeId)
   },
   methods: {
     getDetectData(imsi) {
@@ -70,7 +77,38 @@ export default {
         }).catch(err => {
           console.log(err)
         })
+    },
+    getLineData(imsi) {
+      getLineDataByIMSI({ imsi: imsi })
+        .then(data => {
+          this.lineChartData = data
+        })
+    },
+    getTreeInfo() {
+      getTreeById({ treeId: this.treeId })
+        .then(data => {
+          this.mapData = data
+        })
+        .catch(err => {
+          this.$message.error(
+            `查询错误${err}`
+          )
+        })
+    },
+    imsiChange(data) {
+      getTreeById({ treeId: data })
+        .then(data => {
+          this.imsi = data
+          this.getDetectData(this.imsi)
+          this.getLineData(this.imsi)
+        })
+        .catch(err => {
+          this.$message.error(
+            `查询错误${err}`
+          )
+        })
     }
+
   }
 }
 </script>

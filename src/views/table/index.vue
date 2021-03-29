@@ -4,10 +4,9 @@
     <div class="tab-container">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <!--          <div class="grid-content bg-purple-light" style="font: 20px Extra large;" align="center"> 用户管理 </div>-->
           <el-row :gutter="24" class="search">
             <el-col :xs="8" :sm="7" :md="6" :lg="5" :xl="4">
-              <el-input v-model="inputSearchName" placeholder="请输入想要搜索的内容" />
+              <el-input v-model="inputSearchName" placeholder="请输入想要搜索的古树编号或者树名" />
             </el-col>
             <el-col :xs="15" :sm="16" :md="17" :lg="18" :xl="4" class="search-button">
               <el-button type="primary" icon="el-icon-search" @click="searchByName"> 搜索</el-button>
@@ -246,7 +245,7 @@
 </template>
 
 <script>
-import { getTreeListData, getTreeListSorted } from '@/api/tree'
+import { getTreeListData, getTreeListSorted, getTreeFuzzyQuery } from '@/api/tree'
 import { handleTimeYMD, handleTimeHMS } from '@/utils/commonUtil'
 export default {
   name: 'ArticleList',
@@ -309,10 +308,7 @@ export default {
           console.log(err)
         })
     },
-    cleanSearch() {
-      this.listLoading = true
-      this.getList(this.currentPage, this.pageSize)
-    },
+
     handleCurrentChangePage(currentPage) {
       console.log(currentPage)
       this.getList(currentPage, this.pageSize)
@@ -324,6 +320,25 @@ export default {
       return handleTimeHMS(time)
     },
     searchByName() {
+      this.listLoading = true
+      const name = this.inputSearchName
+      getTreeFuzzyQuery(name)
+        .then(data => {
+          this.list = data
+          this.total = data.length
+          this.listLoading = false
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    /**
+     * 清除搜索内容，重新生成表格
+     **/
+    cleanSearch() {
+      this.inputSearchName = ''
+      this.listLoading = true
+      this.getList(this.currentPage, this.pageSize)
     },
     getAutoHeight() {
       const el = document.querySelector('#tableData')
@@ -345,7 +360,7 @@ export default {
       return Number(result)
     },
     /**
-     * 防抖
+     * 节流防抖
      */
     vueDebounce() {
       if (this.timeout) {
@@ -358,11 +373,19 @@ export default {
     goToChart(treeId) {
       this.$router.push({ path: '/detail/charts' })
     },
+    /**
+     * 排序处理
+     * @param ls
+     */
     sortChangeHandle(ls) {
+      // 要排序的中文字段名
       const fieldName = ls.column.label
+      // 排序顺序
       const sortingType = ls.column.order
+      // 中文字段名对应的表字段名
       const key = this.dict[fieldName]
       this.listLoading = true
+      // 正序排，asc值置为1，逆序排置为0
       if (sortingType === 'ascending') {
         getTreeListSorted({
           page: this.currentPage - 1,
@@ -376,6 +399,7 @@ export default {
         }).catch(err => {
           console.log(err)
         })
+        // 逆序排
       } else if (sortingType === 'descending') {
         getTreeListSorted({
           page: this.currentPage - 1,
@@ -390,6 +414,7 @@ export default {
           console.log(err)
         })
       } else {
+        // 取消排序
         getTreeListData({ page: this.currentPage - 1, size: this.pageSize })
           .then(data => {
             this.list = data.list

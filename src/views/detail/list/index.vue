@@ -3,7 +3,7 @@
 
     <el-row :gutter="24" class="search">
       <el-col :xs="8" :sm="7" :md="6" :lg="5" :xl="4">
-        <el-input v-model="inputSearchName" placeholder="请输入想要搜索的内容" />
+        <el-input v-model="inputSearchName" placeholder="请输入想要搜索的古树编号" />
       </el-col>
       <el-col :xs="15" :sm="16" :md="17" :lg="18" :xl="4" class="search-button">
         <el-button type="primary" icon="el-icon-search" @click="searchByName"> 搜索</el-button>
@@ -211,12 +211,14 @@ export default {
   },
   methods: {
     getData(id) {
+      this.item = {}
+      this.picList = {}
+      this.imsiInfo = {}
       const treeId = this.$route.query.treeId || id
       getTreeById({ treeId: treeId })
         .then(data => {
           console.log(data)
           this.item = data
-          data.imsi = 12145213
           getNodeByIMSI({ imsi: data.imsi })
             .then(data => {
               this.imsiInfo = data
@@ -224,28 +226,28 @@ export default {
             .catch(err => {
               console.log(err)
             })
+          getPicUrlById({ tree_id: treeId })
+            .then(data => {
+              this.picList = data
+            })
+          getNodeDefectInfoByIMSI({ imsi: data.imsi })
+            .then(data => {
+              this.defectData = data
+              console.log(data)
+            }).catch(err => {
+              console.log(err)
+            })
         })
         .catch(err => {
           console.log(err)
         })
-      getPicUrlById({ tree_id: this.treeId })
-        .then(data => {
-          this.picList = data
-        })
-      const imsi = 12145213
-      getNodeDefectInfoByIMSI({ imsi: imsi })
-        .then(data => {
-          this.defectData = data
-          console.log(data)
-        }).catch(err => {
-          console.log(err)
-        })
+      this.$route.query.treeId = ''
     },
     handleTime(time) {
       return handleTime(time)
     },
     searchByName() {
-
+      this.getData(this.inputSearchName)
     },
     cleanSearch() {
 

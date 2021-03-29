@@ -63,6 +63,13 @@ export function getTreeById(data) {
   })
 }
 
+export function getTreeFuzzyQuery(data) {
+  return creatRequest({
+    url: `/tree/info/fuzzy?data=${data}`,
+    method: 'get'
+  })
+}
+
 export function getTreeListSorted(data) {
   return creatRequest({
     url: `/tree_list/info_sorted?page=${data.page}&size=${data.size}&keys=${data.keys}&asc=${data.asc}`,

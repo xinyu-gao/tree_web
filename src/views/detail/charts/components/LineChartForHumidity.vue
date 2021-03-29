@@ -6,7 +6,6 @@
 import * as echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import resize from '../components/mixins/resize'
-import { getLineDataByIMSI } from '@/api/imsi'
 export default {
   mixins: [resize],
   props: {
@@ -25,6 +24,10 @@ export default {
     autoResize: {
       type: Boolean,
       default: true
+    },
+    chartData: {
+      type: [Array, Object],
+      default: null
     }
   },
   data() {
@@ -32,9 +35,14 @@ export default {
       chart: null
     }
   },
-  computed: {
+  watch: {
+    chartData: {
+      handler(newValue, oldValue) {
+        this.setOptions(newValue)
+      },
+      deep: true
+    }
   },
-
   mounted() {
     this.$nextTick(() => {
       this.initChart()
@@ -47,23 +55,16 @@ export default {
     this.chart.dispose()
     this.chart = null
   },
-  created() {
-    this.getLineData()
-  },
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
-      this.getLineData()
-    },
-    getLineData() {
-      const currentNode = 12145213
-      getLineDataByIMSI({ 'imsi': currentNode })
-        .then(data => {
-          this.setOptions(data)
-        })
+      if (this.chartData && this.chartData.lineTime) {
+        this.setOptions(this.chartData)
+      }
     },
     setOptions(data) {
       const lineTime = data.lineTimeList
+      console.log(lineTime)
       const humidityData = data.lineHumidityList
       this.chart.setOption({
         xAxis: {

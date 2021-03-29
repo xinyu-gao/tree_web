@@ -32,23 +32,38 @@
 import { getNodeHistoryInfoByIMSI } from '@/api/imsi'
 
 export default {
+  props: {
+    imsi: {
+      type: [String, Number],
+      default: ''
+    }
+  },
   data() {
     return {
       list: null,
-      imsi: 12145213,
       total: 0,
       listLoading: true,
       currentPage: 0,
       pageSize: 6
     }
   },
-  created() {
-    this.fetchData()
+  watch: {
+    imsi: {
+      handler(newValue, oldValue) {
+        this.fetchData(newValue)
+      },
+      deep: true
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.fetchData(this.imsi)
+    })
   },
   methods: {
-    fetchData() {
+    fetchData(imsi) {
       const data = {
-        imsi: this.imsi,
+        imsi: imsi,
         page: this.currentPage,
         size: this.pageSize
       }

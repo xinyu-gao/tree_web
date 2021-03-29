@@ -8,23 +8,13 @@
         <div class="card-panel-description">
           <el-tooltip class="item" effect="dark" content="点击下拉框选取节点" placement="bottom" align="right">
             <div class="card-panel-text">
-              当前曲线节点 IMSI
+              当前树木编号
             </div>
           </el-tooltip>
           <div class="grid-content bg-purple-light" style="margin-right: -15px">
-            <el-dropdown class="node-description">
-              <span class="el-dropdown-link">
-                currentNode <i class="el-icon-arrow-down el-icon--right" />
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item @click.native="changeCurrentNode">456249082654</el-dropdown-item>
-                <el-dropdown-item @click.native="changeCurrentNode">354719082352</el-dropdown-item>
-                <el-dropdown-item @click.native="changeCurrentNode">152729087624</el-dropdown-item>
-                <el-dropdown-item @click.native="changeCurrentNode">678908231253</el-dropdown-item>
-                <el-dropdown-item @click.native="changeCurrentNode">222389087654</el-dropdown-item>
-
-              </el-dropdown-menu>
-            </el-dropdown>
+            <el-input v-model="inputTreeId" placeholder="请输入树木编号" class="input-with-select">
+              <el-button slot="append" icon="el-icon-search" class="input-with-select-icon" @click="searchById" />
+            </el-input>
           </div>
         </div>
       </div></el-col>
@@ -34,10 +24,12 @@
           <svg-icon icon-class="nodenums" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">
-            检测节点总数
-          </div>
-          <div class="node-description" align="center" style="color:#0089F0">{{ 5 || nodeNums }}</div>
+          <el-tooltip class="item" effect="dark" content="点击下拉框选取节点" placement="bottom" align="right">
+            <div class="card-panel-text">
+              当前树木节点 IMSI
+            </div>
+          </el-tooltip>
+          <div class="node-description" align="center" style="color:#0089F0">{{ imsi }}</div>
         </div>
       </div>
     </el-col>
@@ -82,9 +74,15 @@
 <script>
 
 export default {
+  props: {
+    imsi: {
+      type: [String, Number],
+      default: ''
+    }
+  },
   data() {
     return {
-      // nodeList: []
+      inputTreeId: ''
     }
   },
   computed: {
@@ -127,59 +125,22 @@ export default {
           return '#DC143C'
       }
       return '正在连接'
+    },
+    nodeConnectRate: function() {
+      return 100
     }
-    // nodeConnectRate: function() {
-    //   return this.$store.getters.nodeConnectRate
-    // },
-    // nodeNums: function() {
-    //   return this.$store.getters.nodeNums
-    // },
-    // currentNode: function() {
-    //   return this.$store.getters.currentNode
-    // }
+
   },
   created() {
-    // this.currentNode = getCurrentNodeCookie() || ''
-    // this.getData()
+
   },
   mounted() {
-    // this.currentNode = this.$store.getters.currentNode || getCurrentNodeCookie() || ''
+
   },
   methods: {
-    // changeCurrentNode: function(event) {
-    //   if (event) {
-    //     // 获取当前下拉框的文本
-    //     const cNode = event.currentTarget.innerText
-    //     setCurrentNodeCookie(cNode)
-    //     store.dispatch('monitorData/setCurrentNode', cNode)
-    //   }
-    // },
-    // getData: function() {
-    //   getNodeLastData({
-    //     page: 0,
-    //     size: 1
-    //   }).then(data => {
-    //     const total = data.nodeNums
-    //     console.log(total)
-    //     store.dispatch('monitorData/setNodeNums', total)
-    //     getNodeLastData({
-    //       page: 0,
-    //       size: total
-    //     }).then(data => {
-    //       // store.dispatch('monitorData/setNodeConnectCount', data.nodeConnectCount)
-    //       store.dispatch('monitorData/setNodeConnectRate', data.nodeConnectRate * 100)
-    //       const list = []
-    //       data.nodeData.list.map((value, index) => {
-    //         list.push(value.imsi)
-    //       })
-    //       this.nodeList = list
-    //       if (this.$store.getters.currentNode === '') {
-    //         store.dispatch('monitorData/setCurrentNode', list[0])
-    //         // setCurrentNodeCookie(list[0])
-    //       }
-    //     })
-    //   })
-    // }
+    searchById() {
+      this.$emit('panelImsiChange', this.inputTreeId)
+    }
   }
 }
 </script>
@@ -334,6 +295,14 @@ export default {
 
 .icon-lianjiechenggong:before {
   content: "\e645";
+}
+.input-with-select{
+  width: 190px;
+}
+.input-with-select-icon{
+  width: 20px;
+  margin-left: -27px;
+  margin-right: -25px;
 }
 
 </style>
