@@ -79,13 +79,19 @@
         </el-form-item>
       </div>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">登录</el-button>
+      <div style="margin-top: 40px">
+        <span style="color: #fff; ">第三方登录：</span>
+        <a target="_blank" :href="linkToAliPay"><svg-icon icon-class="alipay" class="alipay-icon" /></a>
+      </div>
     </el-form>
+
   </div>
 </template>
 
 <script>
-
+import { generateUUID } from '@/utils/commonUtil'
+import { getUsername, removeToken, setToken, setUsername } from '@/utils/auth'
 export default {
   name: 'Login',
   data() {
@@ -99,6 +105,7 @@ export default {
     return {
       userLoginColor: '#fff',
       emailLoginColor: '#A0A2A6',
+      alipayLoginColor: '#A0A2A6',
       loginForm: {
         username: 'sss',
         password: 'ssssss'
@@ -119,12 +126,17 @@ export default {
       loginForEmail: false,
       show: true,
       sum: '',
-      timer: null
+      timer: null,
+      websocket: null,
+      wsId: ''
     }
   },
   computed: {
     showTimeCount: function() {
       return this.sum
+    },
+    linkToAliPay: function() {
+      return process.env.VUE_APP_IP + '/oauth/render/' + this.wsId
     }
   },
   watch: {
@@ -134,6 +146,11 @@ export default {
       },
       immediate: true
     }
+  },
+  created() {
+    this.wsId = generateUUID()
+    this.initWebSocket(this.wsId)
+    console.log('---', this.linkToAliPay)
   },
   methods: {
     showPwd() {
@@ -204,6 +221,44 @@ export default {
           }
         }, 1000)
       }
+    },
+
+    initWebSocket(id) {
+      const wsUri = `${process.env.VUE_APP_WS}/oauth/${id}` // ws地址
+      this.websocket = new WebSocket(wsUri)
+      this.websocket.onopen = this.onOpen
+      this.websocket.onerror = this.onError
+      this.websocket.onmessage = this.onMessage
+      this.websocket.onclose = this.onClose
+    },
+
+    onOpen() {
+    },
+    onError(e) {
+    },
+    onMessage(e) {
+      let data = e.data
+      console.log(data)
+      console.log(JSON.parse(data))
+      if (data.code === 200) {
+        if (data.message === '连接成功') {
+          this.send(this.wsId)
+        }
+        if (data.message === '登录') {
+          // commit('SET_NAME', username)
+          data = data.data
+          setUsername(data.username)
+          setToken(data.tokenHead + ' ' + data.token)
+        }
+      }
+    },
+
+    send(agentData) {
+      this.websocket.send(agentData)
+    },
+
+    onClose(e) {
+      console.log('WebSocket connection closed')
     }
   }
 }
@@ -317,5 +372,10 @@ $light_gray:#eee;
 }
 .email{
   margin-left: 40px
+}
+.alipay-icon{
+  margin-left: 40px;
+  width: 2em;
+  height: 1.8em;
 }
 </style>

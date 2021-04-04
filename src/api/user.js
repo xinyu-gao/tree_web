@@ -9,6 +9,12 @@ export function login(data) {
   })
 }
 
+export function loginByAlipay() {
+  return creatRequest({
+    url: '/oauth/render',
+    method: 'get'
+  })
+}
 export function getRoles(data) {
   return creatRequest({
     url: `/user/roles?username=${data}`,
