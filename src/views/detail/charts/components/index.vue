@@ -4,10 +4,10 @@
     <el-row :gutter="32" style="margin:-5px 1px">
       <panel-group :imsi="imsi" @panelImsiChange="imsiChange" />
     </el-row>
-    <el-row :gutter="32" style="background:#fff;padding:8px 0px; margin-bottom:12px;margin-top:12px">
+    <el-row :gutter="32" style="background:#fff;padding:8px 1px; margin:12px 1px">
       <line-chart-for-temp :chart-data="lineChartData" />
     </el-row>
-    <el-row :gutter="32" style="background:#fff;padding:8px 0px; margin-bottom:12px;margin-top:12px">
+    <el-row :gutter="32" style="background:#fff;padding:8px 1px; margin:12px 1px">
       <line-chart-for-humidity :chart-data="lineChartData" />
     </el-row>
 

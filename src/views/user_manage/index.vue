@@ -3,12 +3,22 @@
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <el-row :gutter="24" class="search">
-          <el-col :xs="8" :sm="7" :md="6" :lg="5" :xl="4">
-            <el-input v-model="inputSearchName" placeholder="请输入想要搜索的内容" />
+          <el-col :xs="6" :sm="5" :md="4" :lg="4" :xl="3">
+            <el-select v-model="searchCondition" placeholder="请选择搜索条件" class="search-content">
+              <el-option
+                v-for="item in conditionOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
           </el-col>
-          <el-col :xs="15" :sm="16" :md="17" :lg="18" :xl="4" class="search-button">
-            <el-button type="primary" icon="el-icon-search" @click="searchByName"> 搜索</el-button>
-            <el-button type="info" icon="el-icon-delete" @click="cleanSearch"> 清除搜索</el-button>
+          <el-col :xs="8" :sm="7" :md="6" :lg="5" :xl="4">
+            <el-input v-model="inputSearchName" placeholder="请输入想要搜索的内容" class="search-content" />
+          </el-col>
+          <el-col :xs="8" :sm="9" :md="8" :lg="8" :xl="8" class="search-button">
+            <el-button type="primary" icon="el-icon-search" class="search-content search" @click="searchByName"> 搜索</el-button>
+            <el-button type="info" icon="el-icon-delete" class="search-content " @click="cleanSearch"> 清除</el-button>
           </el-col>
         </el-row>
       </div>
@@ -27,17 +37,17 @@
             </el-table-column>
             <el-table-column label="邮箱" min-width="150" align="center">
               <template slot-scope="scope">
-                <span class="update-email-text">{{ scope.row.email }}</span>
+                <span class="update-email-text">{{ scope.row.email || '暂无' }}</span>
                 <el-button
                   icon="el-icon-edit"
                   circle
                   class="update-button"
                   size="small"
-                  @click="updateEmailEvent($event)"
+                  @click.native.prevent="updateEmailEvent($event)"
                 />
               </template>
             </el-table-column>
-            <el-table-column label="手机号码" min-width="150" align="center">
+            <el-table-column label="手机号码" width="180" align="center">
               <template slot-scope="scope">
                 <span class="update-text">{{ scope.row.phoneNumber || '暂无' }}</span>
                 <el-button
@@ -190,17 +200,33 @@
 import { validateEmail, validateMobile, validUsernameOrPassword } from '@/utils/validate'
 import {
   deleteUser,
-  getAllUsers, getUserListSorted,
+  getAllUsers,
+  getUserListSorted,
   updateUserEmail,
   updateUserPassword,
   updateUserPhoneNumber,
-  updateUserRoles
+  updateUserRoles,
+  getUserBySearch
 } from '@/api/user'
 import { handleTime } from '@/utils/commonUtil'
 export default {
   name: 'UserManger',
   data() {
     return {
+      searchCondition: '',
+      inputSearchName: '',
+      conditionOptions: [
+        {
+          value: 'username',
+          label: '用户名'
+        }, {
+          value: 'email',
+          label: '邮箱'
+        }, {
+          value: 'phoneNumber',
+          label: '手机号码'
+        }
+      ],
       total: 200,
       currentPage: 1,
       pageSize: 10,
@@ -247,6 +273,7 @@ export default {
         '修改时间': ['updateTime']
 
       }
+
     }
   },
   created() {
@@ -273,19 +300,21 @@ export default {
     },
 
     updateEmailEvent(event) {
-      this.updateUsername = this.updateUsername = this.getUsernameFromClickEvent(event, 3)
+      this.updateUsername = this.getUsernameFromClickEvent(event, 2)
+      this.email = this.getCurrentValue(event)
       this.dialogFormVisibleForEmail = true
     },
     updatePhoneNumberEvent(event) {
-      this.updateUsername = this.updateUsername = this.getUsernameFromClickEvent(event, 4)
+      this.updateUsername = this.getUsernameFromClickEvent(event, 3)
+      this.phone = this.getCurrentValue(event)
       this.dialogFormVisibleForPhoneNumber = true
     },
     updateRolesEvent(event) {
-      this.updateUsername = this.getUsernameFromClickEvent(event, 5)
+      this.updateUsername = this.getUsernameFromClickEvent(event, 4)
       this.dialogFormVisibleForRoles = true
     },
     updatePasswordEvent(event) {
-      this.updateUsername = this.updateUsername = this.getUsernameFromClickEvent(event, 6)
+      this.updateUsername = this.getUsernameFromClickEvent(event, 7)
       this.dialogFormVisibleForPassword = true
     },
     updateRoles() {
@@ -299,7 +328,7 @@ export default {
           username: this.updateUsername,
           roles: roles
         })
-          .then(data => {
+          .then(_ => {
             this.$message({
               type: 'success',
               message: '修改成功!'
@@ -320,7 +349,7 @@ export default {
           username: this.updateUsername,
           email: email
         })
-          .then(data => {
+          .then(_ => {
             this.$message({
               type: 'success',
               message: '修改成功!'
@@ -337,7 +366,7 @@ export default {
             this.dialogFormVisibleForEmail = true
           })
       } else {
-        this.seeEmailWarningText = result
+        this.seeEmailWarningText = '邮箱格式不正确'
         this.seeEmailWarning = true
         this.dialogFormVisibleForEmail = true
       }
@@ -352,7 +381,7 @@ export default {
           username: this.updateUsername,
           phoneNumber: phone
         })
-          .then(data => {
+          .then(_ => {
             this.$message({
               type: 'success',
               message: '修改成功!'
@@ -382,7 +411,7 @@ export default {
           username: this.updateUsername,
           password: password
         })
-          .then(data => {
+          .then(_ => {
             this.$message({
               type: 'success',
               message: '修改成功!'
@@ -400,38 +429,22 @@ export default {
       }
     },
     deleteUser(event) {
-      event = event.currentTarget.parentElement.parentElement
-      const num = 7
-      for (let i = 0; i < num; i++) {
-        event = event.previousElementSibling
-      }
-      const username = event.innerText
-
-      this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
+      const username = this.getUsernameFromClickEvent(event, 8)
+      this.$confirm(`此操作将删除用户 ${username}, 是否继续?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         deleteUser({ username: username })
-          .then(data => {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            })
+          .then(_ => {
+            this.$message.success('删除成功!')
             this.refreshUserList()
           }).catch(err => {
             console.log(err)
-            this.$message({
-              type: 'failed',
-              message: `删除失败! ${err}`
-
-            })
+            this.$message.error(`删除失败! ${err}`)
           })
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
+        this.$message.info('已取消删除')
       })
     },
     handleTime(data) {
@@ -445,6 +458,9 @@ export default {
       } else {
         return '普通用户'
       }
+    },
+    getCurrentValue(event) {
+      return event.currentTarget.previousElementSibling.innerHTML
     },
     getUsernameFromClickEvent(event, num) {
       event = event.currentTarget.parentElement.parentElement
@@ -516,7 +532,25 @@ export default {
       } else {
         this.refreshUserList()
       }
+    },
+    searchByName() {
+      if (this.searchCondition !== '' && this.inputSearchName !== '') {
+        console.log(this.searchCondition)
+        getUserBySearch({
+          condition: this.searchCondition,
+          value: this.inputSearchName
+        }).then(data => {
+          console.log(data)
+          this.userList = data
+        }).catch(err => {
+          console.log(err)
+        })
+      }
+    },
+    cleanSearch() {
+      this.refreshUserList()
     }
+
   }
 }
 </script>
@@ -542,5 +576,11 @@ export default {
   margin-left: 20px;
   font: 12px Extra Small;
   padding-top: 10px;
+}
+.search-content{
+  margin-top: 6px;
+}
+.search{
+  margin-left: 10px
 }
 </style>

@@ -91,7 +91,7 @@
 
 <script>
 import { generateUUID } from '@/utils/commonUtil'
-import { getUsername, removeToken, setToken, setUsername } from '@/utils/auth'
+import { setToken, setUsername } from '@/utils/auth'
 export default {
   name: 'Login',
   data() {
@@ -150,7 +150,6 @@ export default {
   created() {
     this.wsId = generateUUID()
     this.initWebSocket(this.wsId)
-    console.log('---', this.linkToAliPay)
   },
   methods: {
     showPwd() {
@@ -249,6 +248,7 @@ export default {
           data = data.data
           setUsername(data.username)
           setToken(data.tokenHead + ' ' + data.token)
+          this.$router.push({ path: this.redirect || '/' })
         }
       }
     },
@@ -259,6 +259,8 @@ export default {
 
     onClose(e) {
       console.log('WebSocket connection closed')
+      console.log('WebSocket connection is trying to reconnect')
+      this.initWebSocket(this.wsId)
     }
   }
 }

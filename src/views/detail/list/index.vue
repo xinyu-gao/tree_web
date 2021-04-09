@@ -154,6 +154,8 @@
                 style="width: 100%; height: 100%"
                 :src="url"
                 :fit="url"
+                placeholder="加载中..."
+                :preview-src-list="picList"
               />
             </el-carousel-item>
           </el-carousel>

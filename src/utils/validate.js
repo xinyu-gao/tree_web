@@ -82,7 +82,7 @@ export function validateEmail(value) {
           message: `请输入有效的邮箱`
         })
       }
-      return false
+      return true
     }
   }
 }

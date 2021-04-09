@@ -46,7 +46,7 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-
+import { getUsername } from '@/utils/auth'
 export default {
   components: {
     Breadcrumb,
@@ -62,7 +62,7 @@ export default {
       'avatar'
     ]),
     hello: function() {
-      return '欢迎您，' + (this.$store.getters.name || '游客')
+      return '欢迎您，' + (this.$store.getters.name || getUsername() || '游客')
     }
   },
   methods: {

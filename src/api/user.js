@@ -90,6 +90,13 @@ export function getUserListSorted(data) {
   })
 }
 
+export function getUserBySearch(data) {
+  return creatRequest({
+    url: `/user/condition?condition=${data.condition}&value=${data.value}`,
+    method: 'get'
+  })
+}
+
 export function findUser(data) {
   return creatRequest({
     url: '/user/find',

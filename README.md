@@ -41,7 +41,11 @@ npm run build:prod
 
 ### 6. 部署
 
-ngnix 配置文件：
+#### Windows
+
+下载 nginx（任意版本）
+
+修改 nginx 配置文件（conf/nginx.conf）：
 
 ```conf
 server {
@@ -60,6 +64,72 @@ server {
     }
 }
 ```
-修改监听的端口号， 以及 `/api/` 的代理地址。
+修改监听的端口号（listen）， 以及 `/api/` 的代理地址（proxy_pass）。
 
-将打包好的目录放到 nignx 的 web 目录下即可。
+将打包好的文件（dist下的三个文件）放到 nginx\web 目录下即可。
+
+#### Ubuntu 18.0^：
+
+下载（下载完后自动启动）：
+
+```bash
+sudo apt install nginx
+```
+
+修改配置，文件位置在 `/etc/nginx/nginx.conf`
+
+```bash
+sudo vim /etc/nginx/nginx.conf
+```
+
+vim 操作不赘诉
+
+如果是图形化界面用 Text Editor 打开修改的话，或者使用 xftp 编辑文件，
+
+需要给权限，执行命令：
+
+```bash
+sudo chmod 777 nginx.conf
+```
+
+```conf
+server {
+    listen       9520;
+    location / {
+        root /home/ubuntu/web;
+        autoindex on;
+        autoindex_exact_size on;
+        autoindex_localtime on;
+    }
+    add_header Access-Control-Allow-Origin "*";
+    default_type 'text/html';
+    charset utf-8;
+    location /api/ {
+      proxy_pass http://127.0.0.1:2399/;
+    }
+}
+```
+
+注意：
+
+- 修改监听的端口号（listen）。
+
+- root 的地址改为自己想要放置的目录下。
+
+- `/api/` 的代理地址（proxy_pass）。
+
+
+
+
+
+
+
+把 dist 目录下文件放到 **用户目录下**（这里是 `/home/ubuntu`）的 web 目录下。
+
+重新加载配置文件：
+
+```bash
+sudo nginx -s reload
+```
+
+不需要重启等命令

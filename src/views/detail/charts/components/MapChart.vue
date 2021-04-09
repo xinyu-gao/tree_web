@@ -47,7 +47,6 @@ export default {
         this.map.setMapStyle({
           styleJson: mapStyle
         })
-        this.map.enableScrollWheelZoom(true)
         this.addTreeMarker(info.longitude, info.latitude, info.chineseName, this.genContent(info))
       }
     },
