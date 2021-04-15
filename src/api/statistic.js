@@ -1,4 +1,4 @@
-import creatRequest from '../utils/axiosRequest'
+import { creatRequest } from '../utils/axiosRequest'
 
 export function getGradeStatistic(data) {
   return creatRequest({

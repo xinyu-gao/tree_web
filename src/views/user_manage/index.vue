@@ -14,7 +14,12 @@
             </el-select>
           </el-col>
           <el-col :xs="8" :sm="7" :md="6" :lg="5" :xl="4">
-            <el-input v-model="inputSearchName" placeholder="请输入想要搜索的内容" class="search-content" />
+            <el-input
+              v-model="inputSearchName"
+              placeholder="请输入想要搜索的内容"
+              class="search-content"
+              @keyup.enter.native="searchByName"
+            />
           </el-col>
           <el-col :xs="8" :sm="9" :md="8" :lg="8" :xl="8" class="search-button">
             <el-button type="primary" icon="el-icon-search" class="search-content search" @click="searchByName"> 搜索</el-button>
@@ -536,14 +541,17 @@ export default {
     searchByName() {
       if (this.searchCondition !== '' && this.inputSearchName !== '') {
         console.log(this.searchCondition)
+        this.listLoading = true
         getUserBySearch({
           condition: this.searchCondition,
           value: this.inputSearchName
         }).then(data => {
           console.log(data)
           this.userList = data
+          this.listLoading = false
         }).catch(err => {
           console.log(err)
+          this.listLoading = false
         })
       }
     },

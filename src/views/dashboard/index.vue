@@ -1,14 +1,19 @@
 <template>
-  <div class="dashboard-container">
+  <div id="dashboard" class="dashboard-container">
     <dv-border-box-4 :color="['#0D4A81', '#209FDF']">
       <el-row :gutter="24" style="padding-top: 10px; margin-left: 0.5vh">
         <el-col :span="6">
-          <dv-border-box-6 style="margin-top:5vh" :color="['#0D4A81', '#209FDF']">
+          <svg-icon
+            icon-class="fullscreen"
+            style="margin-top:2vh;margin-left: 20px"
+            @click="click"
+          />
+          <dv-border-box-6 style="margin-top:2vh" :color="['#0D4A81', '#209FDF']">
             <info-text />
           </dv-border-box-6>
 
           <dv-border-box-6 :color="['#0D4A81', '#209FDF']" style="margin-top:2vh; height:50vh">
-            <div style="padding-top:1.5vh; margin-left:1vh"><owner-ship-chart style="height:25vh" /></div>
+            <div style="padding-top:1.5vh; margin-left:1vh"><owner-ship-chart style="height:23vh" /></div>
             <div style="margin-top:2vh;" class="title2">城市排行</div>
             <div style="margin-top:2vh; margin-left:1vh"><city-chart style="height:20vh" /></div>
           </dv-border-box-6>
@@ -56,6 +61,7 @@ import TimeText from './components/TimeText'
 import InfoText from './components/InfoText'
 import OwnerShipChart from '@/views/dashboard/components/OwnerShipChart'
 import YearsChart from '@/views/dashboard/components/YearsChart'
+import screenfull from 'screenfull'
 export default {
   name: 'Index',
   components: {
@@ -74,17 +80,34 @@ export default {
       config: {
         value: 100,
         lineDash: [12, 2]
-      }
+      },
+      isFullscreen: false
     }
   },
   computed: {
   },
   mounted() {
-
+    this.init()
   },
   created() {
   },
+  beforeDestroy() {
+    this.destroy()
+  },
   methods: {
+    click() {
+      screenfull.request(document.querySelector('#dashboard'))
+      screenfull.toggle()
+    },
+    change() {
+      this.isFullscreen = screenfull.isFullscreen
+    },
+    init() {
+      screenfull.on('change', this.change)
+    },
+    destroy() {
+      screenfull.off('change', this.change)
+    }
   }
 
 }
@@ -93,7 +116,8 @@ export default {
 <style lang="scss" scoped>
 .dashboard {
   &-container {
-    height: 96vh;
+    height: 110%;
+    width: 100%;
     background-color: #052341
   }
 

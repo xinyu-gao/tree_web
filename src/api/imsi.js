@@ -1,4 +1,4 @@
-import creatRequest from '@/utils/axiosRequest'
+import { creatRequest } from '@/utils/axiosRequest'
 
 export function getNodeByIMSI(data) {
   return creatRequest({

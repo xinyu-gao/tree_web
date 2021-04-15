@@ -43,9 +43,9 @@ export default {
         series: [
           {
             name: '分布特点',
-            center: ['50%', '36%'],
+            center: ['50%', '46%'],
             type: 'pie',
-            radius: '70%',
+            radius: '75%',
             data: [
               { name: '散生', value: 143, itemStyle: { color: '#84fab0' }},
               { name: '群状', value: 232, itemStyle: { color: '#209FDF' }}

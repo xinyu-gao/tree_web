@@ -11,11 +11,11 @@ export default {
   props: {
     width: {
       type: String,
-      default: '100%'
+      default: '110%'
     },
     height: {
       type: String,
-      default: '100%'
+      default: '110%'
     }
   },
   data() {
@@ -47,9 +47,9 @@ export default {
         series: [
           {
             name: '生长场所',
-            center: ['50%', '36%'],
+            center: ['50%', '46%'],
             type: 'pie',
-            radius: '70%',
+            radius: '75%',
             data: [
               { name: '乡村', value: this.ruralCount, itemStyle: { color: '#67E0E3' }},
               { name: '城区', value: this.urbanCount, itemStyle: { color: '#48ABD5' }}

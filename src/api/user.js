@@ -1,5 +1,5 @@
 
-import creatRequest from '@/utils/axiosRequest'
+import { creatRequest } from '@/utils/axiosRequest'
 
 export function login(data) {
   return creatRequest({

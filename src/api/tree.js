@@ -1,14 +1,14 @@
-import creatRequest from '@/utils/axiosRequest'
+import { creatRequest } from '@/utils/axiosRequest'
 
 export function getTreePics(data) {
   return creatRequest({
-    url: `/minio/pic?tree_id=${data.treeId}`,
+    url: `/picture/tree?tree_id=${data.treeId}`,
     method: 'get'
   })
 }
 
 export function getTreePicsUploadUrl() {
-  return process.env.VUE_APP_BASE_API + '/minio/upload'
+  return process.env.VUE_APP_BASE_API + '/picture/tree'
 }
 
 export function getTreeInfo(data) {
@@ -18,17 +18,17 @@ export function getTreeInfo(data) {
   })
 }
 
-export function saveTreeInfo(data) {
+export function saveTreeInfo(username, data) {
   return creatRequest({
-    url: `/tree/info`,
-    method: 'post',
+    url: `/tree/info?username=${username}`,
+    method: 'put',
     data: data
   })
 }
 
 export function getTreeListData(data) {
   return creatRequest({
-    url: `/tree_list/info`,
+    url: `/tree/list`,
     method: 'get',
     params: data
   })
@@ -36,14 +36,14 @@ export function getTreeListData(data) {
 
 export function getTreeListAll() {
   return creatRequest({
-    url: `/tree_list/info/all`,
+    url: `/tree/info/all`,
     method: 'get'
   })
 }
 
 export function getTreeListDataByCity(data) {
   return creatRequest({
-    url: `/tree_list/info/${data}`,
+    url: `/tree/info/${data}`,
     method: 'get'
   })
 }
@@ -72,7 +72,14 @@ export function getTreeFuzzyQuery(data) {
 
 export function getTreeListSorted(data) {
   return creatRequest({
-    url: `/tree_list/info_sorted?page=${data.page}&size=${data.size}&keys=${data.keys}&asc=${data.asc}`,
+    url: `/tree/info_sorted?page=${data.page}&size=${data.size}&keys=${data.keys}&asc=${data.asc}`,
+    method: 'get'
+  })
+}
+
+export function getTreeListBySearch(data) {
+  return creatRequest({
+    url: `/tree/condition?condition=${data.condition}&value=${data.value}&page=${data.page}&size=${data.size}`,
     method: 'get'
   })
 }

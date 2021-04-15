@@ -5,12 +5,27 @@
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <el-row :gutter="24" class="search">
-            <el-col :xs="8" :sm="7" :md="6" :lg="5" :xl="4">
-              <el-input v-model="inputSearchName" placeholder="请输入想要搜索的古树编号或者树名" />
+            <el-col :xs="6" :sm="5" :md="4" :lg="4" :xl="3">
+              <el-select v-model="searchCondition" placeholder="请选择搜索条件" class="search-content">
+                <el-option
+                  v-for="item in conditionOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
             </el-col>
-            <el-col :xs="15" :sm="16" :md="17" :lg="18" :xl="4" class="search-button">
+            <el-col :xs="8" :sm="7" :md="6" :lg="5" :xl="4">
+              <el-input
+                v-model="inputSearchName"
+                placeholder="请输入想要搜索的内容"
+                class="search-content"
+                @keyup.enter.native="searchByName"
+              />
+            </el-col>
+            <el-col :xs="8" :sm="9" :md="8" :lg="8" :xl="8" class="search-button">
               <el-button type="primary" icon="el-icon-search" @click="searchByName"> 搜索</el-button>
-              <el-button type="info" icon="el-icon-delete" @click="cleanSearch"> 清除搜索</el-button>
+              <el-button type="info" icon="el-icon-delete" @click="cleanSearch"> 清除搜索 </el-button>
             </el-col>
           </el-row>
         </div>
@@ -22,7 +37,6 @@
             :height="height"
             :row-style="{height: '90px'}"
             fit
-            stripe="true"
             highlight-current-row
             style="width: 100%;"
 
@@ -245,7 +259,7 @@
 </template>
 
 <script>
-import { getTreeListData, getTreeListSorted, getTreeFuzzyQuery } from '@/api/tree'
+import { getTreeListData, getTreeListSorted, getTreeListBySearch } from '@/api/tree'
 import { handleTimeYMD, handleTimeHMS } from '@/utils/commonUtil'
 export default {
   name: 'ArticleList',
@@ -282,7 +296,33 @@ export default {
         '古树等级': ['grade'],
         '树高 / 胸围': ['height', 'breastDiameter'],
         '更新时间': ['updateTime']
-      }
+      },
+      conditionOptions: [
+        {
+          value: 'treeId',
+          label: '古树编号'
+        }, {
+          value: 'surveyNumber',
+          label: '调查顺序号'
+        }, {
+          value: 'chineseName',
+          label: '中文名'
+        }, {
+          value: 'alias',
+          label: '俗名'
+        }, {
+          value: 'latinName',
+          label: '拉丁名'
+        }, {
+          value: 'family',
+          label: '科-属-种'
+        }, {
+          value: 'location',
+          label: '所在位置'
+        }
+      ],
+      searchCondition: ''
+
     }
   },
   mounted() {
@@ -320,17 +360,24 @@ export default {
       return handleTimeHMS(time)
     },
     searchByName() {
-      this.listLoading = true
-      const name = this.inputSearchName
-      getTreeFuzzyQuery(name)
-        .then(data => {
-          this.list = data
-          this.total = data.length
+      if (this.searchCondition !== '' && this.inputSearchName !== '') {
+        this.listLoading = true
+        console.log(this.searchCondition)
+        getTreeListBySearch({
+          condition: this.searchCondition,
+          value: this.inputSearchName,
+          page: this.currentPage - 1,
+          size: this.pageSize
+        }).then(data => {
+          console.log(data)
+          this.list = data.list
+          this.total = data.total
+          this.listLoading = false
+        }).catch(err => {
+          console.log(err)
           this.listLoading = false
         })
-        .catch(err => {
-          console.log(err)
-        })
+      }
     },
     /**
      * 清除搜索内容，重新生成表格

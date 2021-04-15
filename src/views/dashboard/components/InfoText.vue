@@ -26,14 +26,14 @@
         <span class="text2">{{ speciesNums }}</span>
       </el-col>
     </el-row>
-    <el-row :gutter="24">
+    <el-row :gutter="6">
       <el-col :span="12">
         <span class="title">生长场所</span>
-        <growth-place style="height:12vh;margin-top: 2vh" />
+        <growth-place style="height:12vh;margin-top: 3vh" />
       </el-col>
       <el-col :span="12">
         <span class="title">分布特点</span>
-        <dist-c-h style="height:12vh;margin-top: 2vh" />
+        <dist-c-h style="height:12vh;margin-top: 3vh" />
       </el-col>
     </el-row>
   </div>
