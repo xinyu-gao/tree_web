@@ -8,10 +8,10 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
-import 'normalize.css/normalize.css' // A modern alternative to CSS resets
-import '@/styles/index.scss' // 全局 CSS
-import '@/icons' // icon
-import '@/permission' // permission control
+import 'normalize.css/normalize.css'
+import '@/styles/index.scss'
+import '@/icons'
+import '@/permission'
 
 import dataV from '@jiaminghi/data-view'
 Vue.use(dataV)

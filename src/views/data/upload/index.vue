@@ -304,7 +304,7 @@
               <el-input
                 v-model="form.detailInfo"
                 type="textarea"
-                :autosize="{ minRows: 6}"
+                :autosize="{ minRows: 18}"
                 placeholder="请填写图片说明"
                 class="input-s"
               />
@@ -315,7 +315,7 @@
               <el-input
                 v-model="form.peculiarDetail"
                 type="textarea"
-                :autosize="{ minRows: 6}"
+                :autosize="{ minRows: 18}"
                 placeholder="请描述树木的奇特性"
                 class="input-s"
               />
@@ -334,8 +334,8 @@
 
 import Cookies from 'js-cookie'
 import { regionData, CodeToText, TextToCode } from 'element-china-area-data'
-import { getTreePics, getTreePicsUploadUrl, saveTreeInfo, getTreeById } from '@/api/tree.js'
-import { uploadPic } from '@/api/picture'
+import { getTreePics, getTreePicsUploadUrl, saveTreeInfo, getTreeById, } from '@/api/tree.js'
+import { uploadPic, deletePicByName } from '@/api/picture'
 import { getUsername } from '@/utils/auth'
 const updateIdKey = 'vue_update_id'
 export default {
@@ -395,10 +395,6 @@ export default {
       uploadUrl: getTreePicsUploadUrl(),
       fileList: [
       ],
-      treeId: '12',
-      uploadData: {
-        tree_id: '12'
-      }
     }
   },
   created() {
@@ -430,13 +426,15 @@ export default {
         treeId: this.form.treeId
       })
         .then(data => {
-          this.fileList = []
-          for (let i = 0; i < data.length; i++) {
-            this.fileList.push({
-              name: data[i],
-              url: data[i]
-            })
-          }
+          console.log(data)
+          this.fileList = data
+          // for (let i = 0; i < data.length; i++) {
+          //   this.fileList.push({
+          //     name: data[i],
+          //     url: data[i]
+          //   })
+          // }
+
         })
         .catch(err => {
           console.log(err)
@@ -572,7 +570,16 @@ export default {
       // this.getTreePictures()
     },
     handleRemove(file, fileList) {
-
+      console.log(fileList)
+      deletePicByName(getUsername(), this.form.treeId, file.name)
+      .then(data => {
+        console.log(data)
+        this.getTreePictures()
+      })
+      .catch(err => {
+        console.log(err)
+        this.getTreePictures()
+      })
     }
   }
 }

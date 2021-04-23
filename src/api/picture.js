@@ -15,9 +15,14 @@ export function uploadPic(username, treeId, file) {
   })
 }
 
-export function deletePic(username, treeId, fileName) {
+export function deletePicByName(username, treeId, fileName) {
   return creatRequest({
-    url: `picture/tree?username=${username}&tree_id=${treeId}&file_name=${fileName}`,
-    method: 'get'
+    url: 'picture/tree/name',
+    method: 'delete',
+    data: {
+      fileName: fileName,
+      treeId: treeId,
+      username: username
+    }
   })
 }

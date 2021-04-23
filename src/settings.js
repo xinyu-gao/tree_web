@@ -1,4 +1,4 @@
-module.exports = {
+ module.exports = {
 
   title: '古树名木系统',
 

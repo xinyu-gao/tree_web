@@ -230,12 +230,15 @@ export default {
             })
           getPicUrlById({ tree_id: treeId })
             .then(data => {
-              this.picList = data
+              let list = []
+              for (let i = 0; i < data.length; i++) {
+                list.push(data[i].url)
+              }
+              this.picList = list
             })
           getNodeDefectInfoByIMSI({ imsi: data.imsi })
             .then(data => {
               this.defectData = data
-              console.log(data)
             }).catch(err => {
               console.log(err)
             })
