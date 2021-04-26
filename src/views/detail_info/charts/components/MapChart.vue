@@ -10,7 +10,7 @@ const mapSize = new BMap.Size(40, 40)
 const treePng = new BMap.Icon(require('@/assets/map_marker/tree.png'), mapSize, {})
 
 export default {
-  name: 'Map',
+  name: 'MapMini',
   props: {
     info: {
       type: Object,
@@ -39,14 +39,13 @@ export default {
   methods: {
     createMap(info) {
       if (info || info.treeId) {
-        console.log(info)
+        console.log('info', info)
         this.map = new BMap.Map('map')
-        const point = new BMap.Point(info.longitude, info.latitude)
-        this.map.centerAndZoom(point, 13)
-        const mapStyle = getMapStyle()
+        this.map.centerAndZoom(new BMap.Point(info.longitude, info.latitude), 13)
         this.map.setMapStyle({
-          styleJson: mapStyle
+          styleJson: getMapStyle()
         })
+        this.map.enableScrollWheelZoom(true)
         this.addTreeMarker(info.longitude, info.latitude, info.chineseName, this.genContent(info))
       }
     },
@@ -90,6 +89,5 @@ export default {
 #map {
   height: 100%;
   width: 100%;
-
 }
 </style>

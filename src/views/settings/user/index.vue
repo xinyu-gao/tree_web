@@ -1,105 +1,106 @@
 <template>
   <div>
-    <el-card class="box-card">
-      <div class="card-body" align="center">
-        <el-form ref="form" :model="form" :rules="rules" label-width="90px" label-position="left">
-          <div class="title-container">
-            <h3 class="title">个人资料</h3>
-          </div>
-          <el-divider />
-          <pan-thumb :image="image" />
+    <el-row>
+      <el-col :xs="3" :sm="3" :md="7" :lg="7" :xl="7">
+        <div style="min-height: 1px;" />
+      </el-col>
+      <el-col :xs="18" :sm="18" :md="10" :lg="10" :xl="10">
+        <div>
+          <el-card class="box-card">
+            <div class="card-body">
+              <el-form ref="form" :model="form" :rules="rules" label-width="120px" label-position="right">
+                <div class="title-container" align="center">
+                  <h3 class="title">个人资料</h3>
+                </div>
+                <el-divider />
+                <el-form-item prop="username" label="用户名" style="margin-top: 60px">
+                  <el-input
+                    v-model="form.username"
+                    placeholder="用户名"
+                  />
+                </el-form-item>
+                <el-form-item prop="email" label="邮箱">
+                  <el-input
+                    v-model="form.email"
+                    placeholder="邮箱"
+                  />
+                </el-form-item>
 
-          <!--              <el-button type="primary" icon="el-icon-upload" style="bottom: 15px;margin-left: 40px;" @click="imagecropperShow=true">-->
-          <!--                Change Avatar-->
-          <!--              </el-button>-->
-          <el-divider />
-          <el-form-item prop="username" label="用户名" style="margin-top: 30px">
-            <el-input
-              v-model="form.username"
-              placeholder="用户名"
-            />
-          </el-form-item>
-          <el-form-item prop="email" label="邮箱">
-            <el-input
-              v-model="form.email"
-              placeholder="邮箱"
-            />
-          </el-form-item>
+                <el-form-item prop="code" label="邮箱验证码">
+                  <el-input
+                    ref="code"
+                    v-model="mailCode"
+                    auto-complete="on"
+                    name="code"
+                    placeholder="请输入邮箱验证码"
+                  >
+                    <el-button v-show="show" slot="append" @click="getEmailValidateCode">获取验证码</el-button>
+                    <span v-show="!show" slot="append" class="show-pwd">请{{ showTimeCount }}s后再试</span>
+                  </el-input>
+                </el-form-item>
+                <el-form-item prop="phone" label="手机号码">
+                  <el-input
+                    v-model="form.phoneNumber"
+                    placeholder="手机号码"
+                  />
+                </el-form-item>
+                <el-form-item prop="code" label="手机验证码">
+                  <el-input
+                    ref="phoneCode"
+                    v-model="phoneCode"
+                    auto-complete="on"
+                    name="code"
+                    placeholder="请输入手机验证码"
+                  >
+                    <el-button v-show="show" slot="append" class="show-pwd" @click="getPhoneValidateCode">获取验证码</el-button>
+                    <span v-show="!show" slot="append" class="show-pwd">请{{ showTimeCount }}s后再试</span>
+                  </el-input>
+                </el-form-item>
+                <el-form-item prop="roles" label="角色">
+                  <el-input
+                    v-model="form.roles"
+                    placeholder="角色"
+                    :disabled="true"
+                  />
+                </el-form-item>
+                <el-form-item prop="roles" label="是否绑定支付宝">
+                  <div style="margin-left:40px;color: #303133">{{ form.ali ? "已绑定" : "未绑定" }}</div>
+                </el-form-item>
+                <div align="center">
+                  <el-button
+                    :loading="loading"
+                    style="width:100px;"
+                    @click="save"
+                  >保存
+                  </el-button>
+                </div>
 
-          <el-form-item prop="code" label="邮箱验证码">
-            <el-input
-              ref="code"
-              v-model="form.code"
-              auto-complete="on"
-              name="code"
-              placeholder="请输入邮箱验证码"
-            />
-            <span v-show="show" class="show-pwd" @click="getEmailValidateCode">获取验证码</span>
-            <span v-show="!show" class="show-pwd">请{{ showTimeCount }}s后再试</span>
-          </el-form-item>
-          <el-form-item prop="phone" label="手机号码">
-            <el-input
-              v-model="form.phoneNUmber"
-              placeholder="手机号码"
-            />
-          </el-form-item>
-          <el-form-item prop="code" label="手机验证码">
-            <el-input
-              ref="code"
-              v-model="form.code"
-              auto-complete="on"
-              name="code"
-              placeholder="请输入手机验证码"
-            />
-            <span v-show="show" class="show-pwd" @click="getPhoneValidateCode">获取验证码</span>
-            <span v-show="!show" class="show-pwd">请{{ showTimeCount }}s后再试</span>
-          </el-form-item>
-          <el-form-item prop="roles" label="角色">
-            <el-input
-              v-model="form.roles"
-              placeholder="角色"
-              :disabled="true"
-            />
-          </el-form-item>
+              </el-form>
+            </div>
+          </el-card>
+        </div>
 
-          <el-button
-            align="center"
-            :loading="loading"
-            style="width:100px;margin-left: 180px"
-            @click="save"
-          >保存
-          </el-button>
-        </el-form>
-      </div>
-    </el-card>
-    <image-cropper
-      v-show="imagecropperShow"
-      :key="imagecropperKey"
-      :width="300"
-      :height="300"
-      url="https://httpbin.org/post"
-      lang-type="en"
-      @close="close"
-      @crop-upload-success="cropSuccess"
-    />
+      </el-col>
+    </el-row>
+
   </div>
 </template>
 
 <script>
-import ImageCropper from '@/components/ImageCropper'
-import PanThumb from '@/components/PanThumb'
+
 import { validEmail, validUsername, validUsernameOrPassword } from '@/utils/validate'
 export default {
-  components: { ImageCropper, PanThumb },
+  components: { },
   data() {
     return {
       userData: {},
-      form: {},
+      form: {
+        ali: ''
+      },
+      mailCode: '',
+      phoneCode: '',
       show: true,
       seeEmailValidate: false,
-      imagecropperShow: false,
-      imagecropperKey: 0,
-      image: 'https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191',
       showTimeCount: '',
       loading: false,
       rules: {
@@ -121,7 +122,8 @@ export default {
           { required: true, message: '请输入邮箱', trigger: 'blur' },
           { validator: validEmail, trigger: 'blur' }
         ]
-      }
+      },
+      timer: ''
     }
   },
   methods: {
@@ -134,7 +136,23 @@ export default {
       this.imagecropperShow = false
     },
     getEmailValidateCode() {
-
+      this.timeCal()
+    },
+    timeCal() {
+      const time_count = 60
+      if (!this.timer) {
+        this.sum = time_count
+        this.show = false
+        this.timer = setInterval(() => {
+          if (this.sum > 1 && this.sum <= time_count) {
+            this.sum--
+          } else {
+            this.show = true
+            clearInterval(this.timer)
+            this.timer = null
+          }
+        }, 1000)
+      }
     },
     getPhoneValidateCode() {
 
@@ -163,14 +181,12 @@ export default {
 }
 
 .box-card {
-  width: 60vh;
+  width: 100%;
   margin-top: 6vh;
   height: 80vh;
-  margin-left: 20vh;
 }
 
 .card-body {
   padding-top: 20px;
 }
-
 </style>

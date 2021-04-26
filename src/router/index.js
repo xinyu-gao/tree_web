@@ -22,53 +22,53 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/mega_data',
     children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
+      path: 'mega_data',
+      name: 'Megadata',
+      component: () => import('@/views/mega_data/index'),
       meta: { title: '数据展示', icon: 'dashboard' }
     }]
   },
   {
-    path: '/table',
+    path: '/tree_list',
     component: Layout,
 
     children: [{
-      path: 'index',
+      path: 'tree_list',
       name: 'table',
-      component: () => import('@/views/table/index'),
+      component: () => import('@/views/tree_list/index'),
       meta: { title: '树木列表', icon: 'list' }
     }]
   },
   {
-    path: '/map',
+    path: '/tree_map',
     component: Layout,
 
     children: [{
-      path: 'index',
+      path: 'tree_map',
       name: 'map',
-      component: () => import('@/views/map/index'),
+      component: () => import('@/views/tree_map/index'),
       meta: { title: '树木地图', icon: 'map' }
     }]
   },
   {
-    path: '/detail',
+    path: '/detail_info',
     component: Layout,
-    redirect: '/detail/charts',
+    redirect: '/detail_info/charts',
     name: 'detail',
     meta: { title: '详细信息', icon: 'detail' },
     children: [
       {
         path: 'charts',
         name: 'charts',
-        component: () => import('@/views/detail/charts/index'),
+        component: () => import('@/views/detail_info/charts/index'),
         meta: { title: '数据图表', icon: 'data' }
       },
       {
         path: 'list',
         name: 'list',
-        component: () => import('@/views/detail/list/index'),
+        component: () => import('@/views/detail_info/list/index'),
         meta: { title: '数据清单', icon: 'detail' }
       }
     ]
@@ -79,21 +79,21 @@ export const superManageRoutes = [
   {
     path: '/data',
     component: Layout,
-    redirect: '/upload/data/upload',
+    redirect: '/upload/data_manage/upload',
     name: 'data',
     meta: { title: '数据管理', icon: 'manage' },
     children: [
       {
         path: 'index',
         name: 'upload',
-        component: () => import('@/views/data/upload/index'),
+        component: () => import('@/views/data_manage/upload/index'),
         meta: { title: '数据上传', icon: 'upload' }
       },
       {
         path: 'list',
         name: 'list',
-        component: () => import('@/views/data/modify/index'),
-        meta: { title: '数据修改', icon: 'modify' }
+        component: () => import('@/views/data_manage/imsi_manage/index'),
+        meta: { title: '节点设置', icon: 'modify' }
       }
     ]
   },

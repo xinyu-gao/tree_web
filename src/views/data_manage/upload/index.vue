@@ -12,7 +12,7 @@
                 v-model="form.treeId"
                 class="input-s"
                 type="text"
-                placeholder="请填写树名"
+                placeholder="请填写古树编号"
                 @change="saveTreeId"
                 @keyup.enter.native="getTreeInfoByTreeId"
               >
@@ -334,7 +334,7 @@
 
 import Cookies from 'js-cookie'
 import { regionData, CodeToText, TextToCode } from 'element-china-area-data'
-import { getTreePics, getTreePicsUploadUrl, saveTreeInfo, getTreeById, } from '@/api/tree.js'
+import { getTreePics, getTreePicsUploadUrl, saveTreeInfo, getTreeById } from '@/api/tree.js'
 import { uploadPic, deletePicByName } from '@/api/picture'
 import { getUsername } from '@/utils/auth'
 const updateIdKey = 'vue_update_id'
@@ -394,7 +394,7 @@ export default {
       autoHeight: true,
       uploadUrl: getTreePicsUploadUrl(),
       fileList: [
-      ],
+      ]
     }
   },
   created() {
@@ -434,7 +434,6 @@ export default {
           //     url: data[i]
           //   })
           // }
-
         })
         .catch(err => {
           console.log(err)
@@ -572,14 +571,14 @@ export default {
     handleRemove(file, fileList) {
       console.log(fileList)
       deletePicByName(getUsername(), this.form.treeId, file.name)
-      .then(data => {
-        console.log(data)
-        this.getTreePictures()
-      })
-      .catch(err => {
-        console.log(err)
-        this.getTreePictures()
-      })
+        .then(data => {
+          console.log(data)
+          this.getTreePictures()
+        })
+        .catch(err => {
+          console.log(err)
+          this.getTreePictures()
+        })
     }
   }
 }

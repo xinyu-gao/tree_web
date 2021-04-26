@@ -136,7 +136,7 @@
 
 <script>
 'use strict'
-import creatRequest from '@/utils/axiosRequest'
+import { creatRequest } from '@/utils/axiosRequest'
 import language from './utils/language.js'
 import mimes from './utils/mimes.js'
 import data2blob from './utils/data2blob.js'

@@ -63,8 +63,8 @@ export default {
 
       const option = {
         tooltip: {
-          triggerOn: 'click', // 触发方式
-          enterable: true, // 鼠标可移入tooltip中
+          triggerOn: 'click',
+          enterable: true,
           axisPointer: {
             type: 'shadow'
           },
@@ -72,10 +72,11 @@ export default {
             return `<div style="width: 80px">
                         ${params.name}
                      <div style="margin-top: 2px">数量：  ${params.value[2]}</div>
-                     <div style="margin-top: 2px"><a style="color:#9acc99" href="/#/map/index/?city=${params.name}">查看地图</a></div>
+                     <div style="margin-top: 2px"><a style="color:#9acc99" href="/#/tree_map/tree_map?city=${params.name}">查看地图</a></div>
                      </div>
                     `
-          }
+          },
+          padding: 1
         },
         geo: {
           map: 'china',
@@ -117,7 +118,8 @@ export default {
             normal: {
               color: '#84fab0'
             }
-          }
+          },
+          tooltip: {}
         }
         ]
       }

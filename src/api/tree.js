@@ -83,3 +83,17 @@ export function getTreeListBySearch(data) {
     method: 'get'
   })
 }
+
+export function getImsiByTreeId(data) {
+  return creatRequest({
+    url: `/tree/imsi?tree_id=${data}`,
+    method: 'get'
+  })
+}
+
+export function setImsiByTreeId(data) {
+  return creatRequest({
+    url: `/tree/imsi?tree_id=${data.treeId}&imsi=${data.imsi}`,
+    method: 'post'
+  })
+}

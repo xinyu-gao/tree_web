@@ -20,8 +20,12 @@
         </el-col>
 
         <el-col :span="12">
-          <div align="center" class="title"> 古树名木检测与管理系统 </div>
-          <div class="bmap-wrapper" align="center"><map-chart /></div>
+          <div>
+            <div align="center" class="title"> 古树名木检测与管理系统 </div>
+            <div class="bmap-wrapper" align="center">
+              <map-chart />
+            </div>
+          </div>
         </el-col>
 
         <el-col :span="6">
@@ -59,8 +63,8 @@ import MapChart from './components/MapChart'
 import CityChart from './components/CityChart'
 import TimeText from './components/TimeText'
 import InfoText from './components/InfoText'
-import OwnerShipChart from '@/views/dashboard/components/OwnerShipChart'
-import YearsChart from '@/views/dashboard/components/YearsChart'
+import OwnerShipChart from '@/views/mega_data/components/OwnerShipChart'
+import YearsChart from '@/views/mega_data/components/YearsChart'
 import screenfull from 'screenfull'
 export default {
   name: 'Index',

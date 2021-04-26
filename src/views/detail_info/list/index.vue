@@ -193,7 +193,7 @@ import { getTreeById } from '@/api/tree'
 import { getNodeByIMSI, getNodeDefectInfoByIMSI } from '@/api/imsi'
 import { getPicUrlById } from '@/api/picture'
 import { handleTime } from '@/utils/commonUtil'
-import DefectChart from '@/views/detail/charts/components/DefectChart'
+import DefectChart from '@/views/detail_info/charts/components/DefectChart'
 export default {
   components: {
     DefectChart
