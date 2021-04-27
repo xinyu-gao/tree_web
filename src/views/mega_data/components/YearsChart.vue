@@ -40,12 +40,39 @@ export default {
       this.chart = echarts.init(this.$el)
 
       this.chart.setOption({
+        color: ['#3398DB'],
         xAxis: {
           type: 'category',
-          data: ['2015', '2016', '2017', '2018', '2019', '2020', '2021']
+          data: ['2015', '2016', '2017', '2018', '2019', '2020', '2021'],
+          axisLabel: {
+            textStyle: {
+              color: '#0289BB',
+              fontSize: '16'
+            }
+          },
+          // 控制网格线是否显示
+          splitLine: {
+            show: false,
+            lineStyle: {
+              // 使用深浅的间隔色
+              color: '#0289BB'
+            }
+          }
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          axisLabel: {
+            textStyle: {
+              color: '#0289BB',
+              fontSize: '16'
+            }
+          },
+          splitLine: {
+            lineStyle: {
+              // 使用深浅的间隔色
+              color: '#0289BB'
+            }
+          }
         },
         series: [{
           data: [820, 932, 901, 934, 1290, 1330, 1320],

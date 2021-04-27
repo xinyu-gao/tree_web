@@ -26,6 +26,13 @@ export function saveTreeInfo(username, data) {
   })
 }
 
+export function deleteTree(treeId) {
+  return creatRequest({
+    url: `/tree?tree_id=${treeId}`,
+    method: 'delete'
+  })
+}
+
 export function getTreeListData(data) {
   return creatRequest({
     url: `/tree/list`,

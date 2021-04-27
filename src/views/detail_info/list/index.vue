@@ -148,29 +148,28 @@
       <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
         <el-card class="box-card">
           <el-divider content-position="center">图片信息</el-divider>
-          <el-carousel :interval="4000" type="card" height="200px">
-            <el-carousel-item v-for="url in picList" :key="url">
-              <el-image
-                style="width: 100%; height: 100%"
-                :src="url"
-                :fit="url"
-                placeholder="加载中..."
-                :preview-src-list="picList"
-              />
-            </el-carousel-item>
-          </el-carousel>
+          <div>
+            <el-carousel :interval="4000" type="card" height="200px">
+              <el-carousel-item v-for="url in picList" :key="url">
+                <el-image
+                  style="width: 100%; height: 100%"
+                  :src="url"
+                  :fit="url"
+                  placeholder="加载中..."
+                  :preview-src-list="picList"
+                />
+              </el-carousel-item>
+            </el-carousel>
+          </div>
           <el-divider content-position="center">节点监控信息</el-divider>
           <div class="text item">
             <strong>温度： </strong> {{ imsiInfo.temp || '-' }} °C
           </div>
           <div class="text item">
-            <strong>湿度： </strong> {{ imsiInfo.humidity || '-' }}
+            <strong>湿度： </strong> {{ imsiInfo.humidity || '-' }} %
           </div>
           <div class="text item">
-            <strong>二氧化碳浓度： </strong> {{ imsiInfo.carbonDioxide || '-' }}
-          </div>
-          <div class="text item">
-            <strong>倾斜度： </strong> {{ imsiInfo.slant || '-' }}
+            <strong>倾斜度： </strong> {{ imsiInfo.slant || '-' }} °
           </div>
           <div class="text item">
             <strong>在线： </strong> {{ imsiInfo.isOnline ? "在线" : "离线" || '-' }}
@@ -230,7 +229,7 @@ export default {
             })
           getPicUrlById({ tree_id: treeId })
             .then(data => {
-              let list = []
+              const list = []
               for (let i = 0; i < data.length; i++) {
                 list.push(data[i].url)
               }
@@ -294,4 +293,5 @@ export default {
   margin-top: 20px;
   margin-left: 40px
 }
+.el-carousel__item.is-animating{ transform: none!important; }
 </style>

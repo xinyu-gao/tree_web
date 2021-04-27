@@ -63,16 +63,18 @@ export default {
             },
             label: {
               position: 'outside',
-              fontSize: '12px',
               color: '#fff',
+              textStyle: {
+                fontSize: 12
+              },
               formatter: data => {
                 return data.name + '\n' + Math.round(data.percent) + '%'
               },
-              lineHeight: 20
+              lineHeight: 30
             },
             labelLine: {
-              length: 5,
-              length2: 5
+              length: 15,
+              length2: 15
             }
           }
         ]

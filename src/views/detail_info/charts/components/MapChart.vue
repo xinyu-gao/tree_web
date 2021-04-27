@@ -8,7 +8,9 @@ import BMap from 'BMap'
 import { getMapStyle } from '@/utils/mapStyle'
 const mapSize = new BMap.Size(40, 40)
 const treePng = new BMap.Icon(require('@/assets/map_marker/tree.png'), mapSize, {})
-
+const tree1Png = new BMap.Icon(require('@/assets/map_marker/tree1.png'), mapSize, {})
+const tree2Png = new BMap.Icon(require('@/assets/map_marker/tree2.png'), mapSize, {})
+const tree3Png = new BMap.Icon(require('@/assets/map_marker/tree3.png'), mapSize, {})
 export default {
   name: 'MapMini',
   props: {
@@ -46,10 +48,10 @@ export default {
           styleJson: getMapStyle()
         })
         this.map.enableScrollWheelZoom(true)
-        this.addTreeMarker(info.longitude, info.latitude, info.chineseName, this.genContent(info))
+        this.addTreeMarker(info.longitude, info.latitude, info.chineseName, this.genContent(info), info.grade)
       }
     },
-    addTreeMarker(lng, lat, title, content) {
+    addTreeMarker(lng, lat, title, content, grade) {
       title = `<strong>${title}</strong>`
       // 信息窗口配置
       const opts = {
@@ -61,7 +63,21 @@ export default {
       // 窗口显示内容
       const infoWindow = new BMap.InfoWindow(content, opts)
       // 创建标注
-      const marker = new BMap.Marker(new BMap.Point(lng, lat), { icon: treePng })
+      let marker
+      switch (grade) {
+        case '名木':
+          marker = new BMap.Marker(new BMap.Point(lng, lat), { icon: treePng })
+          break
+        case '国家一级古树':
+          marker = new BMap.Marker(new BMap.Point(lng, lat), { icon: tree1Png })
+          break
+        case '国家二级古树':
+          marker = new BMap.Marker(new BMap.Point(lng, lat), { icon: tree2Png })
+          break
+        case '国家三级古树':
+          marker = new BMap.Marker(new BMap.Point(lng, lat), { icon: tree3Png })
+          break
+      }
       // 将标注添加到地图中
       this.map.addOverlay(marker)
       // 点击显示窗口

@@ -81,7 +81,9 @@ export default {
             },
             label: {
               position: 'outside',
-              fontSize: '12px',
+              textStyle: {
+                fontSize: 13
+              },
               color: '#32c5e9',
               formatter: data => {
                 return Math.round(data.percent) + '%'

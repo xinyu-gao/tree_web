@@ -412,14 +412,17 @@ export default {
     uploadPic(param) {
       const formData = new FormData()
       formData.append('file', param.file)
-      uploadPic(getUsername(), this.treeId, formData).then(response => {
-        console.log('上传图片成功')
-        param.onSuccess() // 上传成功的图片会显示绿色的对勾
+      uploadPic(getUsername(), this.treeId, formData)
+        .then(data => {
+          this.$message.success('上传图片成功')
+          // 上传成功的图片会显示绿色的对勾
+          param.onSuccess()
         // 但是我们上传成功了图片， fileList 里面的值却没有改变，还好有on-change指令可以使用
-      }).catch(response => {
-        console.log('图片上传失败')
-        param.onError()
-      })
+        })
+        .catch(err => {
+          this.$message.success('上传图片失败' + err)
+          param.onError()
+        })
     },
     getTreePictures() {
       getTreePics({
@@ -428,12 +431,6 @@ export default {
         .then(data => {
           console.log(data)
           this.fileList = data
-          // for (let i = 0; i < data.length; i++) {
-          //   this.fileList.push({
-          //     name: data[i],
-          //     url: data[i]
-          //   })
-          // }
         })
         .catch(err => {
           console.log(err)
@@ -442,6 +439,7 @@ export default {
     getTreeInfoByTreeId() {
       getTreeById({ treeId: this.form.treeId })
         .then(data => {
+          this.$message.success('搜索成功')
           // 特殊数据处理
           this.handleLocationReverse(data)
           this.form.map = (data.longitude && data.latitude) && data.longitude + ', ' + data.latitude || ''
@@ -485,11 +483,15 @@ export default {
           this.getTreePictures()
         })
         .catch(err => {
+          this.$message.success('搜索失败' + err)
           console.log(err)
         })
     },
+    /**
+     * 上传树木信息
+     **/
     saveTreeInfos() {
-      this.form.longitude = this.form.map && this.form.map.split(',')[1] || ''
+      this.form.longitude = this.form.map && this.form.map.split(',')[0] || ''
       this.form.latitude = this.form.map && this.form.map.split(',')[1] || ''
       const data = {
         treeId: this.form.treeId,
@@ -534,6 +536,7 @@ export default {
       }
       saveTreeInfo(getUsername(), data)
         .then(data => {
+          this.$message.success('上传成功')
           console.log(data)
         })
         .catch(err => {
@@ -544,11 +547,17 @@ export default {
           })
         })
     },
+    /**
+     * 将选择的城市代码转为文字
+     */
     handleLocationChange() {
       this.form.locationProvince = CodeToText[this.selectedLocations[0]]
       this.form.locationCity = CodeToText[this.selectedLocations[1]]
       this.form.locationDistrict = CodeToText[this.selectedLocations[2]]
     },
+    /**
+     * 将选择的城市文字转为代码
+     */
     handleLocationReverse(data) {
       const list = []
       const province = data.locationProvince
@@ -565,18 +574,27 @@ export default {
       }
       this.selectedLocations = list
     },
+    /**
+     * 预览图片，不想做了
     handlePreview(file) {
-      // this.getTreePictures()
+
     },
+    /**
+     * 删除图片
+     * @param file
+     * @param fileList
+     */
     handleRemove(file, fileList) {
       console.log(fileList)
       deletePicByName(getUsername(), this.form.treeId, file.name)
         .then(data => {
           console.log(data)
+          this.$message.success('删除成功')
           this.getTreePictures()
         })
         .catch(err => {
           console.log(err)
+          this.$message.success('删除失败' + err)
           this.getTreePictures()
         })
     }

@@ -65,12 +65,36 @@ export default {
         },
         xAxis: {
           type: 'category',
-          splitLine: { show: false },
-          data: ['总数', '国有', '集体', '个人', '其他']
+          splitLine: {
+            show: false,
+            lineStyle: {
+              // 使用深浅的间隔色
+              color: ['#0289BB']
+            }},
+          data: ['总数', '国有', '集体', '个人', '其他'],
+          axisLabel: {
+            textStyle: {
+              color: '#0289BB',
+              fontSize: '16'
+            }
+          }
         },
         yAxis: {
           type: 'value',
-          splitLine: { show: false }
+          // 控制网格线是否显示
+          splitLine: {
+            show: false,
+            lineStyle: {
+              // 使用深浅的间隔色
+              color: ['#0289BB']
+            }
+          },
+          axisLabel: {
+            textStyle: {
+              color: '#0289BB',
+              fontSize: '16'
+            }
+          }
         },
         series: [
           {

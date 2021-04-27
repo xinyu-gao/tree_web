@@ -40,15 +40,18 @@ import { getMapStyle } from '@/utils/mapStyle'
 import { getTreeListDataByCity } from '@/api/tree'
 const mapSize = new BMap.Size(40, 40)
 const treePng = new BMap.Icon(require('@/assets/map_marker/tree.png'), mapSize, {})
+const tree1Png = new BMap.Icon(require('@/assets/map_marker/tree1.png'), mapSize, {})
+const tree2Png = new BMap.Icon(require('@/assets/map_marker/tree2.png'), mapSize, {})
+const tree3Png = new BMap.Icon(require('@/assets/map_marker/tree3.png'), mapSize, {})
 export default {
   name: 'Index',
   data() {
     return {
       provinces: [],
       cities: [],
-      selectProvince: '',
-      selectCity: '',
-      provData: '',
+      selectProvince: '天津市',
+      selectCity: '市辖区',
+      provData: [],
       map: ''
 
     }
@@ -56,9 +59,10 @@ export default {
   watch: {
     selectProvince: function(val) {
       this.selectCity = ''
-      this.cities = this.provData.filter(item => {
+      const p = this.provData.filter(item => {
         return item.province === val
-      })[0].cityList
+      })[0]
+      this.cities = p && p.cityList || []
     },
     selectCity: function(val) {
       if (val !== '') {
@@ -66,12 +70,8 @@ export default {
       }
     }
   },
-  mounted() {
-    this.selectCity = '江苏省'
-    this.selectCity = '苏州市'
+  created() {
     this.getExistedProvinceAndCity()
-    this.createMap()
-    this.getTreeList()
   },
   methods: {
     /**
@@ -92,6 +92,7 @@ export default {
           // 读取所有存在的省份
           data.map(item => {
             this.provinces.push(item.province)
+            this.handleChange()
           })
         }).catch(err => {
           console.log(err)
@@ -103,6 +104,7 @@ export default {
      */
     createMap() {
       const city = this.$route.query.city
+      console.log('1', this.selectProvince)
       let data
       if (city) {
         data = city
@@ -113,14 +115,13 @@ export default {
           this.selectCity = city
         }
       } else {
-        data = this.selectCity
+        // url 上没有城市
         if (this.isMunicipalityOrHK_TW_M(this.selectProvince)) {
           data = this.selectProvince
         } else {
           data = this.selectCity
         }
       }
-      console.log(data)
       this.map = new BMap.Map('map')
       this.map.centerAndZoom(data, 13)
       // 创建Map实例
@@ -138,9 +139,8 @@ export default {
     getTreeList(city) {
       getTreeListDataByCity(city)
         .then(data => {
-          console.log(JSON.stringify(data))
           data.map(item => {
-            this.addTreeMarker(item.longitude, item.latitude, item.chineseName, this.genContent(item))
+            this.addTreeMarker(item.longitude, item.latitude, item.chineseName, this.genContent(item), item.grade)
           })
         }).catch(err => {
           console.log(err)
@@ -152,13 +152,13 @@ export default {
         `<div style="margin-top:-5px;"><strong>树 &nbsp &nbsp  &nbsp 龄：&nbsp &nbsp  &nbsp</strong>${data.age}年</div><br />` +
         `<div style="margin-top:-5px;"><strong>古树等级：&nbsp &nbsp  &nbsp</strong>${data.grade}</div><br />` +
         `<div style="margin-top:-5px;"><strong>权 &nbsp &nbsp  &nbsp 属：&nbsp &nbsp  &nbsp</strong>${data.ownerShip}</div><br />` +
-        `<div style="margin-top:-5px;margin-bottom:15px;"><strong>描 &nbsp &nbsp  &nbsp 述：&nbsp &nbsp  &nbsp</strong>${data.detailInfo || '-'}</div>` +
+        `<div style="margin-top:-5px;margin-bottom:15px;"><strong>地 &nbsp &nbsp  &nbsp 址：&nbsp &nbsp  &nbsp</strong>${data.detailInfo || '-'}</div>` +
         `<span style="margin-top: 15px;"><strong>查看:</strong>` +
-        `<span style="margin-top: 15px;margin-left:50px"><a style="color:#3ec9d2" href="/#/detail/list/?treeId=${data.treeId}">清单</a></span>` +
-        `<span style="margin-top: 15px;margin-left:20px"><a style="color:#3EC9D2" href="/#/detail/charts/?treeId=${data.treeId}">图表</a></span>` +
+        `<span style="margin-top: 15px;margin-left:50px"><a style="color:#3ec9d2" href="/#/detail_info/list/?treeId=${data.treeId}">清单</a></span>` +
+        `<span style="margin-top: 15px;margin-left:20px"><a style="color:#3EC9D2" href="/#/detail_info/charts/?treeId=${data.treeId}">图表</a></span>` +
         `</div>`
     },
-    addTreeMarker(lng, lat, title, content) {
+    addTreeMarker(lng, lat, title, content, grade) {
       title = `<strong>${title}</strong>`
       // 信息窗口配置
       const opts = {
@@ -170,7 +170,21 @@ export default {
       // 窗口显示内容
       const infoWindow = new BMap.InfoWindow(content, opts)
       // 创建标注
-      const marker = new BMap.Marker(new BMap.Point(lng, lat), { icon: treePng })
+      let marker
+      switch (grade) {
+        case '名木':
+          marker = new BMap.Marker(new BMap.Point(lng, lat), { icon: treePng })
+          break
+        case '国家一级古树':
+          marker = new BMap.Marker(new BMap.Point(lng, lat), { icon: tree1Png })
+          break
+        case '国家二级古树':
+          marker = new BMap.Marker(new BMap.Point(lng, lat), { icon: tree2Png })
+          break
+        case '国家三级古树':
+          marker = new BMap.Marker(new BMap.Point(lng, lat), { icon: tree3Png })
+          break
+      }
       // 将标注添加到地图中
       this.map.addOverlay(marker)
       // 点击显示窗口

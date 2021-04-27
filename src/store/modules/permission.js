@@ -52,6 +52,8 @@ const actions = {
       let accessedRoutes
       if (roles.includes('superManager')) {
         accessedRoutes = superManageRoutes
+      } else if (roles.includes('manager')) {
+        accessedRoutes = superManageRoutes
       } else {
         accessedRoutes = userRoutes
       }

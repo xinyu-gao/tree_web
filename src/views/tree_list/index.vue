@@ -242,6 +242,12 @@
                 <a style="color: #409EFF" @click="goToChart(scope.row.treeId)">图表</a>
               </template>
             </el-table-column>
+            <el-table-column label="操作" fixed="right" align="center" width="110px" :v-if="show">
+              <template slot-scope="scope">
+                <el-button type="info" icon="el-icon-edit" circle @click="modify(scope.row.treeId)" />
+                <el-button type="danger" icon="el-icon-delete" circle @click="deleteTree(scope.row.treeId)" />
+              </template>
+            </el-table-column>
           </el-table>
         </div>
       </el-card>
@@ -259,8 +265,9 @@
 </template>
 
 <script>
-import { getTreeListData, getTreeListSorted, getTreeListBySearch } from '@/api/tree'
+import { getTreeListData, getTreeListSorted, getTreeListBySearch, deleteTree } from '@/api/tree'
 import { handleTimeYMD, handleTimeHMS } from '@/utils/commonUtil'
+import store from '@/store'
 export default {
   name: 'ArticleList',
   filters: {
@@ -323,6 +330,13 @@ export default {
       ],
       searchCondition: ''
 
+    }
+  },
+  computed: {
+    show() {
+      const roles = store.getters.roles
+      // 当角色中包括 superManager、 manager 显示
+      return !!(roles && roles.length > 0 && (roles.includes('superManager') || roles.includes('manager')))
     }
   },
   mounted() {
@@ -418,7 +432,7 @@ export default {
       }, 500)
     },
     goToChart(treeId) {
-      this.$router.push({ path: '/detail/charts' })
+      this.$router.push({ path: '/detail_info/charts' })
     },
     /**
      * 排序处理
@@ -471,7 +485,30 @@ export default {
             console.log(err)
           })
       }
+    },
+    modify(treeId) {
+      this.$router.push({ path: '/detail_info/charts' })
+    },
+    deleteTree(treeId) {
+      console.log(treeId)
+      deleteTree(treeId)
+        .then(data => {
+          this.$message.success('删除成功!')
+          // 刷新表格
+          getTreeListData({ page: this.currentPage - 1, size: this.pageSize })
+            .then(data => {
+              this.list = data.list
+              this.listLoading = false
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        })
+        .catch(err => {
+          this.$message.error('删除失败' + err)
+        })
     }
+
   }
 
 }
