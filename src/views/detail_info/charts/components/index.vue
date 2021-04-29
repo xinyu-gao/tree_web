@@ -10,6 +10,9 @@
     <el-row :gutter="32" style="background:#fff;padding:8px 1px; margin:12px 1px">
       <line-chart-for-humidity :chart-data="lineChartData" />
     </el-row>
+    <el-row :gutter="32" style="background:#fff;padding:8px 1px; margin:12px 1px">
+      <line-chart-for-slant :chart-data="lineChartData" />
+    </el-row>
 
     <el-row :gutter="32" style="margin-top:34px; ">
       <el-col :lg="8" :sm="8" :xs="24">
@@ -35,6 +38,7 @@
 import PanelGroup from './PanelGroup'
 import LineChartForTemp from '../components/LineChartForTemp'
 import LineChartForHumidity from '../components/LineChartForHumidity'
+import LineChartForSlant from '../components/LineChartForSlant'
 import MapChart from './MapChart'
 import TableChart from './TableChart'
 import DefectChar from './DefectChart'
@@ -47,6 +51,7 @@ export default {
     PanelGroup,
     LineChartForTemp,
     LineChartForHumidity,
+    LineChartForSlant,
     MapChart,
     TableChart,
     DefectChar
@@ -63,6 +68,16 @@ export default {
     }
   },
   computed: {
+    dataUpdate() {
+      return this.$store.state.app.imsiDataUpdate
+    }
+  },
+  watch: {
+    dataUpdate: function(val) {
+      this.getDetectData(this.imsi)
+      this.getLineData(this.imsi)
+      this.getTreeInfo(this.treeId)
+    }
   },
   mounted() {
     this.getDetectData(this.imsi)

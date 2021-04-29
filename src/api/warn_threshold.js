@@ -1,8 +1,8 @@
 import { creatRequest } from '@/utils/axiosRequest'
 
-export function getWarnThreshold() {
+export function getWarnThreshold(treeId) {
   return creatRequest({
-    url: '/warn/threshold',
+    url: `/warn/threshold?tree_id=${treeId}`,
     method: 'get'
   })
 }

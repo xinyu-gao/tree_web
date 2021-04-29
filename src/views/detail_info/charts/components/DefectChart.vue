@@ -57,7 +57,6 @@ export default {
   watch: {
     defectData: {
       handler(newValue, oldValue) {
-        console.log(newValue)
         this.handleData(newValue)
       },
       deep: true
@@ -83,7 +82,6 @@ export default {
     },
 
     handleData(data) {
-      console.log(data)
       this.sendTime = handleTime(data.sendTime)
       data = data.data
       const xData = []
@@ -100,7 +98,6 @@ export default {
           }
         }
 
-        console.log(data_new)
         this.setOptions(xData, yData, data_new)
       }
     },

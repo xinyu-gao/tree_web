@@ -5,7 +5,8 @@ const state = {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     withoutAnimation: false
   },
-  device: 'desktop'
+  device: 'desktop',
+  imsiDataUpdate: false
 }
 
 const mutations = {
@@ -25,6 +26,9 @@ const mutations = {
   },
   TOGGLE_DEVICE: (state, device) => {
     state.device = device
+  },
+  CHANGE_IMSI_DATA_UPDATE: (state, imsiDataUpdate) => {
+    state.imsiDataUpdate = imsiDataUpdate
   }
 }
 
@@ -37,6 +41,9 @@ const actions = {
   },
   toggleDevice({ commit }, device) {
     commit('TOGGLE_DEVICE', device)
+  },
+  changeImsiDataUpdate({ commit }, imsiDataUpdate) {
+    commit('CHANGE_IMSI_DATA_UPDATE', imsiDataUpdate)
   }
 }
 

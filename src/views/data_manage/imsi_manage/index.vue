@@ -31,7 +31,7 @@
             type="text"
             placeholder="请填写节点IMSI"
           >
-            <el-button slot="append"type="primary" icon="el-icon-edit" @click="setTreeImsiByTreeId">修改</el-button>
+            <el-button slot="append" type="primary" icon="el-icon-edit" @click="setTreeImsiByTreeId">修改</el-button>
           </el-input>
         </div>
       </div>
@@ -40,6 +40,17 @@
     <el-card class="box-card2">
       <div slot="header" class="clearfix">
         <div align="center" style="font:18px large">阈值设置</div>
+      </div>
+      <div align="center">
+        树木编号：<el-input
+          v-model="treeId2"
+          class="input-id3"
+          type="text"
+          placeholder="请填写树木编号"
+          @keyup.enter.native="getThreshold"
+        >
+          <el-button slot="append" icon="el-icon-search" type="primary" @click="getThreshold" />
+        </el-input>
       </div>
       <el-row>
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
@@ -107,18 +118,7 @@
             </el-input>
           </div>
         </el-col>
-        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-          <div align="center">
-            倾斜度下限：<el-input
-              v-model="warn.slantLower"
-              class="input2"
-              type="text"
-              placeholder="请填写倾斜度下限"
-            >
-              <i slot="suffix">°</i>
-            </el-input>
-          </div>
-        </el-col>
+        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" />
       </el-row>
       <div align="center" style="margin-top:40px"><el-button type="primary" @click="setThreshold">确定修改</el-button></div>
 
@@ -134,29 +134,30 @@ export default {
   data() {
     return {
       treeId: '',
+      treeId2: '',
       imsi: '',
       warn: {
+        treeId: '',
         tempUpper: '',
         tempLower: '',
         humidityUpper: '',
         humidityLower: '',
-        slantUpper: '',
-        slantLower: ''
+        slantUpper: ''
       }
     }
-  },
-  mounted() {
-    this.getThreshold()
   },
   methods: {
     getTreeImsiByTreeId() {
       this.imsi = ''
       getImsiByTreeId(this.treeId)
         .then(data => {
-          console.log(data)
+          if (data == null) {
+            this.$message.warning('未查询到所绑定的IMSI')
+          }
           this.imsi = data
         })
         .catch(err => {
+          this.$message.error('查询失败')
           console.log(err)
         })
     },
@@ -167,33 +168,34 @@ export default {
       }
       setImsiByTreeId(data)
         .then(data => {
-          this.$notify({
-            title: '修改成功',
-            type: 'success'
-          })
+          this.$message.success('修改成功')
         })
         .catch(err => {
+          this.$message.error('修改失败')
           console.log(err)
         })
     },
     getThreshold() {
-      getWarnThreshold()
+      getWarnThreshold(this.treeId2)
         .then(data => {
+          if (data.treeId === null) {
+            this.$message.warning('未查询到阈值信息')
+          }
           this.warn = data
         })
         .catch(err => {
+          this.$message.error('查询失败')
           console.log(err)
         })
     },
     setThreshold() {
+      this.warn.treeId = this.treeId2
       setWarnThreshold(this.warn)
         .then(data => {
-          this.$notify({
-            title: '修改成功',
-            type: 'success'
-          })
+          this.$message.success('修改成功')
         })
         .catch(err => {
+          this.$message.error('修改失败')
           console.log(err)
         })
     }
@@ -213,6 +215,9 @@ export default {
 }
 .input-id{
   margin-top: 5vh;
+  width: 500px;
+}
+.input-id3{
   width: 500px;
 }
 .input{

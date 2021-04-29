@@ -20,9 +20,7 @@ router.beforeEach(async(to, from, next) => {
   // 用户 token
   const hasToken = getToken()
   // 已登录
-  console.log(hasToken)
   if (hasToken) {
-    console.log('----------' + to.path)
     // 目的网址为 /login
     if (to.path === '/login') {
       Message.info('您已登录')
@@ -48,6 +46,7 @@ router.beforeEach(async(to, from, next) => {
           // 确保addRoutes()时动态添加的路由已经被完全加载上去。并且之后不能通过浏览器后退按钮，返回前一个路由
           next({ ...to, replace: true })
         } catch (error) {
+          console.log(error)
           // 移除 token
           await store.dispatch('user/resetToken')
           // 显示报错信息

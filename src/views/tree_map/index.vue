@@ -104,7 +104,6 @@ export default {
      */
     createMap() {
       const city = this.$route.query.city
-      console.log('1', this.selectProvince)
       let data
       if (city) {
         data = city
@@ -152,7 +151,7 @@ export default {
         `<div style="margin-top:-5px;"><strong>树 &nbsp &nbsp  &nbsp 龄：&nbsp &nbsp  &nbsp</strong>${data.age}年</div><br />` +
         `<div style="margin-top:-5px;"><strong>古树等级：&nbsp &nbsp  &nbsp</strong>${data.grade}</div><br />` +
         `<div style="margin-top:-5px;"><strong>权 &nbsp &nbsp  &nbsp 属：&nbsp &nbsp  &nbsp</strong>${data.ownerShip}</div><br />` +
-        `<div style="margin-top:-5px;margin-bottom:15px;"><strong>地 &nbsp &nbsp  &nbsp 址：&nbsp &nbsp  &nbsp</strong>${data.detailInfo || '-'}</div>` +
+        `<div style="margin-top:-5px;margin-bottom:15px;"><strong>地 &nbsp &nbsp  &nbsp 址：&nbsp &nbsp  &nbsp</strong>${data.locationDetail || '-'}</div>` +
         `<span style="margin-top: 15px;"><strong>查看:</strong>` +
         `<span style="margin-top: 15px;margin-left:50px"><a style="color:#3ec9d2" href="/#/detail_info/list/?treeId=${data.treeId}">清单</a></span>` +
         `<span style="margin-top: 15px;margin-left:20px"><a style="color:#3EC9D2" href="/#/detail_info/charts/?treeId=${data.treeId}">图表</a></span>` +
@@ -191,9 +190,6 @@ export default {
       marker.addEventListener('click', function() {
         this.openInfoWindow(infoWindow)
       })
-    },
-    getUrlKey(name) {
-      return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ''])[1].replace(/\+/g, '%20')) || null
     },
     isMunicipalityOrHK_TW_M(province) {
       return province.startsWith('北京') ||

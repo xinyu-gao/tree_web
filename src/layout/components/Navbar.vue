@@ -31,11 +31,6 @@
             <span style="display:block;">登 出</span>
           </el-dropdown-item>
           <el-dropdown-item divided />
-          <router-link to="/user">
-            <el-dropdown-item>
-              我的信息
-            </el-dropdown-item>
-          </router-link>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -43,6 +38,7 @@
 </template>
 
 <script>
+import store from '@/store'
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
@@ -62,7 +58,7 @@ export default {
       'avatar'
     ]),
     hello: function() {
-      return '欢迎您，' + (this.$store.getters.name || getUsername() || '游客')
+      return '欢迎您，' + ((store.getters.name || getUsername()) === 'user' ? '游客' : (getUsername() || '游客'))
     }
   },
   methods: {
@@ -70,9 +66,11 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      console.log('----------')
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    },
+    getUsername() {
+
     }
   }
 }

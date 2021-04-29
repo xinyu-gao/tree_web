@@ -19,7 +19,7 @@ export default {
     },
     height: {
       type: String,
-      default: '300px'
+      default: '200px'
     },
     autoResize: {
       type: Boolean,
@@ -41,7 +41,6 @@ export default {
   watch: {
     chartData: {
       handler(newValue, oldValue) {
-        console.log(newValue)
         this.setOptions(newValue)
       },
       deep: true

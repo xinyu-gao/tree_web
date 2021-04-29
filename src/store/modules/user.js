@@ -47,7 +47,6 @@ const actions = {
   getRoles({ commit, state }) {
     return new Promise((resolve, reject) => {
       getRoles(getUsername()).then(data => {
-        console.log(data)
         commit('SET_ROLES', data)
         return resolve(data)
       }).catch(error => {
@@ -59,7 +58,6 @@ const actions = {
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
-        console.log('out')
         removeToken()
         resetRouter()
         commit('RESET_STATE')

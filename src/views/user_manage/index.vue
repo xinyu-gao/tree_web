@@ -242,7 +242,8 @@ export default {
       },
       roleOptions: [
         { value: 'superManager', label: '超级管理员' },
-        { value: 'manager', label: '管理员' }
+        { value: 'manager', label: '管理员' },
+        { value: 'user', label: '普通用户' }
       ],
       roles: '',
       rules: {
@@ -293,7 +294,6 @@ export default {
         page: page - 1,
         size: size
       }).then(data => {
-        console.log(data)
         this.userList = data.list
         this.total = data.total
       }).catch(err => {
@@ -380,7 +380,6 @@ export default {
       const phone = this.phone
       const result = validateMobile(phone)
       if (result === true) {
-        console.log(phone)
         this.seeEmailWarning = false
         updateUserPhoneNumber({
           username: this.updateUsername,
@@ -479,6 +478,8 @@ export default {
         return ['manager']
       } else if (data === 'superManager') {
         return ['manager', 'superManager']
+      } else if (data === 'user') {
+        return ['user']
       } else {
         return null
       }
@@ -540,13 +541,11 @@ export default {
     },
     searchByName() {
       if (this.searchCondition !== '' && this.inputSearchName !== '') {
-        console.log(this.searchCondition)
         this.listLoading = true
         getUserBySearch({
           condition: this.searchCondition,
           value: this.inputSearchName
         }).then(data => {
-          console.log(data)
           this.userList = data
           this.listLoading = false
         }).catch(err => {

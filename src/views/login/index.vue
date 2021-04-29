@@ -81,8 +81,9 @@
 
       <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">登录</el-button>
       <div style="margin-top: 40px">
-        <span style="color: #fff; ">第三方登录：</span>
-        <a target="_blank" :href="linkToAliPay"><svg-icon icon-class="alipay" class="alipay-icon" /></a>
+        <span style="color: #fff;">第三方登录：</span>
+        <a target="_blank" :href="linkToAliPay "><svg-icon icon-class="alipay" class="alipay-icon" /></a>
+        <a style="color: #ffffff; padding-left: 130px" @click="handleLoginForUser">以游客方式访问 >>></a>
       </div>
     </el-form>
 
@@ -107,8 +108,8 @@ export default {
       emailLoginColor: '#A0A2A6',
       alipayLoginColor: '#A0A2A6',
       loginForm: {
-        username: 'sss',
-        password: 'ssssss'
+        username: '',
+        password: ''
       },
       loginForm2: {
         email: '',
@@ -162,6 +163,27 @@ export default {
         this.$refs.password.focus()
       })
     },
+    handleLoginForUser() {
+      const loginForm = {
+        username: 'user',
+        password: 'useruser'
+      }
+      this.loading = true
+      this.$store.dispatch('user/login', loginForm)
+        .then(() => {
+          this.$router.push('/')
+          this.loading = false
+        }).catch((err) => {
+          if (err === '密码不正确') {
+            this.$notify({
+              title: '密码不正确',
+              type: 'failed'
+            })
+          }
+          console.log(err)
+          this.loading = false
+        })
+    },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
@@ -172,7 +194,7 @@ export default {
                 title: '登陆成功',
                 type: 'success'
               })
-              this.$router.push({ path: this.redirect || '/' })
+              this.$router.push('/')
               this.loading = false
             }).catch((err) => {
               if (err === '密码不正确') {
@@ -237,8 +259,6 @@ export default {
     },
     onMessage(e) {
       let data = e.data
-      console.log(data)
-      console.log(JSON.parse(data))
       if (data.code === 200) {
         if (data.message === '连接成功') {
           this.send(this.wsId)

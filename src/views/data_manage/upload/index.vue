@@ -402,7 +402,6 @@ export default {
     if (this.form.treeId) {
       this.getTreeInfoByTreeId()
     }
-    console.log(this.uploadUrl)
   },
   methods: {
     saveTreeId() {
@@ -429,7 +428,6 @@ export default {
         treeId: this.form.treeId
       })
         .then(data => {
-          console.log(data)
           this.fileList = data
         })
         .catch(err => {
@@ -537,7 +535,6 @@ export default {
       saveTreeInfo(getUsername(), data)
         .then(data => {
           this.$message.success('上传成功')
-          console.log(data)
         })
         .catch(err => {
           console.log(err)
@@ -585,10 +582,8 @@ export default {
      * @param fileList
      */
     handleRemove(file, fileList) {
-      console.log(fileList)
       deletePicByName(getUsername(), this.form.treeId, file.name)
-        .then(data => {
-          console.log(data)
+        .then(_ => {
           this.$message.success('删除成功')
           this.getTreePictures()
         })

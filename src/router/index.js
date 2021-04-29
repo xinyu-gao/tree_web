@@ -129,6 +129,48 @@ export const superManageRoutes = [
   // 404 必须放在最后
   { path: '*', redirect: '/404', hidden: true }
 ]
+
+export const manageRoutes = [
+  {
+    path: '/data',
+    component: Layout,
+    redirect: '/upload/data_manage/upload',
+    name: 'data',
+    meta: { title: '数据管理', icon: 'manage' },
+    children: [
+      {
+        path: 'index',
+        name: 'upload',
+        component: () => import('@/views/data_manage/upload/index'),
+        meta: { title: '数据上传', icon: 'upload' }
+      },
+      {
+        path: 'list',
+        name: 'list',
+        component: () => import('@/views/data_manage/imsi_manage/index'),
+        meta: { title: '节点设置', icon: 'modify' }
+      }
+    ]
+  },
+  {
+    path: '/settings',
+    component: Layout,
+    redirect: '/settings/upload/user',
+    name: 'settings',
+    meta: { title: '设 置', icon: 'manage' },
+    children: [
+      {
+        path: 'index',
+        name: 'user',
+        component: () => import('@/views/settings/user/index'),
+        meta: { title: '个人中心', icon: 'peoples' }
+      }
+
+    ]
+  },
+  // 404 必须放在最后
+  { path: '*', redirect: '/404', hidden: true }
+]
 export const userRoutes = [
 // 404 必须放在最后
   { path: '*', redirect: '/404', hidden: true }

@@ -41,7 +41,6 @@ export default {
   methods: {
     createMap(info) {
       if (info || info.treeId) {
-        console.log('info', info)
         this.map = new BMap.Map('map')
         this.map.centerAndZoom(new BMap.Point(info.longitude, info.latitude), 13)
         this.map.setMapStyle({
@@ -77,6 +76,8 @@ export default {
         case '国家三级古树':
           marker = new BMap.Marker(new BMap.Point(lng, lat), { icon: tree3Png })
           break
+        default:
+          marker = new BMap.Marker(new BMap.Point(lng, lat), { icon: treePng })
       }
       // 将标注添加到地图中
       this.map.addOverlay(marker)

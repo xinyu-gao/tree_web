@@ -19,7 +19,7 @@ export default {
     },
     height: {
       type: String,
-      default: '300px'
+      default: '200px'
     },
     autoResize: {
       type: Boolean,
@@ -64,7 +64,6 @@ export default {
     },
     setOptions(data) {
       const lineTime = data.lineTimeList
-      console.log(lineTime)
       const humidityData = data.lineHumidityList
       this.chart.setOption({
         xAxis: {
@@ -96,7 +95,7 @@ export default {
             axisLine: {
               show: true,
               lineStyle: {
-                color: '#8fd3f4'
+                color: '#d57eeb'
               }
             },
             axisLabel: {

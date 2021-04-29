@@ -1,4 +1,4 @@
-import { superManageRoutes, constantRoutes, userRoutes } from '@/router'
+import { superManageRoutes, manageRoutes, constantRoutes, userRoutes } from '@/router'
 
 /**
  * Use meta.role to determine if the current user has permission
@@ -53,7 +53,7 @@ const actions = {
       if (roles.includes('superManager')) {
         accessedRoutes = superManageRoutes
       } else if (roles.includes('manager')) {
-        accessedRoutes = superManageRoutes
+        accessedRoutes = manageRoutes
       } else {
         accessedRoutes = userRoutes
       }

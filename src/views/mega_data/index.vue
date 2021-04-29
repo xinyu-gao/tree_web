@@ -21,7 +21,7 @@
 
         <el-col :span="12">
           <div>
-            <div align="center" class="title"> 古树名木检测与管理系统 </div>
+            <div align="center" class="title"> 古树名木监测与管理系统 </div>
             <div class="bmap-wrapper" align="center">
               <map-chart />
             </div>
@@ -39,7 +39,7 @@
 
           <dv-border-box-4 :reverse="true" :color="['#0D4A81', '#209FDF']" style="height:63vh">
             <div style="margin-top: 2vh">
-              <div class="title2">检测节点连接率</div>
+              <div class="title2">监测节点连接率</div>
               <dv-percent-pond :config="config" class="percent" align="center" />
             </div>
             <div class="title2">树种排行</div>

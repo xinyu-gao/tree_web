@@ -172,7 +172,7 @@
             <strong>倾斜度： </strong> {{ imsiInfo.slant || '-' }} °
           </div>
           <div class="text item">
-            <strong>在线： </strong> {{ imsiInfo.isOnline ? "在线" : "离线" || '-' }}
+            <strong>在线： </strong> {{ imsiInfo.online ? "在线" : "离线" || '-' }}
           </div>
           <div class="text item">
             <strong>更新时间： </strong> {{ handleTime(imsiInfo.sendTime) || '-' }}
@@ -200,11 +200,22 @@ export default {
   data() {
     return {
       treeId: '13',
+      imsi: '',
       item: {},
       picList: [],
       imsiInfo: {},
       defectData: '',
       inputSearchName: ''
+    }
+  },
+  computed: {
+    dataUpdate() {
+      return this.$store.state.app.imsiDataUpdate
+    }
+  },
+  watch: {
+    dataUpdate: function(val) {
+      this.getDefectData()
     }
   },
   mounted() {
@@ -218,8 +229,8 @@ export default {
       const treeId = this.$route.query.treeId || id
       getTreeById({ treeId: treeId })
         .then(data => {
-          console.log(data)
           this.item = data
+          this.imsi = data.imsi
           getNodeByIMSI({ imsi: data.imsi })
             .then(data => {
               this.imsiInfo = data
@@ -235,21 +246,25 @@ export default {
               }
               this.picList = list
             })
-          getNodeDefectInfoByIMSI({ imsi: data.imsi })
-            .then(data => {
-              this.defectData = data
-            }).catch(err => {
-              console.log(err)
-            })
+          this.getDefectData()
         })
         .catch(err => {
           console.log(err)
         })
       this.$route.query.treeId = ''
     },
+    getDefectData() {
+      getNodeDefectInfoByIMSI({ imsi: this.imsi })
+        .then(data => {
+          this.defectData = data
+        }).catch(err => {
+          console.log(err)
+        })
+    },
     handleTime(time) {
       return handleTime(time)
     },
+
     searchByName() {
       this.getData(this.inputSearchName)
     },

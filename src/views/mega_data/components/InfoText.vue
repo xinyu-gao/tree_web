@@ -7,7 +7,7 @@
         <span class="text2">{{ total }}</span>
       </el-col>
       <el-col :span="12">
-        <span class="text1">检测总数：</span>
+        <span class="text1">监测总数：</span>
         <span class="text2">{{ detectionNums }}</span>
       </el-col>
     </el-row>

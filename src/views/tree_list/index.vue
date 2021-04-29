@@ -245,7 +245,7 @@
             <el-table-column label="操作" fixed="right" align="center" width="110px" :v-if="show">
               <template slot-scope="scope">
                 <el-button type="info" icon="el-icon-edit" circle @click="modify(scope.row.treeId)" />
-                <el-button type="danger" icon="el-icon-delete" circle @click="deleteTree(scope.row.treeId)" />
+                <el-button v-if="show" type="danger" icon="el-icon-delete" circle @click="deleteTree(scope.row.treeId)" />
               </template>
             </el-table-column>
           </el-table>
@@ -328,16 +328,23 @@ export default {
           label: '所在位置'
         }
       ],
-      searchCondition: ''
+      searchCondition: '',
+      show: false
 
     }
   },
   computed: {
-    show() {
-      const roles = store.getters.roles
-      // 当角色中包括 superManager、 manager 显示
-      return !!(roles && roles.length > 0 && (roles.includes('superManager') || roles.includes('manager')))
+    roles() {
+      return store.getters.roles
     }
+
+  },
+  watch: {
+    roles: function(val) {
+      console.log(val)
+      this.show = !!(val && val.length > 0 && (val.includes('superManager') || val.includes('manager')))
+    }
+
   },
   mounted() {
     this.getAutoHeight()
@@ -364,7 +371,6 @@ export default {
     },
 
     handleCurrentChangePage(currentPage) {
-      console.log(currentPage)
       this.getList(currentPage, this.pageSize)
     },
     handleTime1(time) {
@@ -376,14 +382,12 @@ export default {
     searchByName() {
       if (this.searchCondition !== '' && this.inputSearchName !== '') {
         this.listLoading = true
-        console.log(this.searchCondition)
         getTreeListBySearch({
           condition: this.searchCondition,
           value: this.inputSearchName,
           page: this.currentPage - 1,
           size: this.pageSize
         }).then(data => {
-          console.log(data)
           this.list = data.list
           this.total = data.total
           this.listLoading = false
@@ -454,7 +458,6 @@ export default {
           keys: key,
           asc: 1
         }).then(data => {
-          console.log(JSON.stringify(data))
           this.list = data.list
           this.listLoading = false
         }).catch(err => {
@@ -468,7 +471,6 @@ export default {
           keys: key,
           asc: 0
         }).then(data => {
-          console.log(JSON.stringify(data))
           this.list = data.list
           this.listLoading = false
         }).catch(err => {
@@ -490,7 +492,6 @@ export default {
       this.$router.push({ path: '/detail_info/charts' })
     },
     deleteTree(treeId) {
-      console.log(treeId)
       deleteTree(treeId)
         .then(data => {
           this.$message.success('删除成功!')
