@@ -242,10 +242,10 @@
                 <a style="color: #409EFF" @click="goToChart(scope.row.treeId)">图表</a>
               </template>
             </el-table-column>
-            <el-table-column label="操作" fixed="right" align="center" width="110px" :v-if="show">
+            <el-table-column v-if="show" label="操作" fixed="right" align="center" width="110px">
               <template slot-scope="scope">
                 <el-button type="info" icon="el-icon-edit" circle @click="modify(scope.row.treeId)" />
-                <el-button v-if="show" type="danger" icon="el-icon-delete" circle @click="deleteTree(scope.row.treeId)" />
+                <el-button type="danger" icon="el-icon-delete" circle @click="deleteTree(scope.row.treeId)" />
               </template>
             </el-table-column>
           </el-table>

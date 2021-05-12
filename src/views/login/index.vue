@@ -116,7 +116,7 @@ export default {
         code: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur' }],
+        username: [{ required: true, trigger: 'blur', message: '请输入用户名' }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       loading: false,
