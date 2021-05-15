@@ -110,22 +110,22 @@ export const superManageRoutes = [
 
     ]
   },
-  {
-    path: '/settings',
-    component: Layout,
-    redirect: '/settings/upload/user',
-    name: 'settings',
-    meta: { title: '设 置', icon: 'manage' },
-    children: [
-      {
-        path: 'index',
-        name: 'user',
-        component: () => import('@/views/settings/user/index'),
-        meta: { title: '个人中心', icon: 'peoples' }
-      }
-
-    ]
-  },
+  // {
+  //   path: '/settings',
+  //   component: Layout,
+  //   redirect: '/settings/upload/user',
+  //   name: 'settings',
+  //   meta: { title: '设 置', icon: 'manage' },
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'user',
+  //       component: () => import('@/views/settings/user/index'),
+  //       meta: { title: '个人中心', icon: 'peoples' }
+  //     }
+  //
+  //   ]
+  // },
   // 404 必须放在最后
   { path: '*', redirect: '/404', hidden: true }
 ]
@@ -152,22 +152,22 @@ export const manageRoutes = [
       }
     ]
   },
-  {
-    path: '/settings',
-    component: Layout,
-    redirect: '/settings/upload/user',
-    name: 'settings',
-    meta: { title: '设 置', icon: 'manage' },
-    children: [
-      {
-        path: 'index',
-        name: 'user',
-        component: () => import('@/views/settings/user/index'),
-        meta: { title: '个人中心', icon: 'peoples' }
-      }
-
-    ]
-  },
+  // {
+  //   path: '/settings',
+  //   component: Layout,
+  //   redirect: '/settings/upload/user',
+  //   name: 'settings',
+  //   meta: { title: '设 置', icon: 'manage' },
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'user',
+  //       component: () => import('@/views/settings/user/index'),
+  //       meta: { title: '个人中心', icon: 'peoples' }
+  //     }
+  //
+  //   ]
+  // },
   // 404 必须放在最后
   { path: '*', redirect: '/404', hidden: true }
 ]
